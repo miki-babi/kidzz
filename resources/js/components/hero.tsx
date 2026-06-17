@@ -41,6 +41,7 @@ export default function HeroSection() {
                                     onError={(e) => {
                                         e.currentTarget.style.display = 'none';
                                         const el = document.getElementById('hero-img-fallback');
+
                                         if (el) {
                                             el.classList.remove('hidden');
                                         }

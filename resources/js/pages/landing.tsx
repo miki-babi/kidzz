@@ -2,35 +2,24 @@ import { Head } from '@inertiajs/react';
 /* @chisel-registration */
 /* @end-chisel-registration */
 import {
-  ShoppingCart,
-  ArrowRight,
+
   Sparkles,
-  MessageSquare,
-  Users,
-  TrendingUp,
-  Play,
+ 
   Heart,
   ChevronRight,
   Phone,
-  Tablet,
-  Award,
-  Globe,
-  Star,
-  CheckCircle,
-  Activity,
-  UserCheck,
-  Stethoscope,
   BarChart3,
   Calendar,
-  Lock,
-  ArrowUpRight
+
 } from 'lucide-react';
 import { SiNextdotjs, SiReact, SiTailwindcss, SiTypescript } from 'react-icons/si';
-import Card from '@/components/card';
 import HeroSection from '@/components/hero';
 import LogoLoop from '@/components/LogoLoop';
+import LanguageSwitcher from '@/components/languageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 export default function Landing() {
+  const { t } = useTranslation();
   const techLogos = [
     { node: <SiReact />, title: "React", href: "https://react.dev" },
     { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
@@ -42,6 +31,11 @@ export default function Landing() {
     <>
       <Head title="Lifeline Addis - Special Education at Home" />
 
+      {/* ================= LANGUAGE SWITCHER (fixed overlay) ================= */}
+      {/* <div className="fixed top-4 right-4 z-50">
+        <LanguageSwitcher className="bg-neutral-900/80 text-white border-neutral-700" />
+      </div> */}
+
       {/* ================= HERO SECTION ================= */}
       <HeroSection />
 
@@ -49,7 +43,7 @@ export default function Landing() {
         <section className="py-12 border-b border-neutral-100/80 bg-white dark:border-zinc-800/40 dark:bg-zinc-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
             <h2 className="text-xs md:text-sm font-bold tracking-[0.15em] text-neutral-400 dark:text-zinc-500 mb-8">
-              Our Partners
+              {t('partners_heading')}
             </h2>
 
             <div className="flex gap-8 md:gap-12 items-center justify-items-center opacity-85 hover:opacity-100 transition-opacity">
@@ -90,6 +84,7 @@ export default function Landing() {
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                         const el = document.getElementById('feature-unlock-fallback');
+
                         if (el) {
                           el.classList.remove('hidden');
                         }
@@ -106,15 +101,15 @@ export default function Landing() {
               {/* Right Column: Text */}
               <div className="space-y-6 text-left lg:pl-6">
                 <div className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest text-red-600 dark:text-red-500 uppercase">
-                  <Sparkles className="h-4.5 w-4.5" /> Comprehensive
+                  <Sparkles className="h-4.5 w-4.5" /> {t('feature_comprehensive_tag')}
                 </div>
 
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  Unlock Potential.
+                  {t('feature_unlock_title')}
                 </h2>
 
                 <p className="text-base sm:text-lg text-neutral-500 dark:text-zinc-400 leading-relaxed font-medium">
-                  Access 150+ specialized tools, 100% data-driven and personalized.
+                  {t('feature_unlock_body')}
                 </p>
 
                 <div className="pt-2">
@@ -122,7 +117,7 @@ export default function Landing() {
                     href="#services"
                     className="inline-flex items-center gap-2 bg-[#D2232A] hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-red-500/10 hover:scale-102 active:scale-98 dark:bg-[#B01E24] dark:hover:bg-red-700"
                   >
-                    Learn more
+                    {t('learn_more')}
                   </a>
                 </div>
               </div>
@@ -135,10 +130,10 @@ export default function Landing() {
         <section className="py-16 bg-neutral-50 border-y border-neutral-100 dark:bg-zinc-900/50 dark:border-zinc-800/40">
           <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center space-y-4">
             <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-neutral-800 dark:text-zinc-200">
-              Comprehensive Solutions
+              {t('comprehensive_solutions_heading')}
             </h2>
             <p className="text-neutral-500 dark:text-zinc-400 max-w-xl mx-auto font-medium leading-relaxed">
-              Unlock Potential. Access 150+ specialized tools, 100% data-driven and personalized.
+              {t('comprehensive_solutions_body')}
             </p>
           </div>
         </section>
@@ -151,15 +146,15 @@ export default function Landing() {
               {/* Left Column: Text */}
               <div className="lg:col-span-5 space-y-6 text-left">
                 <div className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest text-red-600 dark:text-blue-500 uppercase">
-                  <BarChart3 className="h-4.5 w-4.5" /> Analytics
+                  <BarChart3 className="h-4.5 w-4.5" /> {t('analytics_tag')}
                 </div>
 
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  Data-Driven Approach
+                  {t('feature_data_title')}
                 </h2>
 
                 <p className="text-neutral-500 dark:text-zinc-400 leading-relaxed font-medium">
-                  Comprehensive tools allow monitoring digital interactions, tracking progress, manual parent updates, task patterns, and detailed reports that evaluate patient, therapy, and developmental progress.
+                  {t('feature_data_body')}
                 </p>
               </div>
 
@@ -412,15 +407,15 @@ export default function Landing() {
               {/* Right Column: Text */}
               <div className="lg:col-span-5 space-y-6 text-left">
                 <div className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest text-red-600 dark:text-red-500 uppercase">
-                  <Phone className="h-4.5 w-4.5" /> Mobile & Tablet
+                  <Phone className="h-4.5 w-4.5" /> {t('mobile_tablet_tag')}
                 </div>
 
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  Parental Insights & Guided Progress
+                  {t('feature_parental_title')}
                 </h2>
 
                 <p className="text-neutral-500 dark:text-zinc-400 leading-relaxed font-medium">
-                  Simple insights & guides for growing progress trackers, simple learning and sample game.
+                  {t('feature_parental_body')}
                 </p>
               </div>
 
@@ -433,7 +428,7 @@ export default function Landing() {
           <div className="mx-auto max-w-7xl">
             <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-                Parents <Heart className="inline-block h-6 w-6 text-red-600 fill-current animate-pulse mx-1" /> Lifeline
+                {t('testimonials_heading')} <Heart className="inline-block h-6 w-6 text-red-600 fill-current animate-pulse mx-1" /> {t('testimonials_love')}
               </h2>
               <div className="h-1 w-12 bg-red-600 rounded-full mx-auto"></div>
             </div>
@@ -503,11 +498,11 @@ export default function Landing() {
               {/* Left Column: Text */}
               <div className="lg:col-span-5 space-y-6 text-left">
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  The Lifeline Team
+                  {t('team_heading')}
                 </h2>
 
                 <p className="text-base sm:text-lg text-neutral-500 dark:text-zinc-400 leading-relaxed font-medium">
-                  Lifeline is created by medical specialists, professionals in education, therapists and educators, and content creators.
+                  {t('team_body')}
                 </p>
 
                 <div className="pt-2">
@@ -515,7 +510,7 @@ export default function Landing() {
                     href="#about"
                     className="inline-flex items-center gap-2 bg-[#D2232A] hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-red-500/10 hover:scale-102 active:scale-98 dark:bg-[#B01E24] dark:hover:bg-red-700"
                   >
-                    Learn more
+                    {t('learn_more')}
                   </a>
                 </div>
               </div>
@@ -531,6 +526,7 @@ export default function Landing() {
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                         const el = document.getElementById('team-photo-fallback');
+
                         if (el) {
                           el.classList.remove('hidden');
                         }
@@ -549,7 +545,7 @@ export default function Landing() {
           <div className="mx-auto max-w-7xl">
             <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-                Recent News
+                {t('news_heading')}
               </h2>
               <div className="h-1 w-12 bg-red-600 rounded-full mx-auto"></div>
             </div>
@@ -566,6 +562,7 @@ export default function Landing() {
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const el = document.getElementById('news-1-fallback');
+
                       if (el) {
                         el.classList.remove('hidden');
                       }
@@ -590,6 +587,7 @@ export default function Landing() {
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const el = document.getElementById('news-2-fallback');
+
                       if (el) {
                         el.classList.remove('hidden');
                       }
@@ -614,6 +612,7 @@ export default function Landing() {
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const el = document.getElementById('news-3-fallback');
+
                       if (el) {
                         el.classList.remove('hidden');
                       }

@@ -3,10 +3,14 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { dashboard, login } from '@/routes';
 import { register } from '@/routes';
+import LanguageSwitcher from './languageSwitcher';
+import { useTranslation } from "react-i18next";
+
 
 export default function LandingHeader() {
   const { auth } = usePage().props;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-neutral-100 bg-white/80 backdrop-blur-md dark:border-neutral-800 dark:bg-zinc-950/80">
@@ -32,6 +36,7 @@ export default function LandingHeader() {
           <a href="#about" className="hover:text-red-600 dark:hover:text-red-500 transition-colors">About</a>
           <a href="#help" className="hover:text-red-600 dark:hover:text-red-500 transition-colors">Help</a>
         </nav>
+        <LanguageSwitcher />
 
         {/* Actions */}
         <div className="flex items-center gap-4">
@@ -41,7 +46,8 @@ export default function LandingHeader() {
                 href={dashboard()}
                 className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-red-500/10 hover:bg-red-700 transition-all hover:scale-102 active:scale-98"
               >
-                Dashboard
+
+              {t('dashboard')}
               </Link>
             ) : (
               <>

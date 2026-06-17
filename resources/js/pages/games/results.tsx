@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
 import { ArrowLeft, BarChart3, Clock, Gamepad2, Star, Trophy } from 'lucide-react';
+import { useState } from 'react';
 
 interface GameResult {
     id: number;
@@ -23,15 +23,23 @@ interface ResultsProps {
 }
 
 function formatDuration(seconds: number): string {
-    if (seconds < 60) return `${seconds}s`;
+    if (seconds < 60) {
+return `${seconds}s`;
+}
+
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
+
     return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
 }
 
 function formatDate(dateStr: string | null): string {
-    if (!dateStr) return 'Never';
+    if (!dateStr) {
+return 'Never';
+}
+
     const date = new Date(dateStr);
+
     return date.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',

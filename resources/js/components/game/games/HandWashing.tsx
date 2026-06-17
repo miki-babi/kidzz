@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
 import { router } from "@inertiajs/react";
+import { useState, useEffect, useRef } from "react";
 import { GameShell } from "@/components/game/GameShell";
 import { RewardOverlay } from "@/components/game/RewardOverlay";
 import { playPop, playSuccess, speak } from "@/lib/feedback";

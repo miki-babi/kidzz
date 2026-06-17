@@ -2,6 +2,9 @@ import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
 import WelcomeScreen from '@/components/onboarding/welcomescreen';
 import { store } from '@/routes/onboarding';
+import LanguageSwitcher from '@/components/languageSwitcher';
+import { useTranslation } from "react-i18next";
+
 
 interface OnboardingData {
     age?: string;
@@ -21,6 +24,7 @@ export default function Onboarding() {
     const [currentScreen, setCurrentScreen] = useState(1);
     const [data, setData] = useState<OnboardingData>({});
     const [processing, setProcessing] = useState(false);
+    const { t } = useTranslation();
 
     const totalScreens = 12;
     const progress = (currentScreen / totalScreens) * 100;
@@ -106,10 +110,11 @@ export default function Onboarding() {
         <>
             <Head title="Onboarding" />
             <div className="min-h-screen bg-[#FDFDFC] dark:bg-zinc-950 flex flex-col items-center justify-center p-6">
+                <LanguageSwitcher className="absolute top-4 right-4" />
                 {currentScreen > 1 && currentScreen < 12 && (
                     <div className="w-full max-w-2xl mb-8">
                         <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm font-medium text-neutral-600 dark:text-zinc-400">Step {currentScreen} of {totalScreens}</span>
+                            <span className="text-sm font-medium text-neutral-600 dark:text-zinc-400">{t('onboarding_step_of', { current: currentScreen, total: totalScreens })}</span>
                             <span className="text-sm font-medium text-red-600 dark:text-red-400">{Math.round(progress)}%</span>
                         </div>
                         <div className="w-full bg-neutral-200 dark:bg-zinc-700 rounded-full h-2">
@@ -128,34 +133,65 @@ export default function Onboarding() {
 
 
 function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: OnboardingData; updateData: (key: keyof OnboardingData, value: any) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-8 text-neutral-900 dark:text-white">Tell us about your child</h2>
+                <h2 className="text-3xl font-black mb-8 text-neutral-900 dark:text-white">{t('basic_info_title')}</h2>
                 <div className="space-y-6">
                     <div>
-                        <label className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2">Age</label>
+                        <label className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2">{t('age_label')}</label>
                         <input
                             type="number"
                             value={data.age || ''}
-                            onChange={(e) => updateData('age', e.target.value)}
+                            onChange={(e) => {
+                                const val = e.target.value;
+
+                                // Allow clearing the input entirely
+                                if (val === '') {
+                                    updateData('age', '');
+                                    return;
+                                }
+
+                                const num = parseInt(val, 10);
+
+                                // Enforce bounds: min 0, max 12
+                                if (num >= 0 && num <= 12) {
+                                    updateData('age', num);
+                                }
+                            }}
                             className="w-full px-6 py-4 rounded-2xl border border-neutral-200 dark:border-zinc-700 focus:border-red-600 dark:focus:border-red-500 focus:outline-none transition-colors text-lg bg-white dark:bg-zinc-800 text-neutral-900 dark:text-white"
-                            placeholder="Enter age"
+                            placeholder={t('age_placeholder')}
+                            min={0}
+                            max={12}
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2">Gender (optional)</label>
-                        <select
-                            value={data.gender || ''}
-                            onChange={(e) => updateData('gender', e.target.value)}
-                            className="w-full px-6 py-4 rounded-2xl border border-neutral-200 dark:border-zinc-700 focus:border-red-600 dark:focus:border-red-500 focus:outline-none transition-colors text-lg bg-white dark:bg-zinc-800 text-neutral-900 dark:text-white"
-                        >
-                            <option value="">Select gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                            <option value="prefer-not-to-say">Prefer not to say</option>
-                        </select>
+                        <label className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2">
+                            {t('gender_label')}
+                        </label>
+                        <div className="space-y-4">
+                            {[
+                                { value: 'male', label: t('gender_male') },
+                                { value: 'female', label: t('gender_female') }
+                            ].map((option) => (
+                                <button
+                                    key={option.value}
+                                    type="button" // Prevents accidental form submissions
+                                    onClick={() => {
+                                        // Allows deselecting since gender is optional
+                                        const newValue = data.gender === option.value ? '' : option.value;
+                                        updateData('gender', newValue);
+                                    }}
+                                    className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${data.gender === option.value
+                                        ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                        : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                        }`}
+                                >
+                                    {option.label}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className="flex justify-between mt-10">
@@ -163,13 +199,13 @@ function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: On
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -178,21 +214,21 @@ function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: On
 }
 
 function ProfessionalEvaluationScreen({ data, updateData, onNext, onPrev }: { data: OnboardingData; updateData: (key: keyof OnboardingData, value: any) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Has your child been evaluated?</h2>
-                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Has your child been evaluated by a therapist, psychologist, or doctor?</p>
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">{t('professional_eval_title')}</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">{t('professional_eval_subtitle')}</p>
                 <div className="space-y-4">
-                    {['Yes', 'No', 'In Progress'].map((option) => (
+                    {[t('eval_yes'), t('eval_no'), t('eval_in_progress')].map((option) => (
                         <button
                             key={option}
                             onClick={() => updateData('evaluated', option)}
-                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
-                                data.evaluated === option
-                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                            }`}
+                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${data.evaluated === option
+                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                }`}
                         >
                             {option}
                         </button>
@@ -203,13 +239,13 @@ function ProfessionalEvaluationScreen({ data, updateData, onNext, onPrev }: { da
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -218,33 +254,33 @@ function ProfessionalEvaluationScreen({ data, updateData, onNext, onPrev }: { da
 }
 
 function DiagnosesScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: OnboardingData; toggleMultiSelect: (key: keyof OnboardingData, value: string) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     const diagnoses = [
-        'Autism Spectrum Disorder (ASD)',
-        'Speech Delay',
-        'ADHD',
-        'Developmental Delay',
-        'Down Syndrome',
-        'Intellectual Disability',
-        'Hearing Impairment',
-        'Other',
-        'No Diagnosis'
+        t('diagnosis_asd'),
+        t('diagnosis_speech_delay'),
+        t('diagnosis_adhd'),
+        t('diagnosis_developmental_delay'),
+        t('diagnosis_down_syndrome'),
+        t('diagnosis_intellectual_disability'),
+        t('diagnosis_hearing_impairment'),
+        t('diagnosis_other'),
+        t('diagnosis_none')
     ];
 
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Has your child been diagnosed with any of these?</h2>
-                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Select all that apply</p>
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">{t('diagnoses_title')}</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">{t('select_all_that_apply')}</p>
                 <div className="space-y-3">
                     {diagnoses.map((diagnosis) => (
                         <button
                             key={diagnosis}
                             onClick={() => toggleMultiSelect('diagnoses', diagnosis)}
-                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
-                                (data.diagnoses || []).includes(diagnosis)
-                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                            }`}
+                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${(data.diagnoses || []).includes(diagnosis)
+                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                }`}
                         >
                             {diagnosis}
                         </button>
@@ -255,13 +291,13 @@ function DiagnosesScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -270,30 +306,30 @@ function DiagnosesScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
 }
 
 function CommunicationScreen({ data, updateData, onNext, onPrev }: { data: OnboardingData; updateData: (key: keyof OnboardingData, value: any) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     const speechLevels = [
-        'Speaks in full sentences',
-        'Speaks in short phrases',
-        'Uses single words',
-        'Can answer yes/no',
-        'Uses gestures or pointing',
-        'Non-verbal'
+        t('speech_full_sentences'),
+        t('speech_short_phrases'),
+        t('speech_single_words'),
+        t('speech_yes_no'),
+        t('speech_gestures'),
+        t('speech_nonverbal')
     ];
 
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">How does your child communicate?</h2>
-                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Speech Level</p>
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">{t('communication_title')}</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">{t('speech_level_label')}</p>
                 <div className="space-y-3">
                     {speechLevels.map((level) => (
                         <button
                             key={level}
                             onClick={() => updateData('speechLevel', level)}
-                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
-                                data.speechLevel === level
-                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                            }`}
+                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${data.speechLevel === level
+                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                }`}
                         >
                             {level}
                         </button>
@@ -304,13 +340,13 @@ function CommunicationScreen({ data, updateData, onNext, onPrev }: { data: Onboa
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -319,20 +355,21 @@ function CommunicationScreen({ data, updateData, onNext, onPrev }: { data: Onboa
 }
 
 function SpeakingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { data: OnboardingData; updateYesNoSometimes: (key: keyof OnboardingData, field: string, value: string) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     const skills = [
-        'Say their name',
-        'Ask for what they want',
-        'Answer simple questions',
-        'Understand simple questions',
-        'Follow a conversation'
+        t('skill_say_name'),
+        t('skill_ask_want'),
+        t('skill_answer_simple'),
+        t('skill_understand_simple'),
+        t('skill_follow_conversation')
     ];
 
-    const options = ['Yes', 'No', 'Sometimes'];
+    const options = [t('yes'), t('no'), t('sometimes')];
 
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-8 text-neutral-900 dark:text-white">What can your child do?</h2>
+                <h2 className="text-3xl font-black mb-8 text-neutral-900 dark:text-white">{t('speaking_skills_title')}</h2>
                 <div className="space-y-6">
                     {skills.map((skill) => (
                         <div key={skill}>
@@ -342,11 +379,10 @@ function SpeakingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
                                     <button
                                         key={option}
                                         onClick={() => updateYesNoSometimes('speakingSkills', skill, option)}
-                                        className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${
-                                            (data.speakingSkills?.[skill] === option)
-                                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                                        }`}
+                                        className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${(data.speakingSkills?.[skill] === option)
+                                            ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                            : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                            }`}
                                     >
                                         {option}
                                     </button>
@@ -360,13 +396,13 @@ function SpeakingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -375,20 +411,21 @@ function SpeakingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
 }
 
 function UnderstandingLanguageScreen({ data, updateYesNoSometimes, onNext, onPrev }: { data: OnboardingData; updateYesNoSometimes: (key: keyof OnboardingData, field: string, value: string) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     const skills = [
-        'Follows 1-step instructions',
-        'Follows 2-step instructions',
-        'Responds when called by name',
-        'Understands conversations at home',
-        'Understands emotions like happy, sad, angry'
+        t('skill_follow_1step'),
+        t('skill_follow_2step'),
+        t('skill_respond_name'),
+        t('skill_understand_home'),
+        t('skill_understand_emotions')
     ];
 
-    const options = ['Yes', 'No', 'Sometimes'];
+    const options = [t('yes'), t('no'), t('sometimes')];
 
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Understanding and Listening</h2>
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">{t('understanding_title')}</h2>
                 <div className="space-y-6">
                     {skills.map((skill) => (
                         <div key={skill}>
@@ -398,11 +435,10 @@ function UnderstandingLanguageScreen({ data, updateYesNoSometimes, onNext, onPre
                                     <button
                                         key={option}
                                         onClick={() => updateYesNoSometimes('understandingLanguage', skill, option)}
-                                        className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${
-                                            (data.understandingLanguage?.[skill] === option)
-                                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                                        }`}
+                                        className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${(data.understandingLanguage?.[skill] === option)
+                                            ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                            : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                            }`}
                                     >
                                         {option}
                                     </button>
@@ -416,13 +452,13 @@ function UnderstandingLanguageScreen({ data, updateYesNoSometimes, onNext, onPre
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -431,30 +467,30 @@ function UnderstandingLanguageScreen({ data, updateYesNoSometimes, onNext, onPre
 }
 
 function LearningConceptsScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: OnboardingData; toggleMultiSelect: (key: keyof OnboardingData, value: string) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     const concepts = [
-        'Colors',
-        'Shapes',
-        'Numbers',
-        'Letters',
-        'Animals',
-        'Body Parts'
+        t('concept_colors'),
+        t('concept_shapes'),
+        t('concept_numbers'),
+        t('concept_letters'),
+        t('concept_animals'),
+        t('concept_body_parts')
     ];
 
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">What does your child recognize?</h2>
-                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Select all that apply</p>
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">{t('learning_concepts_title')}</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">{t('select_all_that_apply')}</p>
                 <div className="space-y-3">
                     {concepts.map((concept) => (
                         <button
                             key={concept}
                             onClick={() => toggleMultiSelect('learningConcepts', concept)}
-                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
-                                (data.learningConcepts || []).includes(concept)
-                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                            }`}
+                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${(data.learningConcepts || []).includes(concept)
+                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                }`}
                         >
                             {concept}
                         </button>
@@ -465,13 +501,13 @@ function LearningConceptsScreen({ data, toggleMultiSelect, onNext, onPrev }: { d
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -480,20 +516,21 @@ function LearningConceptsScreen({ data, toggleMultiSelect, onNext, onPrev }: { d
 }
 
 function ThinkingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { data: OnboardingData; updateYesNoSometimes: (key: keyof OnboardingData, field: string, value: string) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     const skills = [
-        'Big vs Small',
-        'More vs Less',
-        'Same vs Different',
-        'First / Next / Last',
-        'Yesterday / Today / Tomorrow'
+        t('concept_big_small'),
+        t('concept_more_less'),
+        t('concept_same_different'),
+        t('concept_first_last'),
+        t('concept_yesterday_tomorrow')
     ];
 
-    const options = ['Yes', 'No', 'Sometimes'];
+    const options = [t('yes'), t('no'), t('sometimes')];
 
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Understanding Concepts</h2>
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">{t('thinking_skills_title')}</h2>
                 <div className="space-y-6">
                     {skills.map((skill) => (
                         <div key={skill}>
@@ -503,11 +540,10 @@ function ThinkingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
                                     <button
                                         key={option}
                                         onClick={() => updateYesNoSometimes('thinkingSkills', skill, option)}
-                                        className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${
-                                            (data.thinkingSkills?.[skill] === option)
-                                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                                        }`}
+                                        className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${(data.thinkingSkills?.[skill] === option)
+                                            ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                            : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                            }`}
                                     >
                                         {option}
                                     </button>
@@ -521,13 +557,13 @@ function ThinkingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -536,23 +572,24 @@ function ThinkingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
 }
 
 function SocialPlaySkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { data: OnboardingData; updateYesNoSometimes: (key: keyof OnboardingData, field: string, value: string) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     const skills = [
-        'Enjoys music',
-        'Enjoys singing',
-        'Enjoys dancing',
-        'Enjoys pretend play',
-        'Plays with other children',
-        'Prefers playing alone',
-        'Takes turns during games',
-        'Maintains eye contact'
+        t('skill_enjoys_music'),
+        t('skill_enjoys_singing'),
+        t('skill_enjoys_dancing'),
+        t('skill_enjoys_pretend'),
+        t('skill_plays_children'),
+        t('skill_prefers_alone'),
+        t('skill_takes_turns'),
+        t('skill_eye_contact')
     ];
 
-    const options = ['Yes', 'No', 'Sometimes'];
+    const options = [t('yes'), t('no'), t('sometimes')];
 
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Play and Social Skills</h2>
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">{t('social_skills_title')}</h2>
                 <div className="space-y-6">
                     {skills.map((skill) => (
                         <div key={skill}>
@@ -562,11 +599,10 @@ function SocialPlaySkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: 
                                     <button
                                         key={option}
                                         onClick={() => updateYesNoSometimes('socialPlaySkills', skill, option)}
-                                        className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${
-                                            (data.socialPlaySkills?.[skill] === option)
-                                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                                        }`}
+                                        className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${(data.socialPlaySkills?.[skill] === option)
+                                            ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                            : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                            }`}
                                     >
                                         {option}
                                     </button>
@@ -580,13 +616,13 @@ function SocialPlaySkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: 
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -595,34 +631,34 @@ function SocialPlaySkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: 
 }
 
 function InterestsScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: OnboardingData; toggleMultiSelect: (key: keyof OnboardingData, value: string) => void; onNext: () => void; onPrev: () => void }) {
+    const { t } = useTranslation();
     const interests = [
-        'Music',
-        'Animals',
-        'Vehicles',
-        'Numbers',
-        'Letters',
-        'Puzzles',
-        'Drawing',
-        'Stories',
-        'Nature',
-        'Technology'
+        t('interest_music'),
+        t('interest_animals'),
+        t('interest_vehicles'),
+        t('interest_numbers'),
+        t('interest_letters'),
+        t('interest_puzzles'),
+        t('interest_drawing'),
+        t('interest_stories'),
+        t('interest_nature'),
+        t('interest_technology')
     ];
 
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">What does your child enjoy?</h2>
-                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Select all that apply</p>
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">{t('interests_title')}</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">{t('select_all_that_apply')}</p>
                 <div className="space-y-3">
                     {interests.map((interest) => (
                         <button
                             key={interest}
                             onClick={() => toggleMultiSelect('interests', interest)}
-                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
-                                (data.interests || []).includes(interest)
-                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
-                            }`}
+                            className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${(data.interests || []).includes(interest)
+                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                }`}
                         >
                             {interest}
                         </button>
@@ -633,13 +669,13 @@ function InterestsScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
                         onClick={onPrev}
                         className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
-                        Back
+                        {t('back')}
                     </button>
                     <button
                         onClick={onNext}
                         className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
-                        Next
+                        {t('next')}
                     </button>
                 </div>
             </div>
@@ -647,7 +683,8 @@ function InterestsScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
     );
 }
 
-function CompleteScreen({ data, onSubmit, processing }: { data: OnboardingData; onSubmit: () => void; processing: boolean }) {
+function CompleteScreen({ onSubmit, processing }: { data: OnboardingData; onSubmit: () => void; processing: boolean }) {
+    const { t } = useTranslation();
     return (
         <div className="w-full max-w-2xl text-center">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
@@ -658,16 +695,16 @@ function CompleteScreen({ data, onSubmit, processing }: { data: OnboardingData; 
                         </svg>
                     </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black mb-6 text-neutral-900 dark:text-white">Your child's profile is ready</h1>
+                <h1 className="text-4xl md:text-5xl font-black mb-6 text-neutral-900 dark:text-white">{t('complete_title')}</h1>
                 <p className="text-xl text-neutral-500 dark:text-zinc-400 mb-10 leading-relaxed">
-                    We've selected activities based on your answers.
+                    {t('complete_subtitle')}
                 </p>
                 <button
                     onClick={onSubmit}
                     disabled={processing}
                     className="inline-block bg-red-600 dark:bg-red-600 text-white px-12 py-4 rounded-full font-black text-lg shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {processing ? 'Saving...' : 'View Recommended Games'}
+                    {processing ? t('saving') : t('view_recommended_games')}
                 </button>
             </div>
         </div>

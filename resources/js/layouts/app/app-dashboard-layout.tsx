@@ -1,10 +1,8 @@
-import { Link, router, usePage } from '@inertiajs/react';
-import { BarChart3, LogOut, Menu, Settings } from 'lucide-react';
-import { Breadcrumbs } from '@/components/breadcrumbs';
-import { UserInfo } from '@/components/user-info';
-import { UserMenuContent } from '@/components/user-menu-content';
+import { Link, usePage } from '@inertiajs/react';
+import { BarChart3, Menu, Settings } from 'lucide-react';
 import { AppContent } from '@/components/app-content';
 import { AppShell } from '@/components/app-shell';
+import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -17,10 +15,11 @@ import {
     SheetContent,
     SheetTrigger,
 } from '@/components/ui/sheet';
+import { UserInfo } from '@/components/user-info';
+import { UserMenuContent } from '@/components/user-menu-content';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { dashboard } from '@/routes';
-import { edit } from '@/routes/profile';
-import { logout } from '@/routes';
+
 import type { AppLayoutProps } from '@/types';
 
 export default function AppDashboardLayout({

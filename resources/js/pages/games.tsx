@@ -1,192 +1,221 @@
-import { Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
-import LandingHeader from '@/components/landing-header';
+import { Head, router, usePage } from '@inertiajs/react';
+import { Lock, Sparkles, Trophy, X } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import Footer from '@/components/footer';
-import { ALL_GAMES, SKILL_LABELS, findWorldOfGame, type GameDef } from '@/lib/worlds';
-import { useCurrentProfile } from '@/lib/store';
-
-interface DbGame {
-    id: number;
-    name: string;
-    description: string | null;
-    category: string | null;
-    routePath: string;
-    imagePath: string | null;
-}
-
-// Local description map for games (static GameDef doesn't carry descriptions)
-const GAME_DESCRIPTIONS: Record<string, string> = {
-    'tap-star': 'Tap the star as many times as you can!',
-    'match-colors': 'Match the colors together!',
-    'sorting': 'Sort fruits and veggies into the right baskets.',
-    'patterns': 'What comes next in the pattern?',
-    'memory': 'Find the matching pairs by flipping cards.',
-    'sequencing': 'Put the brushing steps in the right order.',
-    'cause-effect': 'What does the plant need to grow?',
-    'emotions': 'Tap the matching emotion face.',
-    'handwashing': 'Follow the steps to wash your hands.',
-    'dressing': 'Choose the right outfit for the weather.',
-};
-
-const SKILL_COLORS: Record<string, string> = {
-  attention: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-  matching: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
-  sorting: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
-  patterns: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
-  memory: 'bg-pink-100 text-pink-800 dark:bg-pink-900/40 dark:text-pink-300',
-  sequencing: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300',
-  'cause-effect': 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
-  social: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300',
-  hygiene: 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
-  dressing: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300',
-  eating: 'bg-lime-100 text-lime-800 dark:bg-lime-900/40 dark:text-lime-300',
-};
-
-function getStaticGame(routePath: string): GameDef | undefined {
-  return ALL_GAMES.find((g) => g.id === routePath);
-}
-
-function GameCard({ game }: { game: GameDef }) {
-  const profile = useCurrentProfile();
-  const completed = profile?.completed.includes(game.id);
-  const description = GAME_DESCRIPTIONS[game.id] ?? 'A fun learning game!';
-
-  return (
-    <Link
-      href={`/games/${game.id}`}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-neutral-100 bg-white shadow-md transition-all duration-300 hover:-translate-y-1"
-    >
-      {completed && (
-        <span className="absolute right-3 top-3 z-10 flex size-6 items-center justify-center rounded-full bg-green-500 text-xs font-bold text-white shadow">
-          ✓
-        </span>
-      )}
-
-      {/* Hero image area — medium emoji on a gradient backdrop */}
-      <div className="flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20">
-        <span className="text-5xl transition-transform duration-700 group-hover:scale-110">
-          {game.emoji}
-        </span>
-      </div>
-
-      {/* Content */}
-      <div className="flex flex-1 flex-col p-5">
-        <h4 className="mb-2 text-lg font-bold text-neutral-900">{game.title}</h4>
-        <p className="mb-5 flex-1 text-sm leading-relaxed text-neutral-500">
-          {description}
-        </p>
-
-        {/* Bottom bar with skill badge + play button */}
-        <div className="flex items-center justify-between border-t border-neutral-50 pt-4">
-          <span
-            className={`rounded-full px-3 py-1.5 text-[11px] font-semibold ${SKILL_COLORS[game.skill] ?? 'bg-neutral-100 text-neutral-500'}`}
-          >
-            {SKILL_LABELS[game.skill]}
-          </span>
-          <span className="inline-block rounded-full bg-red-600 px-5 py-2 text-sm font-black text-white shadow transition-colors hover:bg-red-700 active:scale-95">
-            Play
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-function dbGameToDef(dbGame: DbGame): GameDef | null {
-  const staticGame = getStaticGame(dbGame.routePath);
-
-  if (staticGame) {
-    return staticGame;
-  }
-
-  return null;
-}
+import GameCard, { type GameCardData } from '@/components/game-card';
+import LandingHeader from '@/components/landing-header';
 
 interface GamesProps {
-  games: DbGame[];
+    games: GameCardData[];
+    hasActiveAccount: boolean;
+    freeGamesLimit: number;
+    recommendedCategory: string;
+    demoPrice: number;
 }
 
-export default function Games({ games }: GamesProps) {
-  const profile = useCurrentProfile();
-  const [activeCategory, setActiveCategory] = useState('Foundation Skills');
+function currency(price: number): string {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(price);
+}
 
-  // Use DB games if available, fall back to ALL_GAMES
-  const gameDefs: GameDef[] =
-    games && games.length > 0
-      ? games.map(dbGameToDef).filter((g): g is GameDef => g !== null)
-      : ALL_GAMES;
+export default function Games({ games, hasActiveAccount, freeGamesLimit, recommendedCategory, demoPrice }: GamesProps) {
+    const { flash } = usePage().props as {
+        flash?: { status?: string };
+    };
+    const categories = useMemo(
+        () => [...new Set(games.map((game) => game.category ?? 'Other'))],
+        [games],
+    );
+    const [activeCategory, setActiveCategory] = useState(recommendedCategory);
+    const [selectedGame, setSelectedGame] = useState<GameCardData | null>(null);
 
-  // Derive unique category names from each game's parent world
-  const categories = [...new Set(gameDefs.map((g) => findWorldOfGame(g.id)?.title ?? 'Other'))];
+    const visibleGames = games.filter((game) => (game.category ?? 'Other') === activeCategory);
 
-  const filteredGames = gameDefs.filter((g) => {
-    const world = findWorldOfGame(g.id);
-    return (world?.title ?? 'Other') === activeCategory;
-  });
+    useEffect(() => {
+        console.log('[Games] page loaded', {
+            hasActiveAccount,
+            freeGamesLimit,
+            recommendedCategory,
+            demoPrice,
+            flash,
+            gameCount: games.length,
+        });
+    }, [demoPrice, flash, freeGamesLimit, games.length, hasActiveAccount, recommendedCategory]);
 
-  return (
-    <div className="min-h-screen bg-[#FAFAFA] text-[#1b1b18] font-sans antialiased selection:bg-red-500 selection:text-white dark:bg-[#09090b] dark:text-[#f4f4f5]">
-      <LandingHeader />
+    useEffect(() => {
+        console.log('[Games] flash changed', flash);
+    }, [flash]);
 
-      <Head title="Games" />
+    return (
+        <>
+            <Head title="Games" />
+            <div className="min-h-screen bg-[#FAFAFA] text-[#1b1b18] antialiased dark:bg-[#09090b] dark:text-[#f4f4f5]">
+                <LandingHeader />
 
-      <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto rounded-xl p-4">
-        {/* Profile summary header */}
-        {profile && (
-          <div className="flex items-center gap-4 rounded-[40px] border border-neutral-100 bg-white p-4 shadow-xl dark:border-sidebar-border">
-            <span className="text-5xl">{profile.avatar}</span>
-            <div className="flex-1">
-              <h2 className="text-xl font-bold text-neutral-900">{profile.name}</h2>
-              <p className="text-sm font-medium text-neutral-500">
-                Level {profile.level} · ⭐ {profile.stars} · 🪙 {profile.coins} · {profile.xp} XP
-              </p>
+                <main>
+                    <section className="border-b border-neutral-100 bg-white py-12 dark:border-zinc-800 dark:bg-zinc-950">
+                        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                            <div className="flex flex-col gap-6 rounded-[2rem] bg-gradient-to-br from-red-600 via-red-600 to-orange-500 p-6 text-white shadow-2xl shadow-red-500/20 lg:flex-row lg:items-end lg:justify-between">
+                                <div className="max-w-2xl space-y-3">
+                                    <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em]">
+                                        <Sparkles className="h-4 w-4" />
+                                        Recommended category
+                                    </div>
+                                    <h1 className="text-3xl font-black tracking-tight sm:text-5xl">
+                                        {recommendedCategory}
+                                    </h1>
+                                    <p className="max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
+                                        Start with the first {freeGamesLimit} games for free. {hasActiveAccount ? 'Your premium account unlocks every game.' : 'Upgrade to premium to unlock the full library with a demo payment.'}
+                                    </p>
+                                    {flash?.status && (
+                                        <div className="inline-flex rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
+                                            {flash.status}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3 text-sm">
+                                    <div className="rounded-2xl bg-white/10 px-4 py-3 backdrop-blur">
+                                        <div className="text-[11px] font-bold uppercase tracking-widest text-white/70">Plan</div>
+                                        <div className="mt-1 text-lg font-black">{hasActiveAccount ? 'Premium' : 'Free'}</div>
+                                    </div>
+                                    <div className="rounded-2xl bg-white/10 px-4 py-3 backdrop-blur">
+                                        <div className="text-[11px] font-bold uppercase tracking-widest text-white/70">Demo price</div>
+                                        <div className="mt-1 text-lg font-black">{currency(demoPrice)}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="py-10">
+                        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 lg:px-8">
+                            <div className="flex items-center justify-between gap-4">
+                                <div>
+                                    <h2 className="text-2xl font-black tracking-tight text-neutral-900 dark:text-white">
+                                        Choose a category
+                                    </h2>
+                                    <p className="mt-1 text-sm font-medium text-neutral-500">
+                                        The recommended category is highlighted first.
+                                    </p>
+                                </div>
+                                <div className="hidden items-center gap-2 rounded-full bg-neutral-100 px-4 py-2 text-xs font-bold text-neutral-500 sm:flex dark:bg-zinc-900 dark:text-zinc-400">
+                                    <Trophy className="h-4 w-4 text-amber-500" />
+                                    {hasActiveAccount ? 'Premium access active' : 'Free access only'}
+                                </div>
+                            </div>
+
+                            <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
+                                {categories.map((category) => (
+                                    <button
+                                        key={category}
+                                        onClick={() => setActiveCategory(category)}
+                                        className={`whitespace-nowrap rounded-full px-5 py-3 text-sm font-black transition-all ${
+                                            activeCategory === category
+                                                ? 'bg-red-600 text-white shadow-lg shadow-red-500/20'
+                                                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
+                                        }`}
+                                    >
+                                        {category}
+                                        {category === recommendedCategory && (
+                                            <span className="ml-2 rounded-full bg-white/15 px-2 py-0.5 text-[10px] uppercase tracking-widest">
+                                                Recommended
+                                            </span>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {visibleGames.length > 0 ? (
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+                                    {visibleGames.map((game) => (
+                                        <GameCard
+                                            key={game.id}
+                                            game={game}
+                                            href={`/games/${game.routePath}`}
+                                            onLockedClick={() => setSelectedGame(game)}
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="rounded-[2rem] border border-dashed border-neutral-200 bg-white p-10 text-center text-neutral-500 dark:border-zinc-800 dark:bg-zinc-950">
+                                    No games found in this category yet.
+                                </div>
+                            )}
+                        </div>
+                    </section>
+                </main>
+
+                <Footer />
             </div>
-            <span className="text-3xl font-black text-red-600">
-              Lv.{profile.level}
-            </span>
-          </div>
-        )}
 
-        {/* Section heading + category filter bar — matching dashboard.tsx */}
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 className="text-4xl font-black tracking-tighter md:text-6xl">Choose a Game</h2>
-            <p className="mt-2 text-sm font-medium text-neutral-500">
-              Tap a game below to start playing
-            </p>
-          </div>
-          <div className="no-scrollbar flex gap-2 overflow-x-auto pb-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`whitespace-nowrap rounded-full px-6 py-3 text-sm font-black transition-all ${
-                  activeCategory === cat
-                    ? 'bg-red-600 text-white shadow-lg'
-                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
+            {selectedGame && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/70 px-4 backdrop-blur-sm">
+                    <div className="relative w-full max-w-lg rounded-[2rem] bg-white p-6 shadow-2xl dark:bg-zinc-950">
+                        <button
+                            type="button"
+                            onClick={() => setSelectedGame(null)}
+                            className="absolute right-4 top-4 rounded-full p-2 text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-700 dark:hover:bg-zinc-900"
+                        >
+                            <X className="h-5 w-5" />
+                        </button>
 
-        {/* Game cards grid — matching dashboard.tsx layout */}
-        {filteredGames.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredGames.map((game) => (
-              <GameCard key={game.id} game={game} />
-            ))}
-          </div>
-        ) : (
-          <p className="py-12 text-center text-lg font-medium text-neutral-400">
-            No games in this category yet.
-          </p>
-        )}
-      </div>
+                        <div className="space-y-4">
+                            <div className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-red-700 dark:bg-red-500/10 dark:text-red-300">
+                                <Lock className="h-4 w-4" />
+                                Demo payment required
+                            </div>
+                            <div>
+                                <h3 className="text-2xl font-black tracking-tight text-neutral-900 dark:text-white">
+                                    Unlock {selectedGame.name}
+                                </h3>
+                                <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+                                    This is a demo payment flow. Pay {currency(demoPrice)} to unlock premium access and open all locked games.
+                                </p>
+                            </div>
 
-      <Footer />
-    </div>
-  );
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="rounded-2xl bg-neutral-50 p-4 dark:bg-zinc-900">
+                                    <div className="text-[11px] font-black uppercase tracking-widest text-neutral-400">Plan</div>
+                                    <div className="mt-1 text-lg font-black text-neutral-900 dark:text-white">Premium</div>
+                                </div>
+                                <div className="rounded-2xl bg-neutral-50 p-4 dark:bg-zinc-900">
+                                    <div className="text-[11px] font-black uppercase tracking-widest text-neutral-400">Price</div>
+                                    <div className="mt-1 text-lg font-black text-neutral-900 dark:text-white">{currency(demoPrice)}</div>
+                                </div>
+                            </div>
+
+                            <div className="flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        console.log('[Games] dismissed pay modal', selectedGame);
+                                        setSelectedGame(null);
+                                    }}
+                                    className="flex-1 rounded-full border border-neutral-200 px-5 py-3 text-sm font-black text-neutral-700 transition hover:bg-neutral-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900"
+                                >
+                                    Not now
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        console.log('[Games] navigating to demo payment page', {
+                                            route: '/pay',
+                                            selectedGame,
+                                        });
+                                        router.visit('/pay');
+                                    }}
+                                    className="flex-1 rounded-full bg-red-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-red-500/20 transition hover:bg-red-700"
+                                >
+                                    Pay now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
+    );
 }
