@@ -105,16 +105,16 @@ export default function Onboarding() {
     return (
         <>
             <Head title="Onboarding" />
-            <div className="min-h-screen bg-[#FDFDFC] flex flex-col items-center justify-center p-6">
+            <div className="min-h-screen bg-[#FDFDFC] dark:bg-zinc-950 flex flex-col items-center justify-center p-6">
                 {currentScreen > 1 && currentScreen < 12 && (
                     <div className="w-full max-w-2xl mb-8">
                         <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm font-medium text-neutral-600">Step {currentScreen} of {totalScreens}</span>
-                            <span className="text-sm font-medium text-red-600">{Math.round(progress)}%</span>
+                            <span className="text-sm font-medium text-neutral-600 dark:text-zinc-400">Step {currentScreen} of {totalScreens}</span>
+                            <span className="text-sm font-medium text-red-600 dark:text-red-400">{Math.round(progress)}%</span>
                         </div>
-                        <div className="w-full bg-neutral-200 rounded-full h-2">
+                        <div className="w-full bg-neutral-200 dark:bg-zinc-700 rounded-full h-2">
                             <div
-                                className="bg-red-600 h-2 rounded-full transition-all duration-300"
+                                className="bg-red-600 dark:bg-red-500 h-2 rounded-full transition-all duration-300"
                                 style={{ width: `${progress}%` }}
                             />
                         </div>
@@ -130,25 +130,25 @@ export default function Onboarding() {
 function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: OnboardingData; updateData: (key: keyof OnboardingData, value: any) => void; onNext: () => void; onPrev: () => void }) {
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-8 text-neutral-900">Tell us about your child</h2>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-8 text-neutral-900 dark:text-white">Tell us about your child</h2>
                 <div className="space-y-6">
                     <div>
-                        <label className="block text-sm font-bold text-neutral-700 mb-2">Age</label>
+                        <label className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2">Age</label>
                         <input
                             type="number"
                             value={data.age || ''}
                             onChange={(e) => updateData('age', e.target.value)}
-                            className="w-full px-6 py-4 rounded-2xl border border-neutral-200 focus:border-red-600 focus:outline-none transition-colors text-lg"
+                            className="w-full px-6 py-4 rounded-2xl border border-neutral-200 dark:border-zinc-700 focus:border-red-600 dark:focus:border-red-500 focus:outline-none transition-colors text-lg bg-white dark:bg-zinc-800 text-neutral-900 dark:text-white"
                             placeholder="Enter age"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-bold text-neutral-700 mb-2">Gender (optional)</label>
+                        <label className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2">Gender (optional)</label>
                         <select
                             value={data.gender || ''}
                             onChange={(e) => updateData('gender', e.target.value)}
-                            className="w-full px-6 py-4 rounded-2xl border border-neutral-200 focus:border-red-600 focus:outline-none transition-colors text-lg bg-white"
+                            className="w-full px-6 py-4 rounded-2xl border border-neutral-200 dark:border-zinc-700 focus:border-red-600 dark:focus:border-red-500 focus:outline-none transition-colors text-lg bg-white dark:bg-zinc-800 text-neutral-900 dark:text-white"
                         >
                             <option value="">Select gender</option>
                             <option value="male">Male</option>
@@ -161,13 +161,13 @@ function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: On
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -180,9 +180,9 @@ function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: On
 function ProfessionalEvaluationScreen({ data, updateData, onNext, onPrev }: { data: OnboardingData; updateData: (key: keyof OnboardingData, value: any) => void; onNext: () => void; onPrev: () => void }) {
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900">Has your child been evaluated?</h2>
-                <p className="text-lg text-neutral-500 mb-8">Has your child been evaluated by a therapist, psychologist, or doctor?</p>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Has your child been evaluated?</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Has your child been evaluated by a therapist, psychologist, or doctor?</p>
                 <div className="space-y-4">
                     {['Yes', 'No', 'In Progress'].map((option) => (
                         <button
@@ -190,8 +190,8 @@ function ProfessionalEvaluationScreen({ data, updateData, onNext, onPrev }: { da
                             onClick={() => updateData('evaluated', option)}
                             className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
                                 data.evaluated === option
-                                    ? 'border-red-600 bg-red-50 text-red-600'
-                                    : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                             }`}
                         >
                             {option}
@@ -201,13 +201,13 @@ function ProfessionalEvaluationScreen({ data, updateData, onNext, onPrev }: { da
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -232,9 +232,9 @@ function DiagnosesScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900">Has your child been diagnosed with any of these?</h2>
-                <p className="text-lg text-neutral-500 mb-8">Select all that apply</p>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Has your child been diagnosed with any of these?</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Select all that apply</p>
                 <div className="space-y-3">
                     {diagnoses.map((diagnosis) => (
                         <button
@@ -242,8 +242,8 @@ function DiagnosesScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
                             onClick={() => toggleMultiSelect('diagnoses', diagnosis)}
                             className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
                                 (data.diagnoses || []).includes(diagnosis)
-                                    ? 'border-red-600 bg-red-50 text-red-600'
-                                    : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                             }`}
                         >
                             {diagnosis}
@@ -253,13 +253,13 @@ function DiagnosesScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -281,9 +281,9 @@ function CommunicationScreen({ data, updateData, onNext, onPrev }: { data: Onboa
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900">How does your child communicate?</h2>
-                <p className="text-lg text-neutral-500 mb-8">Speech Level</p>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">How does your child communicate?</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Speech Level</p>
                 <div className="space-y-3">
                     {speechLevels.map((level) => (
                         <button
@@ -291,8 +291,8 @@ function CommunicationScreen({ data, updateData, onNext, onPrev }: { data: Onboa
                             onClick={() => updateData('speechLevel', level)}
                             className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
                                 data.speechLevel === level
-                                    ? 'border-red-600 bg-red-50 text-red-600'
-                                    : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                             }`}
                         >
                             {level}
@@ -302,13 +302,13 @@ function CommunicationScreen({ data, updateData, onNext, onPrev }: { data: Onboa
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -331,12 +331,12 @@ function SpeakingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-8 text-neutral-900">What can your child do?</h2>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-8 text-neutral-900 dark:text-white">What can your child do?</h2>
                 <div className="space-y-6">
                     {skills.map((skill) => (
                         <div key={skill}>
-                            <p className="font-bold text-neutral-700 mb-3">{skill}</p>
+                            <p className="font-bold text-neutral-700 dark:text-zinc-300 mb-3">{skill}</p>
                             <div className="flex gap-3">
                                 {options.map((option) => (
                                     <button
@@ -344,8 +344,8 @@ function SpeakingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
                                         onClick={() => updateYesNoSometimes('speakingSkills', skill, option)}
                                         className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${
                                             (data.speakingSkills?.[skill] === option)
-                                                ? 'border-red-600 bg-red-50 text-red-600'
-                                                : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                                         }`}
                                     >
                                         {option}
@@ -358,13 +358,13 @@ function SpeakingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -387,12 +387,12 @@ function UnderstandingLanguageScreen({ data, updateYesNoSometimes, onNext, onPre
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900">Understanding and Listening</h2>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Understanding and Listening</h2>
                 <div className="space-y-6">
                     {skills.map((skill) => (
                         <div key={skill}>
-                            <p className="font-bold text-neutral-700 mb-3">{skill}</p>
+                            <p className="font-bold text-neutral-700 dark:text-zinc-300 mb-3">{skill}</p>
                             <div className="flex gap-3">
                                 {options.map((option) => (
                                     <button
@@ -400,8 +400,8 @@ function UnderstandingLanguageScreen({ data, updateYesNoSometimes, onNext, onPre
                                         onClick={() => updateYesNoSometimes('understandingLanguage', skill, option)}
                                         className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${
                                             (data.understandingLanguage?.[skill] === option)
-                                                ? 'border-red-600 bg-red-50 text-red-600'
-                                                : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                                         }`}
                                     >
                                         {option}
@@ -414,13 +414,13 @@ function UnderstandingLanguageScreen({ data, updateYesNoSometimes, onNext, onPre
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -442,9 +442,9 @@ function LearningConceptsScreen({ data, toggleMultiSelect, onNext, onPrev }: { d
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900">What does your child recognize?</h2>
-                <p className="text-lg text-neutral-500 mb-8">Select all that apply</p>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">What does your child recognize?</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Select all that apply</p>
                 <div className="space-y-3">
                     {concepts.map((concept) => (
                         <button
@@ -452,8 +452,8 @@ function LearningConceptsScreen({ data, toggleMultiSelect, onNext, onPrev }: { d
                             onClick={() => toggleMultiSelect('learningConcepts', concept)}
                             className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
                                 (data.learningConcepts || []).includes(concept)
-                                    ? 'border-red-600 bg-red-50 text-red-600'
-                                    : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                             }`}
                         >
                             {concept}
@@ -463,13 +463,13 @@ function LearningConceptsScreen({ data, toggleMultiSelect, onNext, onPrev }: { d
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -492,12 +492,12 @@ function ThinkingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900">Understanding Concepts</h2>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Understanding Concepts</h2>
                 <div className="space-y-6">
                     {skills.map((skill) => (
                         <div key={skill}>
-                            <p className="font-bold text-neutral-700 mb-3">{skill}</p>
+                            <p className="font-bold text-neutral-700 dark:text-zinc-300 mb-3">{skill}</p>
                             <div className="flex gap-3">
                                 {options.map((option) => (
                                     <button
@@ -505,8 +505,8 @@ function ThinkingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
                                         onClick={() => updateYesNoSometimes('thinkingSkills', skill, option)}
                                         className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${
                                             (data.thinkingSkills?.[skill] === option)
-                                                ? 'border-red-600 bg-red-50 text-red-600'
-                                                : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                                         }`}
                                     >
                                         {option}
@@ -519,13 +519,13 @@ function ThinkingSkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: { 
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -551,12 +551,12 @@ function SocialPlaySkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: 
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900">Play and Social Skills</h2>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">Play and Social Skills</h2>
                 <div className="space-y-6">
                     {skills.map((skill) => (
                         <div key={skill}>
-                            <p className="font-bold text-neutral-700 mb-3">{skill}</p>
+                            <p className="font-bold text-neutral-700 dark:text-zinc-300 mb-3">{skill}</p>
                             <div className="flex gap-3">
                                 {options.map((option) => (
                                     <button
@@ -564,8 +564,8 @@ function SocialPlaySkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: 
                                         onClick={() => updateYesNoSometimes('socialPlaySkills', skill, option)}
                                         className={`flex-1 px-4 py-3 rounded-xl border-2 font-bold transition-all ${
                                             (data.socialPlaySkills?.[skill] === option)
-                                                ? 'border-red-600 bg-red-50 text-red-600'
-                                                : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                                ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                                : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                                         }`}
                                     >
                                         {option}
@@ -578,13 +578,13 @@ function SocialPlaySkillsScreen({ data, updateYesNoSometimes, onNext, onPrev }: 
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -610,9 +610,9 @@ function InterestsScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
 
     return (
         <div className="w-full max-w-2xl">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-4 text-neutral-900">What does your child enjoy?</h2>
-                <p className="text-lg text-neutral-500 mb-8">Select all that apply</p>
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
+                <h2 className="text-3xl font-black mb-4 text-neutral-900 dark:text-white">What does your child enjoy?</h2>
+                <p className="text-lg text-neutral-500 dark:text-zinc-400 mb-8">Select all that apply</p>
                 <div className="space-y-3">
                     {interests.map((interest) => (
                         <button
@@ -620,8 +620,8 @@ function InterestsScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
                             onClick={() => toggleMultiSelect('interests', interest)}
                             className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${
                                 (data.interests || []).includes(interest)
-                                    ? 'border-red-600 bg-red-50 text-red-600'
-                                    : 'border-neutral-200 hover:border-neutral-300 text-neutral-700'
+                                    ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                    : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                             }`}
                         >
                             {interest}
@@ -631,13 +631,13 @@ function InterestsScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
-                        className="px-8 py-3 rounded-full font-bold text-neutral-600 hover:bg-neutral-100 transition-colors"
+                        className="px-8 py-3 rounded-full font-bold text-neutral-600 dark:text-zinc-400 hover:bg-neutral-100 dark:hover:bg-zinc-800 transition-colors"
                     >
                         Back
                     </button>
                     <button
                         onClick={onNext}
-                        className="bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95"
+                        className="bg-red-600 dark:bg-red-600 text-white px-8 py-3 rounded-full font-black shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95"
                     >
                         Next
                     </button>
@@ -650,22 +650,22 @@ function InterestsScreen({ data, toggleMultiSelect, onNext, onPrev }: { data: On
 function CompleteScreen({ data, onSubmit, processing }: { data: OnboardingData; onSubmit: () => void; processing: boolean }) {
     return (
         <div className="w-full max-w-2xl text-center">
-            <div className="bg-white rounded-[40px] border border-neutral-100 shadow-xl p-12">
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
                 <div className="mb-8">
-                    <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-24 h-24 bg-red-100 dark:bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg className="w-12 h-12 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black mb-6 text-neutral-900">Your child's profile is ready</h1>
-                <p className="text-xl text-neutral-500 mb-10 leading-relaxed">
+                <h1 className="text-4xl md:text-5xl font-black mb-6 text-neutral-900 dark:text-white">Your child's profile is ready</h1>
+                <p className="text-xl text-neutral-500 dark:text-zinc-400 mb-10 leading-relaxed">
                     We've selected activities based on your answers.
                 </p>
                 <button
                     onClick={onSubmit}
                     disabled={processing}
-                    className="inline-block bg-red-600 text-white px-12 py-4 rounded-full font-black text-lg shadow-lg shadow-red-100 hover:bg-red-700 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-block bg-red-600 dark:bg-red-600 text-white px-12 py-4 rounded-full font-black text-lg shadow-lg shadow-red-100 dark:shadow-red-900/30 hover:bg-red-700 dark:hover:bg-red-700 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {processing ? 'Saving...' : 'View Recommended Games'}
                 </button>

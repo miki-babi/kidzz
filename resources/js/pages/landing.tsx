@@ -46,14 +46,13 @@ export default function Landing() {
       <HeroSection />
 
         {/* ================= PARTNERS / TRUST SECTION ================= */}
-        <section className="py-12 border-b border-neutral-100/80 bg-white dark:border-neutral-800/40 dark:bg-zinc-950">
+        <section className="py-12 border-b border-neutral-100/80 bg-white dark:border-zinc-800/40 dark:bg-zinc-950">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
-            <h2 className="text-xs md:text-sm font-bold tracking-[0.15em] text-neutral-400  mb-8 dark:text-zinc-500">
+            <h2 className="text-xs md:text-sm font-bold tracking-[0.15em] text-neutral-400 dark:text-zinc-500 mb-8">
               Our Partners
             </h2>
 
             <div className="flex gap-8 md:gap-12 items-center justify-items-center opacity-85 hover:opacity-100 transition-opacity">
-
 
               <LogoLoop
                 logos={techLogos}
@@ -71,7 +70,6 @@ export default function Landing() {
           </div>
         </section>
 
-
         {/* ================= FEATURE 1: COMPREHENSIVE UNLOCK POTENTIAL ================= */}
         <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
           <div className="mx-auto max-w-7xl">
@@ -83,26 +81,22 @@ export default function Landing() {
                 <div className="absolute -left-6 -top-6 h-48 w-48 rounded-full bg-red-100/50 blur-2xl dark:bg-red-950/20"></div>
                 <div className="absolute right-6 -bottom-6 h-64 w-64 rounded-full bg-blue-100/50 blur-3xl dark:bg-blue-950/15"></div>
 
-                <div className="relative z-10 ">
-                  <div className="relative  overflow-hidden  flex items-center justify-center">
+                <div className="relative z-10">
+                  <div className="relative overflow-hidden flex items-center justify-center dark:bg-zinc-800/30 dark:rounded-2xl">
                     <img
                       src="/asset/game2.png"
                       alt="Unlock Potential"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover dark:opacity-90"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                         const el = document.getElementById('feature-unlock-fallback');
-
                         if (el) {
-el.classList.remove('hidden');
-}
+                          el.classList.remove('hidden');
+                        }
                       }}
                     />
 
-
-
-
-                    <div className="absolute bottom-4 left-4 bg-red-600/80 text-white font-extrabold text-xs px-4 py-2 rounded-full shadow-md dark:bg-zinc-900 dark:text-indigo-400">
+                    <div className="absolute bottom-4 left-4 bg-red-600/80 text-white font-extrabold text-xs px-4 py-2 rounded-full shadow-md dark:bg-zinc-900/90 dark:text-indigo-400">
                       150+ Interactive Tasks
                     </div>
                   </div>
@@ -126,7 +120,7 @@ el.classList.remove('hidden');
                 <div className="pt-2">
                   <a
                     href="#services"
-                    className="inline-flex items-center gap-2 bg-[#D2232A] hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-red-500/10 hover:scale-102 active:scale-98"
+                    className="inline-flex items-center gap-2 bg-[#D2232A] hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-red-500/10 hover:scale-102 active:scale-98 dark:bg-[#B01E24] dark:hover:bg-red-700"
                   >
                     Learn more
                   </a>
@@ -150,7 +144,7 @@ el.classList.remove('hidden');
         </section>
 
         {/* ================= FEATURE 2: DATA-DRIVEN APPROACH ================= */}
-        <section className="py-20 px-6 lg:px-8">
+        <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
@@ -179,7 +173,7 @@ el.classList.remove('hidden');
                     {/* Top Controls Mockup */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-200/60 pb-5 mb-5 dark:border-zinc-800/60">
                       <div>
-                        <h3 className="font-extrabold text-neutral-800 dark:text-zinc-150 text-base leading-tight">Child Performance Dashboard</h3>
+                        <h3 className="font-extrabold text-neutral-800 dark:text-zinc-200 text-base leading-tight">Child Performance Dashboard</h3>
                         <p className="text-[10px] font-bold text-neutral-400 mt-0.5 uppercase tracking-wider">Patient: Yonas M.</p>
                       </div>
 
@@ -295,16 +289,16 @@ el.classList.remove('hidden');
                 {/* 1. Mobile Phone Mockup */}
                 <div className="relative w-64 h-[440px] rounded-[2.75rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-2xl overflow-hidden shrink-0 dark:border-zinc-800">
                   {/* Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 h-5 w-28 bg-zinc-900 rounded-b-2xl z-30"></div>
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 h-5 w-28 bg-zinc-900 rounded-b-2xl z-30 dark:bg-zinc-800"></div>
 
                   {/* Content */}
-                  <div className="h-full w-full bg-white p-4 pt-8 text-left text-neutral-800 flex flex-col justify-between select-none dark:bg-zinc-900 dark:text-zinc-150">
+                  <div className="h-full w-full bg-white p-4 pt-8 text-left text-neutral-800 flex flex-col justify-between select-none dark:bg-zinc-900 dark:text-zinc-200">
                     <div className="space-y-4">
                       {/* Mobile Header */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                           <span className="h-6 w-6 rounded-full bg-neutral-100 flex items-center justify-center text-[10px]">👩</span>
-                          <div className="text-[9px] font-bold leading-tight">Yonas's Mom</div>
+                          <div className="text-[9px] font-bold leading-tight text-neutral-800 dark:text-zinc-200">Yonas's Mom</div>
                         </div>
                         <span className="text-[8px] font-black bg-red-50 text-red-600 px-2 py-0.5 rounded-full dark:bg-red-500/10 dark:text-red-400">Pro Portal</span>
                       </div>
@@ -340,7 +334,7 @@ el.classList.remove('hidden');
 
                     {/* Bottom banner mockup */}
                     <div className="bg-neutral-50 rounded-xl p-2.5 border border-neutral-100 flex items-center justify-between dark:bg-zinc-950 dark:border-zinc-800">
-                      <div className="text-[9px] font-bold">Weekly Digest ready</div>
+                      <div className="text-[9px] font-bold text-neutral-800 dark:text-zinc-200">Weekly Digest ready</div>
                       <span className="text-[9px] text-red-600 font-black flex items-center">Open <ChevronRight className="h-3 w-3" /></span>
                     </div>
                   </div>
@@ -351,15 +345,15 @@ el.classList.remove('hidden');
                     alt="Mobile screen mockup"
                     className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
                     onError={(e) => {
- e.currentTarget.style.display = 'none'; 
-}}
+                      e.currentTarget.style.display = 'none';
+                    }}
                   />
                 </div>
 
                 {/* 2. Tablet Game Mockup (Landscape) */}
                 <div className="relative w-80 h-56 rounded-[2rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-2xl overflow-hidden shrink-0 dark:border-zinc-800">
                   {/* Tablet Camera notch left */}
-                  <div className="absolute top-1/2 left-0.5 -translate-y-1/2 h-3.5 w-1 bg-zinc-900 rounded-r-md z-30"></div>
+                  <div className="absolute top-1/2 left-0.5 -translate-y-1/2 h-3.5 w-1 bg-zinc-900 rounded-r-md z-30 dark:bg-zinc-800"></div>
 
                   {/* Content (Cartoon Game Representation) */}
                   <div className="h-full w-full bg-gradient-to-b from-[#87CEEB] to-[#E0F6FF] relative flex flex-col justify-between p-4 overflow-hidden select-none">
@@ -408,8 +402,8 @@ el.classList.remove('hidden');
                     alt="Tablet game mockup"
                     className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
                     onError={(e) => {
- e.currentTarget.style.display = 'none'; 
-}}
+                      e.currentTarget.style.display = 'none';
+                    }}
                   />
                 </div>
 
@@ -457,7 +451,7 @@ el.classList.remove('hidden');
                     👨
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-150">Ethiopian parents</h4>
+                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-200">Ethiopian parents</h4>
                     <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Parent</span>
                   </div>
                 </div>
@@ -474,7 +468,7 @@ el.classList.remove('hidden');
                     👩
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-150">Asnak Tadesse</h4>
+                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-200">Asnak Tadesse</h4>
                     <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Parent</span>
                   </div>
                 </div>
@@ -491,7 +485,7 @@ el.classList.remove('hidden');
                     👨
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-150">Ethiopian parents</h4>
+                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-200">Ethiopian parents</h4>
                     <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Therapist</span>
                   </div>
                 </div>
@@ -502,7 +496,7 @@ el.classList.remove('hidden');
         </section>
 
         {/* ================= THE LIFELINE TEAM ================= */}
-        <section id="about" className="py-20 px-6 lg:px-8">
+        <section id="about" className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
@@ -519,7 +513,7 @@ el.classList.remove('hidden');
                 <div className="pt-2">
                   <a
                     href="#about"
-                    className="inline-flex items-center gap-2 bg-[#D2232A] hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-red-500/10 hover:scale-102 active:scale-98"
+                    className="inline-flex items-center gap-2 bg-[#D2232A] hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-red-500/10 hover:scale-102 active:scale-98 dark:bg-[#B01E24] dark:hover:bg-red-700"
                   >
                     Learn more
                   </a>
@@ -528,19 +522,18 @@ el.classList.remove('hidden');
 
               {/* Right Column: Image */}
               <div className="lg:col-span-7">
-                <div className="border border-neutral-100 shadow-2xl rounded-[2.5rem]  dark:bg-zinc-900 dark:border-zinc-800">
-                  <div className="relative rounded-[2rem] overflow-hidden flex items-center justify-center">
+                <div className="border border-neutral-100 shadow-2xl rounded-[2.5rem] dark:bg-zinc-900 dark:border-zinc-800">
+                  <div className="relative rounded-[2rem] overflow-hidden flex items-center justify-center dark:bg-zinc-800/30">
                     <img
                       src="/asset/team2.png"
                       alt="The Lifeline Team"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover dark:opacity-90"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                         const el = document.getElementById('team-photo-fallback');
-
                         if (el) {
-el.classList.remove('hidden');
-}
+                          el.classList.remove('hidden');
+                        }
                       }}
                     />
                   </div>
@@ -565,29 +558,23 @@ el.classList.remove('hidden');
 
               {/* Card 1 */}
               <div className="group bg-neutral-50 rounded-[2.5rem] border border-neutral-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-850 flex items-center justify-center">
+                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-800 flex items-center justify-center">
                   <img
                     src="/asset/autismday.png"
                     alt="Celebrating Autism Acceptance Month"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 dark:opacity-90"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const el = document.getElementById('news-1-fallback');
-
                       if (el) {
-el.classList.remove('hidden');
-}
+                        el.classList.remove('hidden');
+                      }
                     }}
                   />
-                  {/* Fallback */}
-                  {/* <div id="news-1-fallback" className="absolute inset-0 bg-gradient-to-tr from-amber-400 to-red-500 text-white p-6 flex flex-col justify-end text-left">
-                    <span className="text-3xl mb-2">🎈</span>
-                    <span className="text-[10px] text-white/50 font-mono">/asset/news_1.png</span>
-                  </div> */}
                 </div>
                 <div className="p-8 text-left space-y-3">
                   <span className="text-[10px] font-black text-red-600 uppercase tracking-widest dark:text-red-500">Announcements</span>
-                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-150">
+                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-200 dark:group-hover:text-red-500">
                     Celebrating Autism Acceptance Month with a Special Office!
                   </h3>
                 </div>
@@ -595,30 +582,23 @@ el.classList.remove('hidden');
 
               {/* Card 2 */}
               <div className="group bg-neutral-50 rounded-[2.5rem] border border-neutral-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-850 flex items-center justify-center">
+                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-800 flex items-center justify-center">
                   <img
                     src="/asset/crownclub.png"
                     alt="Crowen Club"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 dark:opacity-90"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const el = document.getElementById('news-2-fallback');
-
                       if (el) {
-el.classList.remove('hidden');
-}
+                        el.classList.remove('hidden');
+                      }
                     }}
                   />
-
-                  {/* Fallback */}
-                  {/* <div id="news-2-fallback" className="absolute inset-0 bg-gradient-to-tr from-emerald-400 to-teal-500 text-white p-6 flex flex-col justify-end text-left">
-                    <span className="text-3xl mb-2">🤝</span>
-                    <span className="text-[10px] text-white/50 font-mono">/asset/news_2.png</span>
-                  </div> */}
                 </div>
                 <div className="p-8 text-left space-y-3">
                   <span className="text-[10px] font-black text-red-600 uppercase tracking-widest dark:text-red-500">Community</span>
-                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-150">
+                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-200 dark:group-hover:text-red-500">
                     Crowen Club: Designed for Little Hands & Bio Image cleans.
                   </h3>
                 </div>
@@ -626,34 +606,26 @@ el.classList.remove('hidden');
 
               {/* Card 3 */}
               <div className="group bg-neutral-50 rounded-[2.5rem] border border-neutral-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-850 flex items-center justify-center">
+                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-800 flex items-center justify-center">
                   <img
                     src="/asset/meet.png"
                     alt="Understanding Chromosome 21"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 dark:opacity-90"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const el = document.getElementById('news-3-fallback');
-
                       if (el) {
-el.classList.remove('hidden');
-}
+                        el.classList.remove('hidden');
+                      }
                     }}
                   />
-
-                  {/* Fallback
-                  <div id="news-3-fallback" className="absolute inset-0 bg-gradient-to-tr from-purple-400 to-indigo-500 text-white p-6 flex flex-col justify-end text-left">
-                    <span className="text-3xl mb-2">🔬</span>
-                    <span className="text-[10px] text-white/50 font-mono">/asset/news_3.png</span>
-                  </div> */}
                 </div>
                 <div className="p-8 text-left space-y-3">
                   <span className="text-[10px] font-black text-red-600 uppercase tracking-widest dark:text-red-500">Insights</span>
-                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-150">
+                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-200 dark:group-hover:text-red-500">
                     Understanding Chromosome 21 and Down Syndrome
                   </h3>
                 </div>
-                
               </div>
 
             </div>
