@@ -55,40 +55,7 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                 <LandingHeader />
 
                 <main>
-                    <section className="border-b border-neutral-100 bg-white py-12 dark:border-zinc-800 dark:bg-zinc-950">
-                        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                            <div className="flex flex-col gap-6 rounded-[2rem] bg-gradient-to-br from-red-600 via-red-600 to-orange-500 p-6 text-white shadow-2xl shadow-red-500/20 lg:flex-row lg:items-end lg:justify-between">
-                                <div className="max-w-2xl space-y-3">
-                                    <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em]">
-                                        <Sparkles className="h-4 w-4" />
-                                        Recommended category
-                                    </div>
-                                    <h1 className="text-3xl font-black tracking-tight sm:text-5xl">
-                                        {recommendedCategory}
-                                    </h1>
-                                    <p className="max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
-                                        Start with the first {freeGamesLimit} games for free. {hasActiveAccount ? 'Your premium account unlocks every game.' : 'Upgrade to premium to unlock the full library with a demo payment.'}
-                                    </p>
-                                    {flash?.status && (
-                                        <div className="inline-flex rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
-                                            {flash.status}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-3 text-sm">
-                                    <div className="rounded-2xl bg-white/10 px-4 py-3 backdrop-blur">
-                                        <div className="text-[11px] font-bold uppercase tracking-widest text-white/70">Plan</div>
-                                        <div className="mt-1 text-lg font-black">{hasActiveAccount ? 'Premium' : 'Free'}</div>
-                                    </div>
-                                    <div className="rounded-2xl bg-white/10 px-4 py-3 backdrop-blur">
-                                        <div className="text-[11px] font-bold uppercase tracking-widest text-white/70">Demo price</div>
-                                        <div className="mt-1 text-lg font-black">{currency(demoPrice)}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                  
 
                     <section className="py-10">
                         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 lg:px-8">

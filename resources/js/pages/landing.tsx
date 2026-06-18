@@ -21,10 +21,12 @@ import { useTranslation } from 'react-i18next';
 export default function Landing() {
   const { t } = useTranslation();
   const techLogos = [
-    { node: <SiReact />, title: "React", href: "https://react.dev" },
-    { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
-    { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
-    { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+   { src: "/asset/logos/donkeylogo.png", alt: "Company 1", href: "https://company1.com" },
+  { src: "/asset/logos/hage.png", alt: "Company 2", href: "https://company2.com" },
+  { src: "/asset/logos/medanit.png", alt: "Company 3", href: "https://company3.com" },
+  { src: "/asset/logos/logo1.png", alt: "Company 3", href: "https://company3.com" },
+  { src: "/asset/logos/hyatlogo.png", alt: "Company 3", href: "https://company3.com" },
+  { src: "/asset/logos/yenehealth.png", alt: "Company 3", href: "https://company3.com" },
   ];
 
   return (

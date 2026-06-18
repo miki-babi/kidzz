@@ -61,7 +61,7 @@ export default function DemoPayment({ game, price }: Props) {
 
     return (
         <>
-            <Head title="Demo Payment" />
+            <Head title="Payment" />
             <div className="min-h-screen bg-[#FAFAFA] text-[#1b1b18] antialiased dark:bg-[#09090b] dark:text-[#f4f4f5]">
                 <LandingHeader />
 
@@ -70,13 +70,13 @@ export default function DemoPayment({ game, price }: Props) {
                         <div className="space-y-4 rounded-[1.5rem] bg-gradient-to-br from-red-600 via-red-600 to-orange-500 p-6 text-white">
                             <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em]">
                                 <Sparkles className="h-4 w-4" />
-                                Demo checkout
+                                Checkout
                             </div>
                             <h1 className="text-3xl font-black tracking-tight">
                                 Pay {price.toFixed(2)} USD to unlock all premium games
                             </h1>
                             <p className="max-w-2xl text-sm leading-relaxed text-white/85">
-                                This is a fake payment page for demo purposes. Filling out the form and submitting it will mark the account as paid and unlock every game.
+                                This is a demo payment page for demo purposes. Filling out the form and submitting it will mark the account as paid and unlock every game.
                             </p>
                         </div>
 

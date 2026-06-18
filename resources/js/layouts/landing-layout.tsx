@@ -9,7 +9,7 @@ type Props = {
 
 export default function LandingLayout({ children }: Props) {
     return (
-        <div className="min-h-screen bg-[#FAFAFA] text-[#1b1b18] font-sans antialiased selection:bg-red-500 selection:text-white dark:bg-[#09090b] dark:text-[#f4f4f5]">
+        <div className="min-h-screen  mx-auto bg-[#FAFAFA] text-[#1b1b18] font-sans antialiased selection:bg-red-500 selection:text-white dark:bg-[#09090b] dark:text-[#f4f4f5]">
             
             <LandingHeader />
             {children}
