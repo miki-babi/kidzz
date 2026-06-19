@@ -48,7 +48,7 @@
   "next": "Next",
 
   "basic_info_title": "Tell us about your child",
-  "age_label": "Age",
+  "age_label": "age range",
   "age_placeholder": "Enter age 0-12",
   "gender_label": "Gender (optional)",
   "gender_male": "Male",

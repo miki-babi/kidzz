@@ -1,5 +1,5 @@
 import { Head, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import WelcomeScreen from '@/components/onboarding/welcomescreen';
 import { store } from '@/routes/onboarding';
 import LanguageSwitcher from '@/components/languageSwitcher';
@@ -131,41 +131,116 @@ export default function Onboarding() {
     );
 }
 
+const AGE_RANGES = [
+    { label: '0 - 3', value: 2 },
+    { label: '4 - 6', value: 5 },
+    { label: '7 - 9', value: 8 },
+    { label: '10 - 12', value: 11 },
+    { label: '12+', value: 12 }
+];
 
-function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: OnboardingData; updateData: (key: keyof OnboardingData, value: any) => void; onNext: () => void; onPrev: () => void }) {
+// Sub-component for the Jackpot-style Picker
+function AgeSlotPicker({
+    value,
+    onChange
+}: {
+    value: number | string;
+    onChange: (val: number) => void;
+}) {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const ITEM_HEIGHT = 56; // 3.5rem matching h-14
+
+    // Find the index of the object that matches the current stored numeric value
+    // Default to the first element (index 0) if no match is found
+    const activeIndex = AGE_RANGES.findIndex((range) => range.value === value);
+    const safeActiveIndex = activeIndex !== -1 ? activeIndex : 0;
+
+    // Sync scroll position if the value changes from outside the picker
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = safeActiveIndex * ITEM_HEIGHT;
+        }
+    }, [safeActiveIndex]);
+
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        const scrollTop = e.currentTarget.scrollTop;
+        const index = Math.round(scrollTop / ITEM_HEIGHT);
+
+        // Ensure the computed scroll index matches our range boundaries
+        if (index >= 0 && index < AGE_RANGES.length && index !== safeActiveIndex) {
+            // Emit the underlying median value, NOT the UI loop index
+            onChange(AGE_RANGES[index].value);
+        }
+    };
+
+    return (
+        <div className="relative w-full  mx-auto h-30 bg-neutral-50 dark:bg-zinc-800/50 rounded-2xl border border-neutral-200 dark:border-zinc-700 overflow-hidden">
+            {/* Top and Bottom Vignette Overlays */}
+            <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-neutral-50 dark:from-zinc-900 to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-neutral-50 dark:from-zinc-900 to-transparent pointer-events-none z-10" />
+
+            {/* Target Window Indicator */}
+            <div className="absolute top-8 left-2 right-2 h-14 border-2 border-red-600 dark:border-red-500 rounded-xl pointer-events-none z-10 bg-red-50/10 dark:bg-red-500/5" />
+
+            {/* Scrollable Container */}
+            <div
+                ref={scrollRef}
+                onScroll={handleScroll}
+                className="h-full overflow-y-scroll snap-y snap-mandatory scrollbar-none py-8"
+                style={{ scrollbarWidth: 'none' }}
+            >
+                {AGE_RANGES.map((range, index) => {
+                    const isSelected = index === safeActiveIndex;
+                    return (
+                        <div
+                            key={range.label}
+                            className={`h-14 flex items-center justify-center snap-center font-black transition-all duration-200 select-none ${
+                                isSelected
+                                    ? 'text-2xl text-red-600 dark:text-red-500 scale-110'
+                                    : 'text-lg text-neutral-400 dark:text-zinc-600'
+                            }`}
+                        >
+                            {range.label}
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
+function BasicInformationScreen({
+    data,
+    updateData,
+    onNext,
+    onPrev,
+}: {
+    data: any; // Replace with OnboardingData type
+    updateData: (key: any, value: any) => void;
+    onNext: () => void;
+    onPrev: () => void;
+}) {
     const { t } = useTranslation();
+
     return (
         <div className="w-full max-w-2xl">
             <div className="bg-white dark:bg-zinc-900 rounded-[40px] border border-neutral-100 dark:border-zinc-800 shadow-xl p-12">
-                <h2 className="text-3xl font-black mb-8 text-neutral-900 dark:text-white">{t('basic_info_title')}</h2>
-                <div className="space-y-6">
+                <h2 className="text-3xl font-black mb-8 text-neutral-900 dark:text-white">
+                    {t('basic_info_title')}
+                </h2>
+
+                <div className="space-y-8">
+                    {/* Age Picker Section */}
                     <div>
-                        <label className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2">{t('age_label')}</label>
-                        <input
-                            type="number"
-                            value={data.age || ''}
-                            onChange={(e) => {
-                                const val = e.target.value;
-
-                                // Allow clearing the input entirely
-                                if (val === '') {
-                                    updateData('age', '');
-                                    return;
-                                }
-
-                                const num = parseInt(val, 10);
-
-                                // Enforce bounds: min 0, max 12
-                                if (num >= 0 && num <= 12) {
-                                    updateData('age', num);
-                                }
-                            }}
-                            className="w-full px-6 py-4 rounded-2xl border border-neutral-200 dark:border-zinc-700 focus:border-red-600 dark:focus:border-red-500 focus:outline-none transition-colors text-lg bg-white dark:bg-zinc-800 text-neutral-900 dark:text-white"
-                            placeholder={t('age_placeholder')}
-                            min={0}
-                            max={12}
+                        <label className="block text-center text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-4">
+                            {t('age_label')}
+                        </label>
+                        <AgeSlotPicker
+                            value={data.age}
+                            onChange={(newValue) => updateData('age', newValue)}
                         />
                     </div>
+
+                    {/* Gender Selection */}
                     <div>
                         <label className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2">
                             {t('gender_label')}
@@ -173,19 +248,18 @@ function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: On
                         <div className="space-y-4">
                             {[
                                 { value: 'male', label: t('gender_male') },
-                                { value: 'female', label: t('gender_female') }
+                                { value: 'female', label: t('gender_female') },
                             ].map((option) => (
                                 <button
                                     key={option.value}
-                                    type="button" // Prevents accidental form submissions
+                                    type="button"
                                     onClick={() => {
-                                        // Allows deselecting since gender is optional
                                         const newValue = data.gender === option.value ? '' : option.value;
                                         updateData('gender', newValue);
                                     }}
                                     className={`w-full px-6 py-4 rounded-2xl border-2 text-left font-bold text-lg transition-all ${data.gender === option.value
-                                        ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                        : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
+                                            ? 'border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                            : 'border-neutral-200 dark:border-zinc-700 hover:border-neutral-300 dark:hover:border-zinc-600 text-neutral-700 dark:text-zinc-300'
                                         }`}
                                 >
                                     {option.label}
@@ -194,6 +268,8 @@ function BasicInformationScreen({ data, updateData, onNext, onPrev }: { data: On
                         </div>
                     </div>
                 </div>
+
+                {/* Navigation Buttons */}
                 <div className="flex justify-between mt-10">
                     <button
                         onClick={onPrev}
