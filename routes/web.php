@@ -22,6 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/onboarding', [OnboardingController::class, 'store'])->name('onboarding.store');
 
     Route::middleware([EnsureOnboarded::class])->group(function () {
+        Route::get('/parents', function () {
+            return inertia('parents/index');
+        })->name('parents.index');
+
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/games', [GameController::class, 'index'])->name('games');
         Route::get('/games/results', [GameController::class, 'results'])->name('games.results');

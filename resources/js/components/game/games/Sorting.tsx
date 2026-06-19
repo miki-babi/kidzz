@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 import { useState, useEffect, useRef } from "react";
-import { GameShell } from "@/components/game/GameShell";
+import { GameShell, type CheckResult } from "@/components/game/GameShell";
 import { RewardOverlay } from "@/components/game/RewardOverlay";
 import { playPop, playSuccess, playWrong, speak } from "@/lib/feedback";
 import { completeGame } from "@/lib/store";
@@ -25,6 +25,7 @@ export function Sorting() {
   const [selected, setSelected] = useState<Item | null>(null);
   const [glow, setGlow] = useState<string | null>(null);
   const [shake, setShake] = useState<string | null>(null);
+  const [checkResult] = useState<CheckResult>("idle");
   const [won, setWon] = useState(false);
   const startTime = useRef(Date.now());
 
@@ -61,7 +62,16 @@ return;
   const remaining = ITEMS.filter((i) => !done.includes(i.key));
 
   return (
-    <GameShell title="Fruit Basket" instruction="Tap a food, then its basket">
+    <GameShell
+      instruction="Tap a food, then its basket"
+      mascot="🦉"
+      totalRounds={ITEMS.length}
+      currentRound={done.length}
+      checkEnabled={true}
+      onCheck={() => {}}
+      checkResult={checkResult}
+      onNext={() => {}}
+    >
       <div className="flex w-full max-w-xl flex-col gap-8">
         <div className="flex min-h-[120px] flex-wrap items-center justify-center gap-4">
           {remaining.map((it) => (

@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BarChart3, Menu, Settings } from 'lucide-react';
+import { BarChart3, Menu, Settings, Users } from 'lucide-react';
 import { AppContent } from '@/components/app-content';
 import { AppShell } from '@/components/app-shell';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -51,30 +51,38 @@ export default function AppDashboardLayout({
 
                         <Separator />
 
-                        <div className="flex-1 px-3 py-4">
+                        <div className="flex-1 space-y-1.5 px-3 py-4">
                             <Link
                                 href={dashboard()}
                                 prefetch
                                 onClick={cleanup}
-                                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+                                className="flex items-center gap-3 rounded-xl border-2 border-transparent px-4 py-3 text-sm font-black uppercase tracking-wider text-[#777777] shadow-none transition-all hover:border-[#E5E5E5] hover:bg-white hover:shadow-[0_2px_0_#C4C4C4] active:translate-y-0.5"
                             >
-                                <Settings className="size-4" />
+                                <Settings className="size-4 text-[#FF9600]" />
                                 Dashboard
                             </Link>
-                          <Link
-              href="/games/results"
-                                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-            >
-              <BarChart3 className="size-4" />
-              Game Results
-            </Link>
+                            <Link
+                                href="/parents"
+                                prefetch
+                                onClick={cleanup}
+                                className="flex items-center gap-3 rounded-xl border-2 border-transparent px-4 py-3 text-sm font-black uppercase tracking-wider text-[#777777] shadow-none transition-all hover:border-[#E5E5E5] hover:bg-white hover:shadow-[0_2px_0_#C4C4C4] active:translate-y-0.5"
+                            >
+                                <Users className="size-4 text-[#1CB0F6]" />
+                                Parents
+                            </Link>
+                            <Link
+                                href="/games/results"
+                                onClick={cleanup}
+                                className="flex items-center gap-3 rounded-xl border-2 border-transparent px-4 py-3 text-sm font-black uppercase tracking-wider text-[#777777] shadow-none transition-all hover:border-[#E5E5E5] hover:bg-white hover:shadow-[0_2px_0_#C4C4C4] active:translate-y-0.5"
+                            >
+                                <BarChart3 className="size-4 text-[#58CC02]" />
+                                Game Results
+                            </Link>
                         </div>
 
                         <Separator />
 
-                        <div className="px-3 py-4">
-                         
-                        </div>
+                        <div className="px-3 py-4" />
                     </SheetContent>
                 </Sheet>
 

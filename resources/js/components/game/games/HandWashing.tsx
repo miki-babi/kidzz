@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 import { useState, useEffect, useRef } from "react";
-import { GameShell } from "@/components/game/GameShell";
+import { GameShell, type CheckResult } from "@/components/game/GameShell";
 import { RewardOverlay } from "@/components/game/RewardOverlay";
 import { playPop, playSuccess, speak } from "@/lib/feedback";
 import { completeGame } from "@/lib/store";
@@ -21,6 +21,7 @@ const SCENES: Scene[] = [
 
 export function HandWashing() {
   const [step, setStep] = useState(0);
+  const [checkResult] = useState<CheckResult>("idle");
   const [won, setWon] = useState(false);
   const startTime = useRef(Date.now());
   const scene = SCENES[step];
@@ -45,7 +46,16 @@ speak(scene.voice);
   }
 
   return (
-    <GameShell title="Wash Hands" instruction={scene?.voice}>
+    <GameShell
+      instruction={scene?.voice}
+      mascot="🦉"
+      totalRounds={SCENES.length}
+      currentRound={step}
+      checkEnabled={true}
+      onCheck={() => {}}
+      checkResult={checkResult}
+      onNext={() => {}}
+    >
       <div className="flex w-full max-w-md flex-col items-center gap-10">
         {/* progress dots */}
         <div className="flex gap-2">

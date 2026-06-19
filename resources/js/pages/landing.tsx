@@ -2,15 +2,18 @@ import { Head } from '@inertiajs/react';
 /* @chisel-registration */
 /* @end-chisel-registration */
 import {
-
   Sparkles,
- 
   Heart,
   ChevronRight,
   Phone,
   BarChart3,
   Calendar,
-
+  Star,
+  Award,
+  Zap,
+  Target,
+  BookOpen,
+  Users,
 } from 'lucide-react';
 import { SiNextdotjs, SiReact, SiTailwindcss, SiTypescript } from 'react-icons/si';
 import HeroSection from '@/components/hero';
@@ -25,613 +28,516 @@ export default function Landing() {
   { src: "/asset/logos/hage.png", alt: "Company 2", href: "https://company2.com" },
   { src: "/asset/logos/medanit.png", alt: "Company 3", href: "https://company3.com" },
   { src: "/asset/logos/logo1.png", alt: "Company 3", href: "https://company3.com" },
+  { src: "/asset/logos/image.png", alt: "Company 3", href: "https://company3.com" },
   { src: "/asset/logos/hyatlogo.png", alt: "Company 3", href: "https://company3.com" },
   { src: "/asset/logos/yenehealth.png", alt: "Company 3", href: "https://company3.com" },
   ];
 
   return (
     <>
-      <Head title="Lifeline Addis - Special Education at Home" />
-
-      {/* ================= LANGUAGE SWITCHER (fixed overlay) ================= */}
-      {/* <div className="fixed top-4 right-4 z-50">
-        <LanguageSwitcher className="bg-neutral-900/80 text-white border-neutral-700" />
-      </div> */}
+      <Head title="Lifeline Addis - Learn Through Play" />
 
       {/* ================= HERO SECTION ================= */}
       <HeroSection />
 
-        {/* ================= PARTNERS / TRUST SECTION ================= */}
-        <section className="py-12 border-b border-neutral-100/80 bg-white dark:border-zinc-800/40 dark:bg-zinc-950">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
-            <h2 className="text-xs md:text-sm font-bold tracking-[0.15em] text-neutral-400 dark:text-zinc-500 mb-8">
-              {t('partners_heading')}
-            </h2>
+      {/* ================= PARTNERS / TRUST SECTION (Duolingo style) ================= */}
+      <section className="py-12 bg-white dark:bg-zinc-950">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+          <h2 className="text-xs md:text-sm font-extrabold tracking-[0.2em] text-[#777777] dark:text-zinc-500 mb-8 uppercase">
+            {t('partners_heading')}
+          </h2>
 
-            <div className="flex gap-8 md:gap-12 items-center justify-items-center opacity-85 hover:opacity-100 transition-opacity">
-
-              <LogoLoop
-                logos={techLogos}
-                speed={100}
-                direction="left"
-                logoHeight={60}
-                gap={60}
-                hoverSpeed={0}
-                scaleOnHover
-                fadeOut
-                fadeOutColor="#ffffff"
-                ariaLabel="Technology partners"
-              />
-            </div>
+          <div className="flex gap-8 md:gap-12 items-center justify-items-center opacity-85 hover:opacity-100 transition-opacity">
+            <LogoLoop
+              logos={techLogos}
+              speed={100}
+              direction="left"
+              logoHeight={50}
+              gap={60}
+              hoverSpeed={0}
+              scaleOnHover
+              fadeOut
+              fadeOutColor="#ffffff"
+              ariaLabel="Technology partners"
+            />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ================= FEATURE 1: COMPREHENSIVE UNLOCK POTENTIAL ================= */}
-        <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      {/* ================= FEATURE 1: PLAY & LEARN (Duolingo style - punchy alternating) ================= */}
+      <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950 border-t border-[#E5E5E5] dark:border-zinc-800">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-              {/* Left Column: Image with outline */}
-              <div className="relative">
-                {/* Watermark badge in background */}
-                <div className="absolute -left-6 -top-6 h-48 w-48 rounded-full bg-red-100/50 blur-2xl dark:bg-red-950/20"></div>
-                <div className="absolute right-6 -bottom-6 h-64 w-64 rounded-full bg-blue-100/50 blur-3xl dark:bg-blue-950/15"></div>
+            {/* Left Column: Image with Duolingo-style card */}
+            <div className="relative">
+              {/* Decorative blobs */}
+              <div className="absolute -left-6 -top-6 h-48 w-48 rounded-full bg-[#FFC800]/20 blur-2xl"></div>
+              <div className="absolute right-6 -bottom-6 h-64 w-64 rounded-full bg-[#58CC02]/10 blur-3xl"></div>
 
-                <div className="relative z-10">
-                  <div className="relative overflow-hidden flex items-center justify-center dark:bg-zinc-800/30 dark:rounded-2xl">
-                    <img
-                      src="/asset/game2.png"
-                      alt="Unlock Potential"
-                      className="w-full h-full object-cover dark:opacity-90"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        const el = document.getElementById('feature-unlock-fallback');
-
-                        if (el) {
-                          el.classList.remove('hidden');
-                        }
-                      }}
-                    />
-
-                    <div className="absolute bottom-4 left-4 bg-red-600/80 text-white font-extrabold text-xs px-4 py-2 rounded-full shadow-md dark:bg-zinc-900/90 dark:text-indigo-400">
-                      150+ Interactive Tasks
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Text */}
-              <div className="space-y-6 text-left lg:pl-6">
-                <div className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest text-red-600 dark:text-red-500 uppercase">
-                  <Sparkles className="h-4.5 w-4.5" /> {t('feature_comprehensive_tag')}
-                </div>
-
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  {t('feature_unlock_title')}
-                </h2>
-
-                <p className="text-base sm:text-lg text-neutral-500 dark:text-zinc-400 leading-relaxed font-medium">
-                  {t('feature_unlock_body')}
-                </p>
-
-                <div className="pt-2">
-                  <a
-                    href="#services"
-                    className="inline-flex items-center gap-2 bg-[#D2232A] hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-red-500/10 hover:scale-102 active:scale-98 dark:bg-[#B01E24] dark:hover:bg-red-700"
-                  >
-                    {t('learn_more')}
-                  </a>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* ================= COMPREHENSIVE SOLUTIONS TRANSITION ================= */}
-        <section className="py-16 bg-neutral-50 border-y border-neutral-100 dark:bg-zinc-900/50 dark:border-zinc-800/40">
-          <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center space-y-4">
-            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-neutral-800 dark:text-zinc-200">
-              {t('comprehensive_solutions_heading')}
-            </h2>
-            <p className="text-neutral-500 dark:text-zinc-400 max-w-xl mx-auto font-medium leading-relaxed">
-              {t('comprehensive_solutions_body')}
-            </p>
-          </div>
-        </section>
-
-        {/* ================= FEATURE 2: DATA-DRIVEN APPROACH ================= */}
-        <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-              {/* Left Column: Text */}
-              <div className="lg:col-span-5 space-y-6 text-left">
-                <div className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest text-red-600 dark:text-blue-500 uppercase">
-                  <BarChart3 className="h-4.5 w-4.5" /> {t('analytics_tag')}
-                </div>
-
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  {t('feature_data_title')}
-                </h2>
-
-                <p className="text-neutral-500 dark:text-zinc-400 leading-relaxed font-medium">
-                  {t('feature_data_body')}
-                </p>
-              </div>
-
-              {/* Right Column: Dashboard Mockup Drawing */}
-              <div className="lg:col-span-7">
-                <div className="relative bg-white border border-neutral-100 shadow-2xl rounded-[2.5rem] p-4 dark:bg-zinc-900 dark:border-zinc-800">
-
-                  {/* Dashboard Visual Shell */}
-                  <div className="bg-neutral-50 rounded-[2rem] p-6 text-left border border-neutral-100/50 dark:bg-zinc-950/60 dark:border-zinc-800/40">
-
-                    {/* Top Controls Mockup */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-200/60 pb-5 mb-5 dark:border-zinc-800/60">
-                      <div>
-                        <h3 className="font-extrabold text-neutral-800 dark:text-zinc-200 text-base leading-tight">Child Performance Dashboard</h3>
-                        <p className="text-[10px] font-bold text-neutral-400 mt-0.5 uppercase tracking-wider">Patient: Yonas M.</p>
-                      </div>
-
-                      {/* Date & Filter Badges */}
-                      <div className="flex gap-2 text-xs">
-                        <span className="inline-flex items-center gap-1 bg-white border border-neutral-200/80 rounded-full px-3 py-1 font-semibold text-neutral-600 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400">
-                          <Calendar className="h-3.5 w-3.5" /> Last 30 Days
-                        </span>
-                        <span className="inline-flex items-center gap-1 bg-red-50 text-red-600 rounded-full px-3 py-1 font-bold dark:bg-red-500/10 dark:text-red-400">
-                          Live Metrics
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Dashboard Grid Content */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                      <div className="bg-white border border-neutral-100 rounded-2xl p-4 shadow-sm dark:bg-zinc-900 dark:border-zinc-800">
-                        <div className="text-[10px] font-bold text-neutral-400 uppercase">Focus Duration</div>
-                        <div className="text-2xl font-black text-neutral-800 dark:text-zinc-200 mt-1">42 min</div>
-                        <div className="text-[9px] font-semibold text-emerald-600 mt-1">▲ 12% vs last week</div>
-                      </div>
-                      <div className="bg-white border border-neutral-100 rounded-2xl p-4 shadow-sm dark:bg-zinc-900 dark:border-zinc-800">
-                        <div className="text-[10px] font-bold text-neutral-400 uppercase">Task Accuracy</div>
-                        <div className="text-2xl font-black text-neutral-800 dark:text-zinc-200 mt-1">94.8%</div>
-                        <div className="text-[9px] font-semibold text-emerald-600 mt-1">▲ 3.4% high success</div>
-                      </div>
-                      <div className="bg-white border border-neutral-100 rounded-2xl p-4 shadow-sm dark:bg-zinc-900 dark:border-zinc-800">
-                        <div className="text-[10px] font-bold text-neutral-400 uppercase">Therapist Logs</div>
-                        <div className="text-2xl font-black text-neutral-800 dark:text-zinc-200 mt-1">12 Filed</div>
-                        <div className="text-[9px] font-semibold text-neutral-500 mt-1">All sessions verified</div>
-                      </div>
-                    </div>
-
-                    {/* Chart Mockup */}
-                    <div className="bg-white border border-neutral-100 rounded-2xl p-5 shadow-sm dark:bg-zinc-900 dark:border-zinc-800">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="text-xs font-bold text-neutral-800 dark:text-zinc-200">Cognitive & Motor Progress Graph</div>
-                        <div className="flex items-center gap-3 text-[10px] font-bold">
-                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-red-500"></span> Motor Skill</span>
-                          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-blue-500"></span> Cognitive</span>
-                        </div>
-                      </div>
-
-                      {/* Mock Chart drawing in SVG */}
-                      <div className="h-44 w-full relative">
-                        <svg className="w-full h-full" viewBox="0 0 400 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          {/* Grid Lines */}
-                          <line x1="0" y1="30" x2="400" y2="30" stroke="#f1f5f9" strokeWidth="1" className="dark:stroke-zinc-800" />
-                          <line x1="0" y1="70" x2="400" y2="70" stroke="#f1f5f9" strokeWidth="1" className="dark:stroke-zinc-800" />
-                          <line x1="0" y1="110" x2="400" y2="110" stroke="#f1f5f9" strokeWidth="1" className="dark:stroke-zinc-800" />
-
-                          {/* Area Gradient */}
-                          <defs>
-                            <linearGradient id="gradient-motor" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="0%" stopColor="#ef4444" stopOpacity="0.15" />
-                              <stop offset="100%" stopColor="#ef4444" stopOpacity="0.0" />
-                            </linearGradient>
-                            <linearGradient id="gradient-cog" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15" />
-                              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.0" />
-                            </linearGradient>
-                          </defs>
-
-                          {/* Motor Progress Path */}
-                          <path d="M0 120 C 50 110, 100 80, 150 90 C 200 100, 250 50, 300 40 C 350 30, 400 10, 400 10 L 400 150 L 0 150 Z" fill="url(#gradient-motor)" />
-                          <path d="M0 120 C 50 110, 100 80, 150 90 C 200 100, 250 50, 300 40 C 350 30, 400 10, 400 10" stroke="#ef4444" strokeWidth="3.5" strokeLinecap="round" />
-
-                          {/* Cognitive Progress Path */}
-                          <path d="M0 135 C 60 120, 120 100, 180 75 C 240 50, 300 65, 360 45 C 380 35, 400 25, 400 25 L 400 150 L 0 150 Z" fill="url(#gradient-cog)" />
-                          <path d="M0 135 C 60 120, 120 100, 180 75 C 240 50, 300 65, 360 45 C 380 35, 400 25, 400 25" stroke="#3b82f6" strokeWidth="3" strokeDasharray="2 2" strokeLinecap="round" />
-
-                          {/* Highlighting node */}
-                          <circle cx="300" cy="40" r="5" fill="#ef4444" stroke="#ffffff" strokeWidth="2" />
-                          <circle cx="180" cy="75" r="5" fill="#3b82f6" stroke="#ffffff" strokeWidth="2" />
-                        </svg>
-                      </div>
-
-                      {/* X Axis labels */}
-                      <div className="flex justify-between text-[8px] font-bold text-neutral-400 mt-2 uppercase tracking-widest">
-                        <span>Week 1</span>
-                        <span>Week 2</span>
-                        <span>Week 3</span>
-                        <span>Week 4</span>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  {/* Absolute image overlay tag referencing /asset/feature_dashboard.png in hidden/onError config */}
+              <div className="relative z-10 card-duo p-0 overflow-hidden">
+                <div className="relative overflow-hidden">
                   <img
-                    src="/asset/feature_dashboard.png"
-                    alt="Dashboard mockup asset"
-                    className="absolute inset-0 w-full h-full object-cover rounded-[2.5rem] p-4 opacity-0 pointer-events-none"
+                    src="/asset/game2.png"
+                    alt="Interactive learning game"
+                    className="w-full h-auto object-cover"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
+                      const el = document.getElementById('feature-unlock-fallback');
+                      if (el) el.classList.remove('hidden');
                     }}
                   />
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* ================= FEATURE 3: PARENTAL INSIGHTS & GUIDED PROGRESS ================= */}
-        <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-              {/* Left Column: Device Mockups */}
-              <div className="lg:col-span-7 flex flex-col sm:flex-row items-center justify-center gap-8 lg:pr-6">
-
-                {/* 1. Mobile Phone Mockup */}
-                <div className="relative w-64 h-[440px] rounded-[2.75rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-2xl overflow-hidden shrink-0 dark:border-zinc-800">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 h-5 w-28 bg-zinc-900 rounded-b-2xl z-30 dark:bg-zinc-800"></div>
-
-                  {/* Content */}
-                  <div className="h-full w-full bg-white p-4 pt-8 text-left text-neutral-800 flex flex-col justify-between select-none dark:bg-zinc-900 dark:text-zinc-200">
-                    <div className="space-y-4">
-                      {/* Mobile Header */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1.5">
-                          <span className="h-6 w-6 rounded-full bg-neutral-100 flex items-center justify-center text-[10px]">👩</span>
-                          <div className="text-[9px] font-bold leading-tight text-neutral-800 dark:text-zinc-200">Yonas's Mom</div>
-                        </div>
-                        <span className="text-[8px] font-black bg-red-50 text-red-600 px-2 py-0.5 rounded-full dark:bg-red-500/10 dark:text-red-400">Pro Portal</span>
-                      </div>
-
-                      {/* Today's Goal card */}
-                      <div className="bg-red-50/70 border border-red-100 rounded-2xl p-3 text-left dark:bg-red-950/15 dark:border-red-900/30">
-                        <h4 className="text-[10px] font-black text-red-700 dark:text-red-400">Daily Milestone Goal</h4>
-                        <p className="text-[9px] text-red-600/90 font-semibold mt-1">Complete Calm Garden level 2</p>
-
-                        <div className="h-1.5 w-full bg-red-100/60 rounded-full mt-2.5 overflow-hidden dark:bg-red-950/30">
-                          <div className="h-full w-[70%] bg-red-600 rounded-full"></div>
-                        </div>
-                      </div>
-
-                      {/* Insights summary list */}
-                      <div className="space-y-2">
-                        <div className="text-[9px] font-bold text-neutral-400 uppercase tracking-wider">Reports & logs</div>
-
-                        <div className="flex items-center justify-between border-b border-neutral-100 pb-2 dark:border-zinc-800">
-                          <span className="text-[9px] font-bold text-neutral-600 dark:text-zinc-400">Speech Exercises</span>
-                          <span className="text-[9px] font-extrabold text-green-600">92% score</span>
-                        </div>
-                        <div className="flex items-center justify-between border-b border-neutral-100 pb-2 dark:border-zinc-800">
-                          <span className="text-[9px] font-bold text-neutral-600 dark:text-zinc-400">Routine Checklists</span>
-                          <span className="text-[9px] font-extrabold text-green-600">100% complete</span>
-                        </div>
-                        <div className="flex items-center justify-between border-b border-neutral-100 pb-2 dark:border-zinc-800">
-                          <span className="text-[9px] font-bold text-neutral-600 dark:text-zinc-400">Sensory Integration</span>
-                          <span className="text-[9px] font-extrabold text-amber-500">25 min tracked</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom banner mockup */}
-                    <div className="bg-neutral-50 rounded-xl p-2.5 border border-neutral-100 flex items-center justify-between dark:bg-zinc-950 dark:border-zinc-800">
-                      <div className="text-[9px] font-bold text-neutral-800 dark:text-zinc-200">Weekly Digest ready</div>
-                      <span className="text-[9px] text-red-600 font-black flex items-center">Open <ChevronRight className="h-3 w-3" /></span>
-                    </div>
+                  {/* Playful badge overlay */}
+                  <div className="absolute bottom-4 left-4 bg-[#FFC800] text-[#3C3C3C] font-extrabold text-xs px-5 py-2 rounded-full shadow-md flex items-center gap-1.5">
+                    <Zap className="h-3.5 w-3.5" /> 150+ Interactive Games
                   </div>
-
-                  {/* image asset tag overlay in case of local file loaded */}
-                  <img
-                    src="/asset/feature_mobile_progress.png"
-                    alt="Mobile screen mockup"
-                    className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
                 </div>
-
-                {/* 2. Tablet Game Mockup (Landscape) */}
-                <div className="relative w-80 h-56 rounded-[2rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-2xl overflow-hidden shrink-0 dark:border-zinc-800">
-                  {/* Tablet Camera notch left */}
-                  <div className="absolute top-1/2 left-0.5 -translate-y-1/2 h-3.5 w-1 bg-zinc-900 rounded-r-md z-30 dark:bg-zinc-800"></div>
-
-                  {/* Content (Cartoon Game Representation) */}
-                  <div className="h-full w-full bg-gradient-to-b from-[#87CEEB] to-[#E0F6FF] relative flex flex-col justify-between p-4 overflow-hidden select-none">
-
-                    {/* Clouds */}
-                    <div className="absolute top-4 left-6 h-5 w-14 bg-white/80 rounded-full blur-[1px]"></div>
-                    <div className="absolute top-6 right-8 h-4 w-10 bg-white/85 rounded-full blur-[0.5px]"></div>
-
-                    {/* Game header: score & task */}
-                    <div className="relative z-10 flex items-center justify-between">
-                      <div className="bg-white/20 backdrop-blur-md rounded-full px-3 py-1 text-[9px] font-black text-white border border-white/20 flex items-center gap-1">
-                        🍎 <span>Fruits Collected: 3/5</span>
-                      </div>
-
-                      <div className="bg-amber-400 text-neutral-900 rounded-full h-6 w-6 flex items-center justify-center font-black text-xs shadow-md">
-                        35
-                      </div>
-                    </div>
-
-                    {/* Cute cartoon character and platforms */}
-                    <div className="relative h-20 w-full">
-                      {/* Character */}
-                      <div className="absolute left-10 bottom-1 flex flex-col items-center">
-                        <div className="h-8 w-8 rounded-full bg-rose-500 border border-white flex items-center justify-center text-base shadow-md animate-bounce">
-                          🦁
-                        </div>
-                        <div className="h-1 w-6 bg-black/10 rounded-full blur-[0.5px] mt-0.5"></div>
-                      </div>
-
-                      {/* Collectable item */}
-                      <div className="absolute left-32 top-1 animate-pulse">
-                        <span className="text-sm">🍎</span>
-                      </div>
-
-                      {/* Platforms (SVG green hills) */}
-                      <svg className="absolute bottom-0 w-full h-8" viewBox="0 0 300 30" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                        <path d="M0 20 C 50 12, 100 12, 150 22 C 200 32, 250 8, 300 18 L 300 30 L 0 30 Z" fill="#22C55E" />
-                        <path d="M0 22 C 50 14, 100 14, 150 24 C 200 34, 250 10, 300 20" stroke="#16A34A" strokeWidth="2" />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* image asset tag overlay in case of local file loaded */}
-                  <img
-                    src="/asset/feature_tablet_game.png"
-                    alt="Tablet game mockup"
-                    className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                </div>
-
               </div>
-
-              {/* Right Column: Text */}
-              <div className="lg:col-span-5 space-y-6 text-left">
-                <div className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest text-red-600 dark:text-red-500 uppercase">
-                  <Phone className="h-4.5 w-4.5" /> {t('mobile_tablet_tag')}
-                </div>
-
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  {t('feature_parental_title')}
-                </h2>
-
-                <p className="text-neutral-500 dark:text-zinc-400 leading-relaxed font-medium">
-                  {t('feature_parental_body')}
-                </p>
-              </div>
-
             </div>
-          </div>
-        </section>
 
-        {/* ================= TESTIMONIALS ================= */}
-        <section id="community" className="py-20 px-6 lg:px-8 border-t border-neutral-100 bg-white dark:border-zinc-800/40 dark:bg-zinc-950">
-          <div className="mx-auto max-w-7xl">
-            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-                {t('testimonials_heading')} <Heart className="inline-block h-6 w-6 text-red-600 fill-current animate-pulse mx-1" /> {t('testimonials_love')}
+            {/* Right Column: Punchy text */}
+            <div className="space-y-6 text-left lg:pl-6">
+              <div className="inline-flex items-center gap-2 bg-[#E5F5E1] text-[#58CC02] font-extrabold text-xs px-4 py-2 rounded-full uppercase tracking-wider dark:bg-[#58CC02]/10">
+                <Sparkles className="h-4 w-4" /> {t('feature_comprehensive_tag')}
+              </div>
+
+              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#3C3C3C] dark:text-white leading-[1.1]">
+                {t('feature_unlock_title')}
               </h2>
-              <div className="h-1 w-12 bg-red-600 rounded-full mx-auto"></div>
+
+              <p className="text-lg text-[#777777] dark:text-zinc-400 leading-relaxed font-medium">
+                {t('feature_unlock_body')}
+              </p>
+
+              <div className="pt-2">
+                <a
+                  href="#services"
+                  className="btn-duo-red inline-flex items-center gap-2 px-8 py-3.5 text-base"
+                >
+                  {t('learn_more')}
+                </a>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-              {/* Testimonial 1 */}
-              <div className="bg-neutral-50 rounded-3xl p-8 border border-neutral-100 flex flex-col justify-between text-left dark:bg-zinc-900 dark:border-zinc-800">
-                <p className="text-neutral-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-8">
-                  "The parental supervision dashboard has given me parents' peace of mind regarding screen time."
-                </p>
-
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center text-lg font-bold text-red-600 dark:bg-red-500/10">
-                    👨
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-200">Ethiopian parents</h4>
-                    <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Parent</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Testimonial 2 */}
-              <div className="bg-neutral-50 rounded-3xl p-8 border border-neutral-100 flex flex-col justify-between text-left dark:bg-zinc-900 dark:border-zinc-800">
-                <p className="text-neutral-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-8">
-                  "The kids-friendly environment is perfect for my child, and they love the interactive games."
-                </p>
-
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-lg font-bold text-blue-600 dark:bg-blue-500/10">
-                    👩
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-200">Asnak Tadesse</h4>
-                    <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Parent</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Testimonial 3 */}
-              <div className="bg-neutral-50 rounded-3xl p-8 border border-neutral-100 flex flex-col justify-between text-left dark:bg-zinc-900 dark:border-zinc-800">
-                <p className="text-neutral-600 dark:text-zinc-400 text-sm leading-relaxed font-medium mb-8">
-                  "Excellent customer service and therapist tools. The developmental tracking has really helped."
-                </p>
-
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-lg font-bold text-purple-600 dark:bg-purple-500/10">
-                    👨
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-neutral-800 dark:text-zinc-200">Ethiopian parents</h4>
-                    <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Therapist</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ================= THE LIFELINE TEAM ================= */}
-        <section id="about" className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-              {/* Left Column: Text */}
-              <div className="lg:col-span-5 space-y-6 text-left">
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-tight">
-                  {t('team_heading')}
-                </h2>
-
-                <p className="text-base sm:text-lg text-neutral-500 dark:text-zinc-400 leading-relaxed font-medium">
-                  {t('team_body')}
-                </p>
-
-                <div className="pt-2">
-                  <a
-                    href="#about"
-                    className="inline-flex items-center gap-2 bg-[#D2232A] hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-red-500/10 hover:scale-102 active:scale-98 dark:bg-[#B01E24] dark:hover:bg-red-700"
-                  >
-                    {t('learn_more')}
-                  </a>
-                </div>
-              </div>
-
-              {/* Right Column: Image */}
-              <div className="lg:col-span-7">
-                <div className="border border-neutral-100 shadow-2xl rounded-[2.5rem] dark:bg-zinc-900 dark:border-zinc-800">
-                  <div className="relative rounded-[2rem] overflow-hidden flex items-center justify-center dark:bg-zinc-800/30">
-                    <img
-                      src="/asset/team2.png"
-                      alt="The Lifeline Team"
-                      className="w-full h-full object-cover dark:opacity-90"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        const el = document.getElementById('team-photo-fallback');
-
-                        if (el) {
-                          el.classList.remove('hidden');
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-            </div>
+      {/* ================= COMPREHENSIVE SOLUTIONS TRANSITION (simplified) ================= */}
+      <section className="py-16 bg-[#FAFAFA] border-y border-[#E5E5E5] dark:bg-zinc-900/50 dark:border-zinc-800/40">
+        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-[#FFC800] text-[#3C3C3C] font-extrabold text-sm px-6 py-2 rounded-full">
+            ⭐ {t('comprehensive_solutions_heading')}
           </div>
-        </section>
+          <p className="text-[#777777] dark:text-zinc-400 max-w-xl mx-auto font-semibold leading-relaxed text-lg">
+            {t('comprehensive_solutions_body')}
+          </p>
+        </div>
+      </section>
 
-        {/* ================= RECENT NEWS ================= */}
-        <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
-          <div className="mx-auto max-w-7xl">
-            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-                {t('news_heading')}
+      {/* ================= FEATURE 2: PROGRESS TRACKING (Duolingo-style gamified stats) ================= */}
+      <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* Left Column: Text */}
+            <div className="lg:col-span-5 space-y-6 text-left">
+              <div className="inline-flex items-center gap-2 bg-[#E8F0FE] text-[#1CB0F6] font-extrabold text-xs px-4 py-2 rounded-full uppercase tracking-wider dark:bg-[#1CB0F6]/10">
+                <BarChart3 className="h-4 w-4" /> {t('analytics_tag')}
+              </div>
+
+              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#3C3C3C] dark:text-white leading-[1.1]">
+                {t('feature_data_title')}
               </h2>
-              <div className="h-1 w-12 bg-red-600 rounded-full mx-auto"></div>
+
+              <p className="text-lg text-[#777777] dark:text-zinc-400 leading-relaxed font-medium">
+                {t('feature_data_body')}
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-              {/* Card 1 */}
-              <div className="group bg-neutral-50 rounded-[2.5rem] border border-neutral-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-800 flex items-center justify-center">
-                  <img
-                    src="/asset/autismday.png"
-                    alt="Celebrating Autism Acceptance Month"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 dark:opacity-90"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const el = document.getElementById('news-1-fallback');
-
-                      if (el) {
-                        el.classList.remove('hidden');
-                      }
-                    }}
-                  />
+            {/* Right Column: Gamified Dashboard */}
+            <div className="lg:col-span-7">
+              <div className="card-duo p-6 shadow-md">
+                {/* Top Section */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E5E5] pb-5 mb-5 dark:border-zinc-800">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-[#58CC02] flex items-center justify-center text-white font-black text-lg">
+                      🦁
+                    </div>
+                    <div>
+                      <h3 className="font-extrabold text-[#3C3C3C] dark:text-zinc-200 text-base">Yonas M.</h3>
+                      <p className="text-[11px] font-bold text-[#777777] uppercase tracking-wider">Daily Progress</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 text-xs font-bold">
+                    <span className="inline-flex items-center gap-1 bg-[#FFC800] text-[#3C3C3C] rounded-full px-3 py-1.5">
+                      🔥 7-Day Streak
+                    </span>
+                    <span className="inline-flex items-center gap-1 bg-[#CE82FF] text-white rounded-full px-3 py-1.5">
+                      ⭐ 1,240 XP
+                    </span>
+                  </div>
                 </div>
-                <div className="p-8 text-left space-y-3">
-                  <span className="text-[10px] font-black text-red-600 uppercase tracking-widest dark:text-red-500">Announcements</span>
-                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-200 dark:group-hover:text-red-500">
-                    Celebrating Autism Acceptance Month with a Special Office!
-                  </h3>
+
+                {/* Chunky Progress Bars (gamified) */}
+                <div className="space-y-5 mb-6">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-extrabold text-[#3C3C3C] dark:text-zinc-300 flex items-center gap-1.5">
+                        <Target className="h-3.5 w-3.5 text-[#58CC02]" /> Focus Duration
+                      </span>
+                      <span className="text-xs font-black text-[#58CC02]">42 min</span>
+                    </div>
+                    <div className="progress-duo">
+                      <div className="bg-[#58CC02] w-[70%]"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-extrabold text-[#3C3C3C] dark:text-zinc-300 flex items-center gap-1.5">
+                        <Award className="h-3.5 w-3.5 text-[#1CB0F6]" /> Task Accuracy
+                      </span>
+                      <span className="text-xs font-black text-[#1CB0F6]">94.8%</span>
+                    </div>
+                    <div className="progress-duo">
+                      <div className="bg-[#1CB0F6] w-[95%]"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-extrabold text-[#3C3C3C] dark:text-zinc-300 flex items-center gap-1.5">
+                        <BookOpen className="h-3.5 w-3.5 text-[#CE82FF]" /> Skills Mastered
+                      </span>
+                      <span className="text-xs font-black text-[#CE82FF]">12/20</span>
+                    </div>
+                    <div className="progress-duo">
+                      <div className="bg-[#CE82FF] w-[60%]"></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Weekly Overview */}
+                <div className="bg-[#F7F7F7] rounded-2xl p-4 dark:bg-zinc-900">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-extrabold text-[#3C3C3C] dark:text-zinc-300">This Week</span>
+                    <span className="text-[10px] font-bold text-[#777777]">▲ 12% improvement</span>
+                  </div>
+                  <div className="flex items-end gap-2 h-20">
+                    {[
+                      { day: 'Mon', val: 60, color: '#58CC02' },
+                      { day: 'Tue', val: 75, color: '#58CC02' },
+                      { day: 'Wed', val: 45, color: '#FFC800' },
+                      { day: 'Thu', val: 80, color: '#58CC02' },
+                      { day: 'Fri', val: 90, color: '#1CB0F6' },
+                      { day: 'Sat', val: 70, color: '#58CC02' },
+                      { day: 'Sun', val: 85, color: '#CE82FF' },
+                    ].map((item) => (
+                      <div key={item.day} className="flex-1 flex flex-col items-center gap-1">
+                        <div
+                          className="w-full rounded-full transition-all"
+                          style={{
+                            height: `${item.val}%`,
+                            backgroundColor: item.color,
+                            borderRadius: '8px 8px 4px 4px',
+                          }}
+                        ></div>
+                        <span className="text-[9px] font-bold text-[#777777]">{item.day}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ================= FEATURE 3: ANYWHERE LEARNING (Duolingo-style angled mockups) ================= */}
+      <section className="py-20 px-6 lg:px-8 bg-[#FAFAFA] dark:bg-zinc-950 border-t border-[#E5E5E5] dark:border-zinc-800">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* Left Column: Angled device mockups */}
+            <div className="lg:col-span-7 flex flex-col sm:flex-row items-center justify-center gap-6 lg:pr-6 relative">
+              {/* Decorative character peeking from behind */}
+              <div className="absolute -left-4 top-0 z-20 hidden sm:block">
+                <div className="h-16 w-16 rounded-full bg-[#FFC800] border-4 border-white shadow-lg flex items-center justify-center text-4xl float-duo">
+                  🦁
                 </div>
               </div>
 
-              {/* Card 2 */}
-              <div className="group bg-neutral-50 rounded-[2.5rem] border border-neutral-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-800 flex items-center justify-center">
-                  <img
-                    src="/asset/crownclub.png"
-                    alt="Crowen Club"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 dark:opacity-90"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const el = document.getElementById('news-2-fallback');
-
-                      if (el) {
-                        el.classList.remove('hidden');
-                      }
-                    }}
-                  />
-                </div>
-                <div className="p-8 text-left space-y-3">
-                  <span className="text-[10px] font-black text-red-600 uppercase tracking-widest dark:text-red-500">Community</span>
-                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-200 dark:group-hover:text-red-500">
-                    Crowen Club: Designed for Little Hands & Bio Image cleans.
-                  </h3>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="group bg-neutral-50 rounded-[2.5rem] border border-neutral-100 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 dark:bg-zinc-900 dark:border-zinc-800">
-                <div className="relative aspect-[16/10] bg-neutral-100 overflow-hidden dark:bg-zinc-800 flex items-center justify-center">
-                  <img
-                    src="/asset/meet.png"
-                    alt="Understanding Chromosome 21"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 dark:opacity-90"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const el = document.getElementById('news-3-fallback');
-
-                      if (el) {
-                        el.classList.remove('hidden');
-                      }
-                    }}
-                  />
-                </div>
-                <div className="p-8 text-left space-y-3">
-                  <span className="text-[10px] font-black text-red-600 uppercase tracking-widest dark:text-red-500">Insights</span>
-                  <h3 className="text-lg font-bold text-neutral-800 leading-snug group-hover:text-red-600 transition-colors dark:text-zinc-200 dark:group-hover:text-red-500">
-                    Understanding Chromosome 21 and Down Syndrome
-                  </h3>
+              {/* Phone mockup - angled */}
+              <div className="relative w-56 h-[380px] rounded-[2rem] border-[6px] border-[#3C3C3C] bg-[#3C3C3C] shadow-xl overflow-hidden shrink-0 transform -rotate-6 hover:rotate-0 transition-transform duration-500 dark:border-zinc-700">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-4 w-24 bg-[#3C3C3C] rounded-b-xl z-30"></div>
+                <div className="h-full w-full bg-white p-4 pt-6 flex flex-col justify-between">
+                  {/* Mini game UI */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[8px] font-black text-[#58CC02] bg-[#E5F5E1] px-2 py-0.5 rounded-full">Level 3</span>
+                      <span className="text-[8px] font-bold">⭐ 45</span>
+                    </div>
+                    <div className="bg-[#FFC800]/10 rounded-2xl p-3 text-center">
+                      <span className="text-2xl">🍎</span>
+                      <p className="text-[8px] font-bold text-[#3C3C3C] mt-1">Find the apple!</p>
+                    </div>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {['🍎', '🍊', '🍇'].map((fruit, i) => (
+                        <div key={i} className="aspect-square rounded-xl bg-[#F7F7F7] flex items-center justify-center text-xl">
+                          {fruit}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-full bg-[#E5E5E5] rounded-full h-1.5 overflow-hidden">
+                      <div className="bg-[#58CC02] h-full w-[60%] rounded-full"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
+              {/* Tablet mockup - angled opposite */}
+              <div className="relative w-72 h-48 rounded-[1.5rem] border-[6px] border-[#3C3C3C] bg-[#3C3C3C] shadow-xl overflow-hidden shrink-0 transform rotate-3 hover:rotate-0 transition-transform duration-500 dark:border-zinc-700">
+                <div className="h-full w-full bg-gradient-to-br from-[#58CC02] to-[#3F9100] p-4 flex flex-col justify-between">
+                  <div className="flex items-center justify-between">
+                    <span className="bg-white/20 backdrop-blur-sm text-white text-[8px] font-black px-2 py-1 rounded-full">⭐ 1,240 XP</span>
+                    <span className="bg-white/20 backdrop-blur-sm text-white text-[8px] font-black px-2 py-1 rounded-full">🔥 7 days</span>
+                  </div>
+                  <div className="text-center">
+                    <img src="/asset//game3.png" alt="Tablet game" className="w-full h-auto rounded-xl shadow-md" />
+                    <p className="text-white font-extrabold text-sm mt-1">Keep going!</p>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 text-center">
+                    <span className="text-white text-[9px] font-bold">Lesson 5 of 8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Text */}
+            <div className="lg:col-span-5 space-y-6 text-left">
+              <div className="inline-flex items-center gap-2 bg-[#F0E8FF] text-[#CE82FF] font-extrabold text-xs px-4 py-2 rounded-full uppercase tracking-wider dark:bg-[#CE82FF]/10">
+                <Phone className="h-4 w-4" /> {t('mobile_tablet_tag')}
+              </div>
+
+              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#3C3C3C] dark:text-white leading-[1.1]">
+                {t('feature_parental_title')}
+              </h2>
+
+              <p className="text-lg text-[#777777] dark:text-zinc-400 leading-relaxed font-medium">
+                {t('feature_parental_body')}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ================= TESTIMONIALS (Speech bubbles) ================= */}
+      <section id="community" className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950 border-t border-[#E5E5E5] dark:border-zinc-800">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <div className="inline-flex items-center gap-2 bg-[#FFDFDF] text-[#FF4B4B] font-extrabold text-sm px-6 py-2 rounded-full">
+              ❤️ {t('testimonials_heading')} <Heart className="inline-block h-4 w-4 fill-current" /> {t('testimonials_love')}
             </div>
           </div>
-        </section>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            {/* Testimonial 1 - Speech bubble style */}
+            <div className="speech-bubble bg-[#F7F7F7] border-2 border-[#E5E5E5] p-6 text-left dark:bg-zinc-900 dark:border-zinc-800">
+              <p className="text-[#3C3C3C] dark:text-zinc-300 text-sm leading-relaxed font-semibold mb-6">
+                "{t('testimonial_1')}"
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-[#FFC800] flex items-center justify-center text-lg shadow-sm">
+                  👨
+                </div>
+                <div>
+                  <h4 className="text-sm font-extrabold text-[#3C3C3C] dark:text-zinc-200">{t('testimonial_1_author')}</h4>
+                  <span className="text-[10px] font-bold text-[#777777] uppercase tracking-wider">{t('testimonial_1_role')}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className="speech-bubble bg-[#F7F7F7] border-2 border-[#E5E5E5] p-6 text-left dark:bg-zinc-900 dark:border-zinc-800">
+              <p className="text-[#3C3C3C] dark:text-zinc-300 text-sm leading-relaxed font-semibold mb-6">
+                "{t('testimonial_2')}"
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-[#1CB0F6] flex items-center justify-center text-lg shadow-sm">
+                  👩
+                </div>
+                <div>
+                  <h4 className="text-sm font-extrabold text-[#3C3C3C] dark:text-zinc-200">{t('testimonial_2_author')}</h4>
+                  <span className="text-[10px] font-bold text-[#777777] uppercase tracking-wider">{t('testimonial_2_role')}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className="speech-bubble bg-[#F7F7F7] border-2 border-[#E5E5E5] p-6 text-left dark:bg-zinc-900 dark:border-zinc-800">
+              <p className="text-[#3C3C3C] dark:text-zinc-300 text-sm leading-relaxed font-semibold mb-6">
+                "{t('testimonial_3')}"
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-[#CE82FF] flex items-center justify-center text-lg shadow-sm">
+                  👨
+                </div>
+                <div>
+                  <h4 className="text-sm font-extrabold text-[#3C3C3C] dark:text-zinc-200">{t('testimonial_3_author')}</h4>
+                  <span className="text-[10px] font-bold text-[#777777] uppercase tracking-wider">{t('testimonial_3_role')}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ================= THE LIFELINE TEAM (Duolingo style - headshot grid) ================= */}
+      <section id="about" className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* Left Column: Text */}
+            <div className="lg:col-span-5 space-y-6 text-left">
+              <div className="inline-flex items-center gap-2 bg-[#E5F5E1] text-[#58CC02] font-extrabold text-xs px-4 py-2 rounded-full uppercase tracking-wider dark:bg-[#58CC02]/10">
+                <Users className="h-4 w-4" /> {t('team_heading')}
+              </div>
+
+              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#3C3C3C] dark:text-white leading-[1.1]">
+                {t('team_heading')}
+              </h2>
+
+              <p className="text-lg text-[#777777] dark:text-zinc-400 leading-relaxed font-medium">
+                {t('team_body')}
+              </p>
+
+              <div className="pt-2">
+                <a
+                  href="#about"
+                  className="btn-duo-outline inline-flex items-center gap-2 px-8 py-3.5 text-base"
+                >
+                  {t('team_cta')}
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Headshot grid */}
+            <div className="lg:col-span-7">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {[
+                  { role: '👩‍⚕️ Pediatrician', color: '#58CC02' },
+                  { role: '🧑‍🏫 Educator', color: '#1CB0F6' },
+                  { role: '🧑‍⚕️ Therapist', color: '#CE82FF' },
+                  { role: '👨‍💻 Engineer', color: '#FFC800' },
+                  { role: '👩‍🎨 Designer', color: '#FF4B4B' },
+                  { role: '🧑‍🔬 Researcher', color: '#FF9600' },
+                ].map((member, i) => (
+                  <div key={i} className="card-duo p-4 text-center hover:shadow-lg transition-shadow">
+                    <div className="h-16 w-16 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl shadow-sm"
+                         style={{ backgroundColor: `${member.color}20`, border: `3px solid ${member.color}` }}>
+                      {member.role.split(' ')[0]}
+                    </div>
+                    <p className="text-xs font-extrabold text-[#3C3C3C] dark:text-zinc-300">{member.role}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ================= RECENT NEWS (Duolingo-style clean cards) ================= */}
+      <section className="py-20 px-6 lg:px-8 bg-[#FAFAFA] dark:bg-zinc-950 border-t border-[#E5E5E5] dark:border-zinc-800">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <div className="inline-flex items-center gap-2 bg-[#E8F0FE] text-[#1CB0F6] font-extrabold text-sm px-6 py-2 rounded-full">
+              📰 {t('news_heading')}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            {/* Card 1 */}
+            <div className="group card-duo p-0 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <div className="relative aspect-[16/10] bg-[#F7F7F7] overflow-hidden flex items-center justify-center">
+                <img
+                  src="/asset/autismday.png"
+                  alt="Autism Acceptance Month"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+                {/* Top accent bar */}
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#58CC02]"></div>
+              </div>
+              <div className="p-6 text-left space-y-3">
+                <div className="inline-flex items-center gap-1 bg-[#E5F5E1] text-[#58CC02] text-[9px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                  {t('news_tag_announcements')}
+                </div>
+                <h3 className="text-base font-extrabold text-[#3C3C3C] leading-snug group-hover:text-[#58CC02] transition-colors dark:text-zinc-200">
+                  {t('news_1_title')}
+                </h3>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="group card-duo p-0 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <div className="relative aspect-[16/10] bg-[#F7F7F7] overflow-hidden flex items-center justify-center">
+                <img
+                  src="/asset/crownclub.png"
+                  alt="Crowen Club"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#CE82FF]"></div>
+              </div>
+              <div className="p-6 text-left space-y-3">
+                <div className="inline-flex items-center gap-1 bg-[#F0E8FF] text-[#CE82FF] text-[9px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                  {t('news_tag_community')}
+                </div>
+                <h3 className="text-base font-extrabold text-[#3C3C3C] leading-snug group-hover:text-[#CE82FF] transition-colors dark:text-zinc-200">
+                  {t('news_2_title')}
+                </h3>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="group card-duo p-0 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <div className="relative aspect-[16/10] bg-[#F7F7F7] overflow-hidden flex items-center justify-center">
+                <img
+                  src="/asset/meet.png"
+                  alt="Understanding Chromosome 21"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#FFC800]"></div>
+              </div>
+              <div className="p-6 text-left space-y-3">
+                <div className="inline-flex items-center gap-1 bg-[#FFF8E0] text-[#E2A600] text-[9px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                  {t('news_tag_insights')}
+                </div>
+                <h3 className="text-base font-extrabold text-[#3C3C3C] leading-snug group-hover:text-[#FF9600] transition-colors dark:text-zinc-200">
+                  {t('news_3_title')}
+                </h3>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
     </>
   );
 }

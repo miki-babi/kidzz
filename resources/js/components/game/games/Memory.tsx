@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 import { useState, useEffect, useRef } from "react";
-import { GameShell } from "@/components/game/GameShell";
+import { GameShell, type CheckResult } from "@/components/game/GameShell";
 import { RewardOverlay } from "@/components/game/RewardOverlay";
 import { playPop, playSuccess, playWrong, speak } from "@/lib/feedback";
 import { completeGame } from "@/lib/store";
@@ -23,6 +23,7 @@ export function Memory() {
   const [flipped, setFlipped] = useState<number[]>([]);
   const [done, setDone] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
+  const [checkResult] = useState<CheckResult>("idle");
   const [won, setWon] = useState(false);
   const startTime = useRef(Date.now());
 
@@ -66,7 +67,16 @@ return;
   }
 
   return (
-    <GameShell title="Flip Cards" instruction="Find the pairs">
+    <GameShell
+      instruction="Find the pairs"
+      mascot="🦉"
+      totalRounds={FACES.length}
+      currentRound={done.length}
+      checkEnabled={true}
+      onCheck={() => {}}
+      checkResult={checkResult}
+      onNext={() => {}}
+    >
       <div className="grid grid-cols-3 gap-4">
         {cards.map((card) => {
           const show = flipped.includes(card.id) || done.includes(card.face);

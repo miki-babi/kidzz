@@ -1,5 +1,5 @@
 import { Head, router, usePage } from '@inertiajs/react';
-import { Lock, Sparkles, Trophy, X } from 'lucide-react';
+import { Lock, Sparkles, Trophy, X, Zap, Star, Gamepad2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import Footer from '@/components/footer';
 import GameCard, { type GameCardData } from '@/components/game-card';
@@ -51,48 +51,62 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
     return (
         <>
             <Head title="Games" />
-            <div className="min-h-screen bg-[#FAFAFA] text-[#1b1b18] antialiased dark:bg-[#09090b] dark:text-[#f4f4f5]">
+            <div className="min-h-screen bg-white text-[#3C3C3C] antialiased dark:bg-[#09090b] dark:text-[#f4f4f5]">
                 <LandingHeader />
 
                 <main>
-                  
+                    {/* Duolingo-style hero banner */}
+                   
 
                     <section className="py-10">
                         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 lg:px-8">
                             <div className="flex items-center justify-between gap-4">
                                 <div>
-                                    <h2 className="text-2xl font-black tracking-tight text-neutral-900 dark:text-white">
+                                    <h2 className="text-2xl font-extrabold tracking-tight text-[#3C3C3C] dark:text-white">
                                         Choose a category
                                     </h2>
-                                    <p className="mt-1 text-sm font-medium text-neutral-500">
+                                    <p className="mt-1 text-sm font-semibold text-[#777777]">
                                         The recommended category is highlighted first.
                                     </p>
                                 </div>
-                                <div className="hidden items-center gap-2 rounded-full bg-[#E8EDF2] px-4 py-2 text-xs font-bold text-neutral-500 shadow-[-3px_-3px_6px_rgba(255,255,255,0.9),3px_3px_6px_rgba(0,0,0,0.06)] sm:flex">
-                                    <Trophy className="h-4 w-4 text-amber-500" />
-                                    {hasActiveAccount ? 'Premium access active' : 'Free access only'}
-                                </div>
                             </div>
 
+                            {/* Duolingo-style category pills */}
                             <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
-                                {categories.map((category) => (
-                                    <button
-                                        key={category}
-                                        onClick={() => setActiveCategory(category)}
-                                        className={`whitespace-nowrap rounded-full px-5 py-3 text-sm font-black transition-all duration-200 ${
-                                            activeCategory === category
-                                                ? 'bg-[#D2232A] text-white shadow-[-4px_-4px_8px_rgba(255,255,255,0.3),4px_4px_8px_rgba(0,0,0,0.1)]'
-                                                : 'bg-[#E8EDF2] text-neutral-700 shadow-[-4px_-4px_8px_rgba(255,255,255,0.9),4px_4px_8px_rgba(0,0,0,0.06)] hover:shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.1)] active:translate-y-0'
-                                        }`}
-                                    >
-                                        {category}
-                                        {category === recommendedCategory && (
-                                            <span className="ml-2 rounded-full bg-white/15 px-2 py-0.5 text-[10px] uppercase tracking-widest">
-                                                Recommended
-                                            </span>
-                                        )}
-                                    </button>
-                                ))}
+                                {categories.map((category) => {
+                                    const isActive = activeCategory === category;
+                                    const colorMap: Record<string, string> = {
+                                        [recommendedCategory]: 'bg-duo-red',
+                                    };
+                                    const bgColor = isActive
+                                        ? (colorMap[category] || 'bg-duo-red')
+                                        : 'bg-duo-red';
+                                    const textColor = isActive ? '#FFFFFF' : '#777777';
+
+                                    return (
+                                        <button
+                                            key={category}
+                                            onClick={() => setActiveCategory(category)}
+                                            className={`inline-flex items-center gap-2 whitespace-nowrap rounded-xl border-2 px-5 py-2.5 text-sm font-black uppercase tracking-wider transition-all active:translate-y-0.5 ${
+                                activeCategory === category
+                                    ? 'border-[#D62B2B] bg-[#FF4B4B] text-white shadow-[0_3px_0_#B30000] hover:shadow-[0_2px_0_#B30000] hover:translate-y-px'
+                                    : 'border-[#E5E5E5] bg-white text-[#777777] shadow-[0_2px_0_#C4C4C4] hover:bg-neutral-50 hover:shadow-[0_1px_0_#C4C4C4] hover:translate-y-px'
+                            }`}
+                                            style={{
+                                                backgroundColor: bgColor,
+                                                color: textColor,
+                                                border: isActive ? '2px solid transparent' : '2px solid #E5E5E5',
+                                            }}
+                                        >
+                                            {category}
+                                            {category === recommendedCategory && (
+                                                <span className="ml-2 inline-flex items-center gap-0.5 bg-white/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest">
+                                                    <Sparkles className="h-3 w-3" /> Best
+                                                </span>
+                                            )}
+                                        </button>
+                                    );
+                                })}
                             </div>
 
                             {visibleGames.length > 0 ? (
@@ -107,61 +121,67 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                                     ))}
                                 </div>
                             ) : (
-                                <div className="rounded-[2rem] border border-dashed border-neutral-200 bg-white p-10 text-center text-neutral-500 dark:border-zinc-800 dark:bg-zinc-950">
-                                    No games found in this category yet.
+                                <div className="card-duo p-16 text-center">
+                                    <div className="text-6xl mb-4">🎮</div>
+                                    <p className="text-lg font-bold text-[#777777]">No games found in this category yet.</p>
                                 </div>
                             )}
                         </div>
                     </section>
                 </main>
 
-                <Footer />
             </div>
 
+            {/* Duolingo-style unlock modal */}
             {selectedGame && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/70 px-4 backdrop-blur-sm">
-                    <div className="relative w-full max-w-lg rounded-[2rem] bg-white p-6 shadow-2xl dark:bg-zinc-950">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#3C3C3C]/70 px-4 backdrop-blur-sm">
+                    <div className="relative w-full max-w-lg card-duo p-8 shadow-2xl">
                         <button
                             type="button"
                             onClick={() => setSelectedGame(null)}
-                            className="absolute right-4 top-4 rounded-full p-2 text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-700 dark:hover:bg-zinc-900"
+                            className="absolute right-4 top-4 rounded-full p-2 text-[#777777] transition hover:bg-[#F7F7F7] hover:text-[#3C3C3C] dark:hover:bg-zinc-900"
                         >
                             <X className="h-5 w-5" />
                         </button>
 
-                        <div className="space-y-4">
-                            <div className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-red-700 dark:bg-red-500/10 dark:text-red-300">
-                                <Lock className="h-4 w-4" />
-                                Demo payment required
+                        <div className="space-y-6 text-center">
+                            {/* Mascot */}
+                            <div className="mx-auto h-20 w-20 rounded-full bg-[#FFC800] flex items-center justify-center text-5xl shadow-md float-duo">
+                                🦁
                             </div>
+
+                            <div className="inline-flex items-center gap-2 bg-[#FF4B4B]/10 text-[#FF4B4B] font-extrabold text-xs px-4 py-2 rounded-full uppercase tracking-wider">
+                                <Lock className="h-4 w-4" />
+                                Premium Game
+                            </div>
+
                             <div>
-                                <h3 className="text-2xl font-black tracking-tight text-neutral-900 dark:text-white">
+                                <h3 className="text-2xl font-extrabold tracking-tight text-[#3C3C3C] dark:text-white">
                                     Unlock {selectedGame.name}
                                 </h3>
-                                <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+                                <p className="mt-2 text-sm leading-relaxed text-[#777777]">
                                     This is a demo payment flow. Pay {currency(demoPrice)} to unlock premium access and open all locked games.
                                 </p>
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="rounded-2xl bg-neutral-50 p-4 dark:bg-zinc-900">
-                                    <div className="text-[11px] font-black uppercase tracking-widest text-neutral-400">Plan</div>
-                                    <div className="mt-1 text-lg font-black text-neutral-900 dark:text-white">Premium</div>
+                                <div className="bg-[#F7F7F7] rounded-2xl p-4 border-2 border-[#E5E5E5]">
+                                    <div className="text-[11px] font-extrabold uppercase tracking-widest text-[#777777]">Plan</div>
+                                    <div className="mt-1 text-lg font-extrabold text-[#3C3C3C] dark:text-white flex items-center justify-center gap-1">
+                                        <Star className="h-4 w-4 text-[#FFC800]" /> Premium
+                                    </div>
                                 </div>
-                                <div className="rounded-2xl bg-neutral-50 p-4 dark:bg-zinc-900">
-                                    <div className="text-[11px] font-black uppercase tracking-widest text-neutral-400">Price</div>
-                                    <div className="mt-1 text-lg font-black text-neutral-900 dark:text-white">{currency(demoPrice)}</div>
+                                <div className="bg-[#F7F7F7] rounded-2xl p-4 border-2 border-[#E5E5E5]">
+                                    <div className="text-[11px] font-extrabold uppercase tracking-widest text-[#777777]">Price</div>
+                                    <div className="mt-1 text-lg font-extrabold text-[#58CC02]">{currency(demoPrice)}</div>
                                 </div>
                             </div>
 
                             <div className="flex gap-3">
                                 <button
                                     type="button"
-                                    onClick={() => {
-                                        console.log('[Games] dismissed pay modal', selectedGame);
-                                        setSelectedGame(null);
-                                    }}
-                                    className="flex-1 rounded-full border border-neutral-200 px-5 py-3 text-sm font-black text-neutral-700 transition hover:bg-neutral-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900"
+                                    onClick={() => setSelectedGame(null)}
+                                    className="flex-1 btn-duo-outline inline-flex items-center justify-center px-5 py-3 text-sm"
                                 >
                                     Not now
                                 </button>
@@ -174,9 +194,9 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                                         });
                                         router.visit('/pay');
                                     }}
-                                    className="flex-1 rounded-full bg-red-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-red-500/20 transition hover:bg-red-700"
+                                    className="flex-1 btn-duo-green inline-flex items-center justify-center px-5 py-3 text-sm shadow-md glow-duo"
                                 >
-                                    Pay now
+                                    <Zap className="h-4 w-4" /> Unlock Now
                                 </button>
                             </div>
                         </div>

@@ -59,6 +59,25 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    /* Duolingo-style brand palette */
+    --color-duo-green: #58CC02;
+    --color-duo-darkgreen: #3F9100;
+    --color-duo-yellow: #FFC800;
+    --color-duo-darkyellow: #E2A600;
+    --color-duo-blue: #1CB0F6;
+    --color-duo-darkblue: #0E7DB3;
+    --color-duo-purple: #CE82FF;
+    --color-duo-darkpurple: #A150E0;
+    --color-duo-red: #FF4B4B;
+    --color-duo-darkred: #D62B2B;
+    --color-duo-redshadow: #B30000;
+    --color-duo-lightred: #FFDFDF;
+    --color-duo-orange: #FF9600;
+    --color-duo-border: #E5E5E5;
+    --color-duo-bg: #FAFAFA;
+    --color-duo-text: #3C3C3C;
+    --color-duo-textlight: #777777;
 }
 
 :root {
@@ -150,6 +169,153 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+/* ─────────────────────────────────────────────
+   Duolingo-style Design Utilities
+   ───────────────────────────────────────────── */
+
+/* Tactile 3D button effect (Duolingo style) */
+@utility btn-duo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    border-bottom: 4px solid transparent;
+    border-radius: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+        transform: translateY(4px);
+        border-bottom-width: 0;
+    }
+}
+
+@utility btn-duo-green {
+    @apply btn-duo;
+    background-color: #58CC02;
+    border-bottom-color: #3F9100;
+    color: white;
+
+    &:hover {
+        background-color: #4CB800;
+    }
+
+    &:active {
+        background-color: #3F9100;
+    }
+}
+
+@utility btn-duo-yellow {
+    @apply btn-duo;
+    background-color: #FFC800;
+    border-bottom-color: #E2A600;
+    color: #3C3C3C;
+
+    &:hover {
+        background-color: #F0B800;
+    }
+
+    &:active {
+        background-color: #E2A600;
+    }
+}
+
+@utility btn-duo-red {
+    @apply btn-duo;
+    background-color: #FF4B4B;
+    border-bottom-color: #D62B2B;
+    color: white;
+
+    &:hover {
+        background-color: #F03B3B;
+    }
+
+    &:active {
+        background-color: #D62B2B;
+    }
+}
+
+@utility btn-duo-outline {
+    @apply btn-duo;
+    background-color: white;
+    border: 2px solid #E5E5E5;
+    border-bottom: 4px solid #D0D0D0;
+    color: #3C3C3C;
+
+    &:hover {
+        background-color: #F7F7F7;
+    }
+
+    &:active {
+        background-color: #E5E5E5;
+        border-bottom-width: 2px;
+    }
+}
+
+/* Chunky card style */
+@utility card-duo {
+    background-color: white;
+    border: 2px solid #E5E5E5;
+    border-radius: 20px;
+    padding: 1.5rem;
+}
+
+/* Progress bar (chunky, rounded) */
+@utility progress-duo {
+    height: 16px;
+    border-radius: 999px;
+    background-color: #E5E5E5;
+    overflow: hidden;
+
+    & > div {
+        height: 100%;
+        border-radius: 999px;
+        transition: width 0.5s ease;
+    }
+}
+
+/* Speech bubble for testimonials */
+@utility speech-bubble {
+    position: relative;
+    border-radius: 20px 20px 20px 4px;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 24px;
+        width: 16px;
+        height: 16px;
+        background-color: inherit;
+        border-right: inherit;
+        border-bottom: inherit;
+        border-color: #E5E5E5;
+        border-style: solid;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+    }
+}
+
+/* Mascot float animation */
+@utility float-duo {
+    animation: float-duo 3s ease-in-out infinite;
+}
+
+@keyframes float-duo {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+}
+
+/* Pulse glow for CTA emphasis */
+@utility glow-duo {
+    box-shadow: 0 0 20px rgba(88, 204, 2, 0.3);
 }
 
 /* ─────────────────────────────────────────────

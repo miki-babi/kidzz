@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 import { useState, useEffect, useRef } from "react";
-import { GameShell } from "@/components/game/GameShell";
+import { GameShell, type CheckResult } from "@/components/game/GameShell";
 import { RewardOverlay } from "@/components/game/RewardOverlay";
 import { playPop, speak } from "@/lib/feedback";
 import { completeGame } from "@/lib/store";
@@ -10,6 +10,7 @@ const TARGET = 5;
 export function TapStar() {
   const [count, setCount] = useState(0);
   const [pos, setPos] = useState({ x: 50, y: 50 });
+  const [checkResult] = useState<CheckResult>("idle");
   const [won, setWon] = useState(false);
   const startTime = useRef(Date.now());
   const sparkRef = useRef<HTMLDivElement>(null);
@@ -45,7 +46,16 @@ return;
   }
 
   return (
-    <GameShell title="Tap The Star" instruction="Tap the star! ⭐">
+    <GameShell
+      instruction="Tap the star! ⭐"
+      mascot="🦉"
+      totalRounds={TARGET}
+      currentRound={count}
+      checkEnabled={true}
+      onCheck={() => {}}
+      checkResult={checkResult}
+      onNext={() => {}}
+    >
       <div className="mb-6 text-3xl font-extrabold text-star">
         {"⭐".repeat(count)}
         <span className="opacity-20">{"⭐".repeat(Math.max(0, TARGET - count))}</span>

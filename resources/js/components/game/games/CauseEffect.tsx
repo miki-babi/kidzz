@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 import { useState, useEffect, useRef } from "react";
-import { GameShell } from "@/components/game/GameShell";
+import { GameShell, type CheckResult } from "@/components/game/GameShell";
 import { RewardOverlay } from "@/components/game/RewardOverlay";
 import { playPop, playSuccess, playWrong, speak } from "@/lib/feedback";
 import { completeGame } from "@/lib/store";
@@ -14,6 +14,7 @@ const CHOICES = [
 export function CauseEffect() {
   const [plant, setPlant] = useState("🥀");
   const [shake, setShake] = useState<string | null>(null);
+  const [checkResult] = useState<CheckResult>("idle");
   const [won, setWon] = useState(false);
   const startTime = useRef(Date.now());
 
@@ -38,7 +39,16 @@ export function CauseEffect() {
   }
 
   return (
-    <GameShell title="Help The Plant" instruction="What does the plant need?">
+    <GameShell
+      instruction="What does the plant need?"
+      mascot="🦉"
+      totalRounds={1}
+      currentRound={won ? 1 : 0}
+      checkEnabled={true}
+      onCheck={() => {}}
+      checkResult={checkResult}
+      onNext={() => {}}
+    >
       <div className="mb-12 flex h-48 items-end justify-center">
         <span className="animate-pop text-[8rem] leading-none" key={plant}>
           {plant}

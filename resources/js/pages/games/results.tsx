@@ -78,8 +78,8 @@ export default function Results({ results }: ResultsProps) {
                             onClick={() => setActiveCategory(r.category)}
                             className={`whitespace-nowrap rounded-full px-6 py-3 text-sm font-black transition-all ${
                                 activeCategory === r.category
-                                    ? 'bg-red-600 text-white shadow-lg'
-                                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                                    ? 'bg-[#FF4B4B] text-white shadow-lg'
+                                    : 'bg-neutral-100 text-neutral-600 hover:bg-[#FFDFDF] hover:text-[#FF4B4B]'
                             }`}
                         >
                             {r.category}
@@ -96,7 +96,7 @@ export default function Results({ results }: ResultsProps) {
                                 className="overflow-hidden rounded-3xl border border-neutral-100 bg-white shadow-md"
                             >
                                 {/* Game header */}
-                                <div className="flex items-center gap-4 bg-gradient-to-br from-red-50 to-orange-50 p-5">
+                <div className="flex items-center gap-4 bg-gradient-to-br from-[#FFDFDF] to-orange-50 p-5">
                                     {game.imagePath ? (
                                         <img
                                             src={game.imagePath}
@@ -112,7 +112,7 @@ export default function Results({ results }: ResultsProps) {
                                         <h3 className="text-lg font-bold text-neutral-900">{game.name}</h3>
                                         <Link
                                             href={`/games/${game.routePath}`}
-                                            className="inline-flex items-center gap-1 text-sm font-semibold text-red-600 hover:text-red-700"
+                                            className="inline-flex items-center gap-1 text-sm font-semibold text-[#FF4B4B] hover:text-[#D62B2B]"
                                         >
                                             Play again <ArrowLeft className="size-3 rotate-180" />
                                         </Link>
@@ -161,7 +161,7 @@ export default function Results({ results }: ResultsProps) {
                         <p className="text-lg font-medium">No games played yet in this category.</p>
                         <Link
                             href="/dashboard"
-                            className="rounded-full bg-red-600 px-6 py-3 text-sm font-black text-white shadow-lg transition-colors hover:bg-red-700"
+                            className="rounded-full bg-[#FF4B4B] px-6 py-3 text-sm font-black text-white shadow-lg transition-colors hover:bg-[#D62B2B]"
                         >
                             Start Playing
                         </Link>

@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
-import { useState, useEffect, useRef } from "react";
-import { GameShell } from "@/components/game/GameShell";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { GameShell, type CheckResult } from "@/components/game/GameShell";
 import { RewardOverlay } from "@/components/game/RewardOverlay";
 import { playPop, playSuccess, playWrong, speak } from "@/lib/feedback";
 import { completeGame } from "@/lib/store";
@@ -8,7 +8,7 @@ import type { SkillId } from "@/lib/worlds";
 
 interface MatchItem {
   key: string;
-  label: string; // emoji or color
+  label: string;
   isColor?: boolean;
   color?: string;
 }
@@ -29,6 +29,7 @@ export function MatchPairs({ gameId, skill, title, instruction, items }: MatchPa
   const [bottom] = useState(() => shuffle(items));
   const [selected, setSelected] = useState<string | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
+  const [checkResult, setCheckResult] = useState<CheckResult>("idle");
   const [wrong, setWrong] = useState<string | null>(null);
   const [won, setWon] = useState(false);
   const startTime = useRef(Date.now());
@@ -41,57 +42,78 @@ export function MatchPairs({ gameId, skill, title, instruction, items }: MatchPa
     if (it.isColor) {
       return (
         <span
-          className={`block rounded-full ${big ? "size-16" : "size-14"}`}
+          className={`block rounded-full ${big ? "size-16" : "size-12"}`}
           style={{ backgroundColor: it.color }}
         />
       );
     }
-
-    return <span className={big ? "text-6xl" : "text-5xl"}>{it.label}</span>;
+    return <span className={big ? "text-4xl" : "text-3xl"}>{it.label}</span>;
   }
 
-  function tapBottom(it: MatchItem) {
-    if (matched.includes(it.key) || won) {
-return;
-}
+  const tapTop = useCallback(
+    (key: string) => {
+      const isDone = matched.includes(key);
+      if (isDone || checkResult !== "idle") return;
+      playPop();
+      setSelected(key);
+    },
+    [matched, checkResult],
+  );
 
-    if (selected === it.key) {
-      playSuccess();
-      const next = [...matched, it.key];
-      setMatched(next);
-      setSelected(null);
+  const tapBottom = useCallback(
+    (it: MatchItem) => {
+      if (matched.includes(it.key) || won || checkResult !== "idle") return;
 
-      if (next.length >= items.length) {
-        const duration = Math.round((Date.now() - startTime.current) / 1000);
-        completeGame(gameId, skill, 100);
-        router.post(`/games/${gameId}/result`, { score: 100, duration });
-        setTimeout(() => setWon(true), 500);
+      if (selected === it.key) {
+        playSuccess();
+        const next = [...matched, it.key];
+        setMatched(next);
+        setSelected(null);
+
+        if (next.length >= items.length) {
+          const duration = Math.round((Date.now() - startTime.current) / 1000);
+          completeGame(gameId, skill, 100);
+          router.post(`/games/${gameId}/result`, { score: 100, duration });
+          setTimeout(() => setWon(true), 500);
+        }
+      } else {
+        playWrong();
+        setWrong(it.key);
+        setTimeout(() => setWrong(null), 400);
       }
-    } else {
-      playWrong();
-      setWrong(it.key);
-      setTimeout(() => setWrong(null), 400);
-    }
-  }
+    },
+    [selected, matched, items.length, gameId, skill, won, checkResult],
+  );
 
   return (
-    <GameShell title={title} instruction={instruction}>
-      <div className="flex w-full max-w-xl flex-col gap-10">
-        <div className="flex flex-wrap justify-center gap-4">
+    <GameShell
+      instruction={instruction}
+      mascot="🦉"
+      totalRounds={items.length}
+      currentRound={matched.length}
+      checkEnabled={true}
+      onCheck={() => {}}
+      checkResult={checkResult}
+      onNext={() => {}}
+    >
+      <div className="flex w-full max-w-xl flex-col gap-6">
+        {/* Top row - items to match */}
+        <div className="flex flex-wrap justify-center gap-3">
           {items.map((it) => {
             const isDone = matched.includes(it.key);
+            const isSelected = selected === it.key;
 
             return (
               <button
                 key={it.key}
-                onClick={() => {
-                  if (!isDone) {
-                    playPop();
-                    setSelected(it.key);
-                  }
-                }}
-                className={`flex size-24 items-center justify-center rounded-4xl bg-[#E8EDF2] shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)] transition-all duration-200 hover:shadow-[-8px_-8px_16px_rgba(255,255,255,0.9),8px_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.1)] active:translate-y-0.5 active:scale-[0.97] ${selected === it.key ? "ring-4 ring-neutral-800" : ""
-                  } ${isDone ? "opacity-30" : ""}`}
+                onClick={() => tapTop(it.key)}
+                className={`flex size-24 items-center justify-center rounded-2xl border-2 transition-all duration-150 active:scale-[0.95] ${
+                  isDone
+                    ? "border-[#58CC02] bg-[#D7FFB8] opacity-40 shadow-[0_4px_0_#3F9100]"
+                    : isSelected
+                      ? "border-[#1CB0F6] bg-[#DDF4FF] shadow-[0_4px_0_#0E7DB3]"
+                      : "border-[#E5E5E5] bg-white shadow-[0_4px_0_#D0D0D0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#D0D0D0]"
+                }`}
               >
                 {renderFace(it, true)}
               </button>
@@ -99,9 +121,15 @@ return;
           })}
         </div>
 
-        <div className="text-center text-lg font-bold text-muted-foreground">⬇ Match below ⬇</div>
+        {/* Divider */}
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-[#E5E5E5]" />
+          <span className="text-base font-bold text-[#777777]">Match below</span>
+          <div className="h-px flex-1 bg-[#E5E5E5]" />
+        </div>
 
-        <div className="flex flex-wrap justify-center gap-4">
+        {/* Bottom row - shuffled choices */}
+        <div className="flex flex-wrap justify-center gap-3">
           {bottom.map((it) => {
             const isDone = matched.includes(it.key);
 
@@ -109,8 +137,11 @@ return;
               <button
                 key={it.key}
                 onClick={() => tapBottom(it)}
-                className={`flex size-24 items-center justify-center rounded-4xl bg-[#E8EDF2] shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)] transition-all duration-200 hover:shadow-[-8px_-8px_16px_rgba(255,255,255,0.9),8px_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.1)] active:translate-y-0.5 active:scale-[0.97] ${wrong === it.key ? "animate-wiggle" : ""
-                  } ${isDone ? "bg-green-100 shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.06)] ring-4 ring-green-500" : ""}`}
+                className={`flex size-24 items-center justify-center rounded-2xl border-2 transition-all duration-150 active:scale-[0.95] ${
+                  isDone
+                    ? "border-[#58CC02] bg-[#D7FFB8] shadow-[0_4px_0_#3F9100]"
+                    : "border-[#E5E5E5] bg-white shadow-[0_4px_0_#D0D0D0] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#D0D0D0]"
+                } ${wrong === it.key ? "animate-wiggle" : ""}`}
               >
                 {renderFace(it)}
               </button>
@@ -118,6 +149,7 @@ return;
           })}
         </div>
       </div>
+
       {won && <RewardOverlay stars={3} gameRoute={gameId} />}
     </GameShell>
   );
