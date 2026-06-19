@@ -14,7 +14,7 @@ export default function HeroSection() {
                     {/* Left Content */}
                     <div className="flex-1 space-y-6 md:space-y-8 z-10 text-left">
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] dark:text-white">
-                            Enroll in special <br className="hidden sm:inline" />
+                            Enroll in special 
                             education at home.
                         </h1>
                         <p className="text-white/90 text-lg sm:text-xl max-w-xl leading-relaxed font-medium">

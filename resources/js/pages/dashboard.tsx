@@ -55,7 +55,7 @@ export default function Dashboard({ games, hasActiveAccount, freeGamesLimit, rec
                         <span className="text-3xl font-black text-red-600">Lv.{profile.level}</span>
                     </div>
                 )}
-                
+
                 {/* Fixed container constraints and stripped heavy background section layout padding leaks */}
                 <div className="w-full rounded-[2rem] bg-gradient-to-br from-red-600 via-red-600 to-orange-500 p-6 text-white shadow-2xl shadow-red-500/20 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                     <div className="max-w-2xl space-y-3">
@@ -90,23 +90,22 @@ export default function Dashboard({ games, hasActiveAccount, freeGamesLimit, rec
 
                 <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                     <div className="no-scrollbar flex items-center gap-2 overflow-x-auto pb-2">
-    {categories.map((category) => (
-        <button
-            key={category}
-            onClick={() => setActiveCategory(category)}
-            className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full px-6 py-3 text-sm font-black transition-all ${
-                activeCategory === category
-                    ? 'bg-red-600 text-white shadow-lg'
-                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
-            }`}
-        >
-            <span>{category}</span>
-            {category === recommendedCategory && (
-                <Sparkles className="h-4 w-4 shrink-0" />
-            )}
-        </button>
-    ))}
-</div>
+                        {categories.map((category) => (
+                            <button
+                                key={category}
+                                onClick={() => setActiveCategory(category)}
+                                className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full px-6 py-3 text-sm font-black transition-all ${activeCategory === category
+                                        ? 'bg-red-600 text-white shadow-lg'
+                                        : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
+                                    }`}
+                            >
+                                <span>{category}</span>
+                                {category === recommendedCategory && (
+                                    <Sparkles className="h-4 w-4 shrink-0" />
+                                )}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {visibleGames.length > 0 ? (
