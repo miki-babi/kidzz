@@ -95,6 +95,11 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
+
+    /* Neumorphic shadow values */
+    --neu-highlight: rgba(255, 255, 255, 0.9);
+    --neu-shadow: rgba(0, 0, 0, 0.06);
+    --neu-shadow-strong: rgba(0, 0, 0, 0.1);
 }
 
 .dark {
@@ -130,6 +135,11 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
+
+    /* Dark mode neumorphic shadow values */
+    --neu-highlight: rgba(255, 255, 255, 0.03);
+    --neu-shadow: rgba(0, 0, 0, 0.35);
+    --neu-shadow-strong: rgba(0, 0, 0, 0.5);
 }
 
 @layer base {
@@ -140,4 +150,63 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+/* ─────────────────────────────────────────────
+   Neumorphic UI utilities – scoped to games
+   ───────────────────────────────────────────── */
+
+/* Raised / convex – the element pops out of the surface */
+@utility neu-raised {
+    box-shadow:
+        -6px -6px 12px var(--neu-highlight),
+        6px 6px 12px var(--neu-shadow);
+}
+
+/* Pressed / concave – the element is pushed into the surface */
+@utility neu-pressed {
+    box-shadow:
+        inset -4px -4px 8px var(--neu-highlight),
+        inset 4px 4px 8px var(--neu-shadow);
+}
+
+/* Slightly raised for text / static content areas */
+@utility neu-flat {
+    box-shadow:
+        -3px -3px 6px var(--neu-highlight),
+        3px 3px 6px var(--neu-shadow);
+}
+
+/* Hover lift + press-down effect for interactive elements */
+@utility neu-interactive {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+        box-shadow:
+            -8px -8px 16px var(--neu-highlight),
+            8px 8px 16px var(--neu-shadow-strong);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        box-shadow:
+            inset -4px -4px 8px var(--neu-highlight),
+            inset 4px 4px 8px var(--neu-shadow-strong);
+        transform: translateY(1px) scale(0.97);
+    }
+}
+
+/* Active / selected state – pressed into surface */
+@utility neu-active {
+    box-shadow:
+        inset -4px -4px 8px var(--neu-highlight),
+        inset 4px 4px 8px var(--neu-shadow-strong);
+    transform: scale(0.97);
+}
+
+/* Concave surface for inset containers like input fields */
+@utility neu-concave {
+    box-shadow:
+        inset 3px 3px 6px var(--neu-shadow-strong),
+        inset -3px -3px 6px var(--neu-highlight);
 }

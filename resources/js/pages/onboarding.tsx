@@ -134,11 +134,11 @@ export default function Onboarding() {
 }
 
 const AGE_RANGES = [
-    { label: '0 - 3', value: 2 },
-    { label: '4 - 6', value: 5 },
-    { label: '7 - 9', value: 8 },
-    { label: '10 - 12', value: 11 },
-    { label: '12+', value: 12 }
+    { label: '0 - 3 years', value: 2 },
+    { label: '4 - 6 years', value: 5 },
+    { label: '7 - 9 years', value: 8 },
+    { label: '10 - 12 years', value: 11 },
+    { label: '12+ years', value: 12 }
 ];
 
 // Sub-component for the Jackpot-style Picker

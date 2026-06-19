@@ -73,13 +73,13 @@ return;
                 playPop();
                 tap(s);
               }}
-              className={`flex min-h-[88px] items-center gap-4 rounded-4xl bg-card p-4 shadow-pop transition-transform active:scale-95 ${shake === s.key ? "animate-wiggle" : ""
-                } ${placed ? "bg-success/20 ring-4 ring-success" : ""}`}
+              className={`flex min-h-[88px] items-center gap-4 rounded-4xl bg-[#E8EDF2] p-4 shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)] transition-all duration-200 hover:shadow-[-8px_-8px_16px_rgba(255,255,255,0.9),8px_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.1)] active:translate-y-0.5 active:scale-[0.97] ${shake === s.key ? "animate-wiggle" : ""
+                } ${placed ? "bg-green-50 shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.06)] ring-4 ring-green-500" : ""}`}
             >
               <span className="text-5xl">{s.emoji}</span>
               <span className="flex-1 text-left text-2xl font-extrabold text-foreground">{s.label}</span>
               {placed && (
-                <span className="flex size-10 items-center justify-center rounded-full bg-success text-xl font-extrabold text-success-foreground">
+                <span className="flex size-10 items-center justify-center rounded-full bg-green-500 text-xl font-extrabold text-white shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.3),inset_2px_2px_4px_rgba(0,0,0,0.15)]">
                   {idx + 1}
                 </span>
               )}

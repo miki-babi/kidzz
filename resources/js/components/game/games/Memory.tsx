@@ -75,8 +75,10 @@ return;
             <button
               key={card.id}
               onClick={() => flip(card)}
-              className={`flex size-28 items-center justify-center rounded-4xl text-6xl shadow-pop transition-transform active:scale-95 ${show ? "animate-pop bg-card" : "bg-primary"
-                } ${done.includes(card.face) ? "opacity-40" : ""}`}
+              className={`flex size-28 items-center justify-center rounded-4xl text-6xl transition-all duration-200 ${show
+                  ? "animate-pop bg-[#E8EDF2] shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)]"
+                  : "bg-[#4B5563] shadow-[-4px_-4px_8px_rgba(255,255,255,0.3),4px_4px_8px_rgba(0,0,0,0.15)]"
+                } hover:-translate-y-0.5 active:translate-y-0.5 active:scale-[0.97] ${done.includes(card.face) ? "opacity-40" : ""}`}
             >
               {show ? card.face : "❓"}
             </button>

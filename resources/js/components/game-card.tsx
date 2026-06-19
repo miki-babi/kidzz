@@ -21,7 +21,7 @@ type Props = {
 
 export default function GameCard({ game, href, showPlayButton = true, onLockedClick }: Props) {
     const content = (
-        <div className="group relative overflow-hidden rounded-[2rem] border border-neutral-100 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-950">
+        <div className="group relative overflow-hidden rounded-[2rem] bg-[#E8EDF2] shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)] transition-all duration-300 hover:shadow-[-8px_-8px_16px_rgba(255,255,255,0.9),8px_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-1">
             <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20">
                 {game.imagePath ? (
                     <img

@@ -52,12 +52,12 @@ speak(scene.voice);
           {SCENES.map((_, i) => (
             <span
               key={i}
-              className={`size-4 rounded-full ${i <= step ? "bg-success" : "bg-muted"}`}
+              className={`size-4 rounded-full bg-[#E8EDF2] shadow-[-2px_-2px_4px_rgba(255,255,255,0.9),2px_2px_4px_rgba(0,0,0,0.06)] ${i <= step ? "bg-green-500 shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.3),inset_2px_2px_4px_rgba(0,0,0,0.15)]" : ""}`}
             />
           ))}
         </div>
 
-        <div className="flex h-56 w-full items-center justify-center rounded-4xl bg-gradient-to-b from-primary/10 to-accent/10 text-[7rem]">
+        <div className="flex h-56 w-full items-center justify-center rounded-4xl bg-[#E8EDF2] text-[7rem] shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.06)]">
           <span key={step} className="animate-pop">{scene.visual}</span>
         </div>
 
@@ -66,7 +66,7 @@ speak(scene.voice);
             playPop();
             tap();
           }}
-          className="flex size-32 items-center justify-center rounded-full bg-primary text-7xl shadow-pop transition-transform active:scale-90"
+          className="flex size-32 items-center justify-center rounded-full bg-[#D2232A] text-7xl shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)] transition-all duration-200 hover:shadow-[-8px_-8px_16px_rgba(255,255,255,0.9),8px_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.3),inset_4px_4px_8px_rgba(0,0,0,0.15)] active:translate-y-0.5 active:scale-[0.93]"
           aria-label={scene.voice}
         >
           {scene.action}

@@ -71,7 +71,7 @@ return;
                 playPop();
                 setSelected(it);
               }}
-              className={`flex size-24 items-center justify-center rounded-4xl bg-card text-6xl shadow-pop transition-transform active:scale-95 ${selected?.key === it.key ? "ring-4 ring-primary" : ""
+              className={`flex size-24 items-center justify-center rounded-4xl bg-[#E8EDF2] text-6xl shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)] transition-all duration-200 hover:shadow-[-8px_-8px_16px_rgba(255,255,255,0.9),8px_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.1)] active:translate-y-0.5 active:scale-[0.97] ${selected?.key === it.key ? "ring-4 ring-neutral-800" : ""
                 }`}
             >
               {it.emoji}
@@ -84,8 +84,8 @@ return;
             <button
               key={cat}
               onClick={() => drop(cat)}
-              className={`flex min-h-[160px] flex-1 flex-col items-center justify-center gap-2 rounded-4xl bg-muted p-4 shadow-pop transition-all active:scale-95 ${shake === cat ? "animate-wiggle" : ""
-                } ${glow === cat ? "bg-success/30 ring-4 ring-success" : ""}`}
+              className={`flex min-h-[160px] flex-1 flex-col items-center justify-center gap-2 rounded-4xl bg-[#E8EDF2] p-4 shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)] transition-all duration-200 hover:shadow-[-8px_-8px_16px_rgba(255,255,255,0.9),8px_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.1)] active:translate-y-0.5 active:scale-[0.97] ${shake === cat ? "animate-wiggle" : ""
+                } ${glow === cat ? "bg-green-50 shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.06)] ring-4 ring-green-500" : ""}`}
             >
               <span className="text-6xl">{cat === "fruit" ? "🍓" : "🥬"}</span>
               <span className="text-xl font-extrabold text-foreground">

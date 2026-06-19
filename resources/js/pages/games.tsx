@@ -68,7 +68,7 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                                         The recommended category is highlighted first.
                                     </p>
                                 </div>
-                                <div className="hidden items-center gap-2 rounded-full bg-neutral-100 px-4 py-2 text-xs font-bold text-neutral-500 sm:flex dark:bg-zinc-900 dark:text-zinc-400">
+                                <div className="hidden items-center gap-2 rounded-full bg-[#E8EDF2] px-4 py-2 text-xs font-bold text-neutral-500 shadow-[-3px_-3px_6px_rgba(255,255,255,0.9),3px_3px_6px_rgba(0,0,0,0.06)] sm:flex">
                                     <Trophy className="h-4 w-4 text-amber-500" />
                                     {hasActiveAccount ? 'Premium access active' : 'Free access only'}
                                 </div>
@@ -79,10 +79,10 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                                     <button
                                         key={category}
                                         onClick={() => setActiveCategory(category)}
-                                        className={`whitespace-nowrap rounded-full px-5 py-3 text-sm font-black transition-all ${
+                                        className={`whitespace-nowrap rounded-full px-5 py-3 text-sm font-black transition-all duration-200 ${
                                             activeCategory === category
-                                                ? 'bg-red-600 text-white shadow-lg shadow-red-500/20'
-                                                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
+                                                ? 'bg-[#D2232A] text-white shadow-[-4px_-4px_8px_rgba(255,255,255,0.3),4px_4px_8px_rgba(0,0,0,0.1)]'
+                                                : 'bg-[#E8EDF2] text-neutral-700 shadow-[-4px_-4px_8px_rgba(255,255,255,0.9),4px_4px_8px_rgba(0,0,0,0.06)] hover:shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.1)] active:translate-y-0'
                                         }`}
                                     >
                                         {category}

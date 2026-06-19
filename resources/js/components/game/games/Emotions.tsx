@@ -54,7 +54,7 @@ export function Emotions() {
               playPop();
               pick(f.key);
             }}
-            className={`flex size-32 items-center justify-center rounded-4xl bg-card text-7xl shadow-pop transition-transform active:scale-95 ${shake === f.key ? "animate-wiggle" : ""
+            className={`flex size-32 items-center justify-center rounded-4xl bg-[#E8EDF2] text-7xl shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)] transition-all duration-200 hover:shadow-[-8px_-8px_16px_rgba(255,255,255,0.9),8px_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 active:shadow-[inset_-4px_-4px_8px_rgba(255,255,255,0.9),inset_4px_4px_8px_rgba(0,0,0,0.1)] active:translate-y-0.5 active:scale-[0.97] ${shake === f.key ? "animate-wiggle" : ""
               }`}
           >
             {f.emoji}
