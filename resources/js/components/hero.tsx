@@ -5,7 +5,7 @@ export default function HeroSection() {
     return (
         <section className="px-6 py-2 lg:px-8">
             <div className="mx-auto max-w-7xl">
-                <div className="relative overflow-hidden bg-[#D2232A] dark:bg-[#B01E24] rounded-[2.5rem] p-8 md:p-14 lg:p-16 flex flex-col lg:flex-row items-center gap-12 text-white shadow-2xl shadow-red-500/10">
+                <div className="relative overflow-hidden bg-[#D2232A] dark:bg-[#B01E24] rounded-[2.5rem] p-8 md:p-8 lg:p-8 flex flex-col lg:flex-row items-center gap-12 text-white shadow-2xl shadow-red-500/10">
 
                     {/* Background Shapes */}
                     <div className="absolute -left-12 -top-12 h-64 w-64 rounded-full bg-white/5 blur-3xl"></div>
