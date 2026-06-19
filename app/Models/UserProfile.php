@@ -10,6 +10,7 @@ class UserProfile extends Model
 {
     protected $fillable = [
         'user_id',
+        'child_name',
         'age',
         'gender',
         'evaluated_status',

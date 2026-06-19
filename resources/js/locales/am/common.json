@@ -48,6 +48,8 @@
   "next": "ቀጣይ",
 
   "basic_info_title": "ስለ ልጅዎ ይንገሩን",
+  "child_name_label": "የልጅዎ ስም",
+  "child_name_placeholder": "የልጅዎን ስም ያስገቡ",
   "age_label": "እድሜ ክልል",
   "age_placeholder": "እድሜ ከ0-12 ያስገቡ",
   "gender_label": "ፆታ (አስፈላጊ ካልሆነ ይቀርበዋል)",

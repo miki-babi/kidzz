@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 
 
 interface OnboardingData {
+    childName?: string;
     age?: string;
     gender?: string;
     evaluated?: string;
@@ -61,6 +62,7 @@ export default function Onboarding() {
         setProcessing(true);
 
         router.post(store.url(), {
+            childName: data.childName,
             age: data.age ? parseInt(data.age) : undefined,
             gender: data.gender,
             evaluated: data.evaluated,
@@ -229,9 +231,27 @@ function BasicInformationScreen({
                 </h2>
 
                 <div className="space-y-8">
+                    {/* Child Name Input */}
+                    <div>
+                        <label
+                            htmlFor="childName"
+                            className="block text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-2"
+                        >
+                            {t('child_name_label')}
+                        </label>
+                        <input
+                            id="childName"
+                            type="text"
+                            value={data.childName || ''}
+                            onChange={(e) => updateData('childName', e.target.value)}
+                            placeholder={t('child_name_placeholder')}
+                            className="w-full px-6 py-4 rounded-2xl border-2 border-neutral-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-neutral-900 dark:text-white font-bold text-lg placeholder-neutral-400 dark:placeholder-zinc-500 focus:outline-none focus:border-red-600 dark:focus:border-red-500 transition-colors"
+                        />
+                    </div>
+
                     {/* Age Picker Section */}
                     <div>
-                        <label className="block text-center text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-4">
+                        <label className="block  text-sm font-bold text-neutral-700 dark:text-zinc-300 mb-4">
                             {t('age_label')}
                         </label>
                         <AgeSlotPicker

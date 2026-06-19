@@ -12,6 +12,7 @@ class OnboardingController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'childName' => 'nullable|string|max:255',
             'age' => 'nullable|integer',
             'gender' => 'nullable|string',
             'evaluated' => 'nullable|string',
@@ -33,6 +34,7 @@ class OnboardingController extends Controller
         $profile = UserProfile::updateOrCreate(
             ['user_id' => $user->id],
             [
+                'child_name' => $validated['childName'] ?? null,
                 'age' => $validated['age'] ?? null,
                 'gender' => $validated['gender'] ?? null,
                 'evaluated_status' => $validated['evaluated'] ?? null,
