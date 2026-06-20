@@ -193,14 +193,6 @@ export default function Dashboard({ games, hasActiveAccount, freeGamesLimit, rec
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/70 px-4 backdrop-blur-sm">
                     <div className="relative w-full max-w-md overflow-hidden rounded-2xl border-2 border-[#E5E5E5] bg-white shadow-xl">
                         {/* Decorative top bar */}
-                        <div className="bg-gradient-to-r from-[#FF9600] via-[#FF4B4B] to-[#CE82FF] px-6 py-3">
-                            <div className="flex items-center gap-2">
-                                <Award className="h-5 w-5 text-white" />
-                                <span className="text-sm font-black uppercase tracking-wider text-white">
-                                    Premium Feature
-                                </span>
-                            </div>
-                        </div>
 
                         <button
                             type="button"

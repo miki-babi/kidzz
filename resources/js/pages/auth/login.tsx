@@ -30,13 +30,12 @@ export default function Login({ status, canResetPassword }: Props) {
                 {({ processing, errors }) => (
                     <>
                         {/* Mascot speech bubble */}
+                         {/* Mascot speech bubble */}
                         <div className="relative flex items-start gap-4 mb-2">
-                            <div className="h-12 w-12 rounded-full bg-[#FFC800] flex items-center justify-center text-2xl shrink-0 float-duo">
-                                🦁
-                            </div>
+                            <img src="/asset/maskot/maskot_head.png" className="h-24 w-24 rounded-full flex items-center justify-center text-2xl shrink-0 float-duo" />
                             <div className="relative bg-white border-2 border-[#E5E5E5] rounded-[20px_20px_20px_4px] px-5 py-3 flex-1">
                                 <p className="text-sm font-extrabold text-[#3C3C3C]">
-                                    Welcome back! Ready to learn today? ⭐
+                                    Welcome back!  🎉
                                 </p>
                                 {/* Speech bubble arrow */}
                                 <div
@@ -160,6 +159,6 @@ export default function Login({ status, canResetPassword }: Props) {
 }
 
 Login.layout = {
-    title: 'Log in',
-    description: 'Welcome back! Continue your learning journey.',
+    title: ' ',
+    description: '',
 };

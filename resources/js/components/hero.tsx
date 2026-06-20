@@ -51,16 +51,16 @@ export default function HeroSection() {
                     <div className="flex-1 flex items-center justify-center">
                         <div className="relative">
                             {/* Background decorative circles */}
-                            <div className="absolute -top-8 -right-8 h-64 w-64 rounded-full bg-[#FFC800]/20 blur-2xl"></div>
+                            <div className="absolute -top-8 -right-8 h-64 w-64  blur-2xl"></div>
                             <div className="absolute -bottom-8 -left-8 h-48 w-48 rounded-full bg-[#58CC02]/15 blur-2xl"></div>
 
                             {/* Main illustration */}
-                            <div className="relative bg-gradient-to-br from-[#58CC02] to-[#3F9100] rounded-[32px] p-2 shadow-xl">
-                                <div className="bg-white rounded-[28px] p-4 overflow-hidden">
+                            <div className="relative   p-2 ">
+                                <div className="bg-white  p-4 overflow-hidden">
                                     <img
                                         src="/asset/hero4.png"
                                         alt="Child learning through play"
-                                        className="w-full max-w-[420px] h-auto object-contain rounded-2xl"
+                                        className="w-full max-w-[500px] h-auto object-contain rounded-2xl"
                                         onError={(e) => {
                                             e.currentTarget.style.display = 'none';
                                             const parent = e.currentTarget.parentElement;
@@ -77,7 +77,7 @@ export default function HeroSection() {
                             </div>
 
                             {/* Floating badge */}
-                            <div className="absolute -bottom-4 -left-4 bg-white border-2 border-[#E5E5E5] rounded-2xl px-4 py-3 shadow-md float-duo">
+                            <div className="absolute -bottom-4 -left-4 bg-white border-2 border-[#E5E5E5] rounded-2xl px-4 py-3 ">
                                 <div className="flex items-center gap-2">
                                     <span className="text-2xl">⭐</span>
                                     <div>

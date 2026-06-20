@@ -65,7 +65,7 @@ export default function Landing() {
       </section>
 
       {/* ================= FEATURE 1: PLAY & LEARN (Duolingo style - punchy alternating) ================= */}
-      <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950 border-t border-[#E5E5E5] dark:border-zinc-800">
+      <section className="py-20 px-6 lg:px-8 bg-white dark:bg-zinc-950  ">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
@@ -75,7 +75,7 @@ export default function Landing() {
               <div className="absolute -left-6 -top-6 h-48 w-48 rounded-full bg-[#FFC800]/20 blur-2xl"></div>
               <div className="absolute right-6 -bottom-6 h-64 w-64 rounded-full bg-[#58CC02]/10 blur-3xl"></div>
 
-              <div className="relative z-10 card-duo p-0 overflow-hidden">
+              <div className="relative z-10 p-0 overflow-hidden">
                 <div className="relative overflow-hidden">
                   <img
                     src="/asset/game2.png"
@@ -161,9 +161,9 @@ export default function Landing() {
                 {/* Top Section */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E5E5] pb-5 mb-5 dark:border-zinc-800">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-[#58CC02] flex items-center justify-center text-white font-black text-lg">
-                      🦁
-                    </div>
+                    <img src="/asset/maskot/maskot_head.png" className="h-10 w-10 rounded-full  flex items-center justify-center text-white font-black text-lg" />
+                          {/* src="/asset/maskot/maskot_head.png"
+                    </div> */}
                     <div>
                       <h3 className="font-extrabold text-[#3C3C3C] dark:text-zinc-200 text-base">Yonas M.</h3>
                       <p className="text-[11px] font-bold text-[#777777] uppercase tracking-wider">Daily Progress</p>
@@ -264,9 +264,10 @@ export default function Landing() {
             <div className="lg:col-span-7 flex flex-col sm:flex-row items-center justify-center gap-6 lg:pr-6 relative">
               {/* Decorative character peeking from behind */}
               <div className="absolute -left-4 top-0 z-20 hidden sm:block">
-                <div className="h-16 w-16 rounded-full bg-[#FFC800] border-4 border-white shadow-lg flex items-center justify-center text-4xl float-duo">
-                  🦁
-                </div>
+                <img src="/asset/maskot/maskot_head.png" className="h-16 w-16  flex items-center justify-center text-4xl float-duo" />
+                                              {/* <img  className="h-14 w-14 rounded-full flex items-center justify-center text-3xl  float-duo" /> */}
+
+                {/* </div> */}
               </div>
 
               {/* Phone mockup - angled */}
@@ -430,23 +431,8 @@ export default function Landing() {
 
             {/* Right Column: Headshot grid */}
             <div className="lg:col-span-7">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {[
-                  { role: '👩‍⚕️ Pediatrician', color: '#58CC02' },
-                  { role: '🧑‍🏫 Educator', color: '#1CB0F6' },
-                  { role: '🧑‍⚕️ Therapist', color: '#CE82FF' },
-                  { role: '👨‍💻 Engineer', color: '#FFC800' },
-                  { role: '👩‍🎨 Designer', color: '#FF4B4B' },
-                  { role: '🧑‍🔬 Researcher', color: '#FF9600' },
-                ].map((member, i) => (
-                  <div key={i} className="card-duo p-4 text-center hover:shadow-lg transition-shadow">
-                    <div className="h-16 w-16 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl shadow-sm"
-                         style={{ backgroundColor: `${member.color}20`, border: `3px solid ${member.color}` }}>
-                      {member.role.split(' ')[0]}
-                    </div>
-                    <p className="text-xs font-extrabold text-[#3C3C3C] dark:text-zinc-300">{member.role}</p>
-                  </div>
-                ))}
+              <div className="flex flex-wrap gap-4 justify-center">
+               <img src="/asset/team.png" alt="Team" className="w-full h-auto rounded-lg shadow-md" />
               </div>
             </div>
 
