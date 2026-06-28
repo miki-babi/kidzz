@@ -1,5 +1,5 @@
 import { Head, router, usePage } from '@inertiajs/react';
-import { Lock, Sparkles, X, Flame, Gem, Trophy, Zap, Star, Award, ArrowRight } from 'lucide-react';
+import { Lock, Sparkles, X, Flame, Gem, Trophy, Zap, Star, ArrowRight } from 'lucide-react';
 import { useMemo, useState, useEffect } from 'react';
 import GameCard, { type GameCardData } from '@/components/game-card';
 import { useCurrentProfile } from '@/lib/store';
