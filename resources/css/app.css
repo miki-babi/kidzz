@@ -61,22 +61,22 @@
     --color-sidebar-ring: var(--sidebar-ring);
 
     /* Duolingo-style brand palette */
-    --color-duo-green: #58CC02;
-    --color-duo-darkgreen: #3F9100;
-    --color-duo-yellow: #FFC800;
-    --color-duo-darkyellow: #E2A600;
-    --color-duo-blue: #1CB0F6;
-    --color-duo-darkblue: #0E7DB3;
-    --color-duo-purple: #CE82FF;
-    --color-duo-darkpurple: #A150E0;
-    --color-duo-red: #FF4B4B;
-    --color-duo-darkred: #D62B2B;
-    --color-duo-redshadow: #B30000;
-    --color-duo-lightred: #FFDFDF;
-    --color-duo-orange: #FF9600;
-    --color-duo-border: #E5E5E5;
-    --color-duo-bg: #FAFAFA;
-    --color-duo-text: #3C3C3C;
+    --color-duo-green: #58cc02;
+    --color-duo-darkgreen: #3f9100;
+    --color-duo-yellow: #ffc800;
+    --color-duo-darkyellow: #e2a600;
+    --color-duo-blue: #1cb0f6;
+    --color-duo-darkblue: #0e7db3;
+    --color-duo-purple: #ce82ff;
+    --color-duo-darkpurple: #a150e0;
+    --color-duo-red: #ff4b4b;
+    --color-duo-darkred: #d62b2b;
+    --color-duo-redshadow: #b30000;
+    --color-duo-lightred: #ffdfdf;
+    --color-duo-orange: #ff9600;
+    --color-duo-border: #e5e5e5;
+    --color-duo-bg: #fafafa;
+    --color-duo-text: #3c3c3c;
     --color-duo-textlight: #777777;
 }
 
@@ -187,7 +187,9 @@
     border-radius: 16px;
     font-weight: 800;
     cursor: pointer;
-    transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+    transition:
+        transform 0.1s ease,
+        border-bottom-width 0.1s ease;
     -webkit-tap-highlight-color: transparent;
 
     &:active {
@@ -198,62 +200,62 @@
 
 @utility btn-duo-green {
     @apply btn-duo;
-    background-color: #58CC02;
-    border-bottom-color: #3F9100;
+    background-color: #58cc02;
+    border-bottom-color: #3f9100;
     color: white;
 
     &:hover {
-        background-color: #4CB800;
+        background-color: #4cb800;
     }
 
     &:active {
-        background-color: #3F9100;
+        background-color: #3f9100;
     }
 }
 
 @utility btn-duo-yellow {
     @apply btn-duo;
-    background-color: #FFC800;
-    border-bottom-color: #E2A600;
-    color: #3C3C3C;
+    background-color: #ffc800;
+    border-bottom-color: #e2a600;
+    color: #3c3c3c;
 
     &:hover {
-        background-color: #F0B800;
+        background-color: #f0b800;
     }
 
     &:active {
-        background-color: #E2A600;
+        background-color: #e2a600;
     }
 }
 
 @utility btn-duo-red {
     @apply btn-duo;
-    background-color: #FF4B4B;
-    border-bottom-color: #D62B2B;
+    background-color: #ff4b4b;
+    border-bottom-color: #d62b2b;
     color: white;
 
     &:hover {
-        background-color: #F03B3B;
+        background-color: #f03b3b;
     }
 
     &:active {
-        background-color: #D62B2B;
+        background-color: #d62b2b;
     }
 }
 
 @utility btn-duo-outline {
     @apply btn-duo;
     background-color: white;
-    border: 2px solid #E5E5E5;
-    border-bottom: 4px solid #D0D0D0;
-    color: #3C3C3C;
+    border: 2px solid #e5e5e5;
+    border-bottom: 4px solid #d0d0d0;
+    color: #3c3c3c;
 
     &:hover {
-        background-color: #F7F7F7;
+        background-color: #f7f7f7;
     }
 
     &:active {
-        background-color: #E5E5E5;
+        background-color: #e5e5e5;
         border-bottom-width: 2px;
     }
 }
@@ -261,7 +263,7 @@
 /* Chunky card style */
 @utility card-duo {
     background-color: white;
-    border: 2px solid #E5E5E5;
+    border: 2px solid #e5e5e5;
     border-radius: 20px;
     padding: 1.5rem;
 }
@@ -270,7 +272,7 @@
 @utility progress-duo {
     height: 16px;
     border-radius: 999px;
-    background-color: #E5E5E5;
+    background-color: #e5e5e5;
     overflow: hidden;
 
     & > div {
@@ -295,7 +297,7 @@
         background-color: inherit;
         border-right: inherit;
         border-bottom: inherit;
-        border-color: #E5E5E5;
+        border-color: #e5e5e5;
         border-style: solid;
         border-width: 0 2px 2px 0;
         transform: rotate(45deg);
@@ -309,8 +311,13 @@
 }
 
 @keyframes float-duo {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
 }
 
 /* Pulse glow for CTA emphasis */
@@ -345,7 +352,9 @@
 
 /* Hover lift + press-down effect for interactive elements */
 @utility neu-interactive {
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
 
     &:hover {
         box-shadow:

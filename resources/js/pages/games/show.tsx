@@ -1,4 +1,4 @@
-import type {ComponentType, JSX} from 'react';
+import type { ComponentType, JSX } from 'react';
 import { CauseEffect } from '@/components/game/games/CauseEffect';
 import { Dressing } from '@/components/game/games/Dressing';
 import { Emotions } from '@/components/game/games/Emotions';

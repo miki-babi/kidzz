@@ -1,8 +1,8 @@
 import { Head, router, usePage } from '@inertiajs/react';
-import { Lock, Sparkles, Trophy, X, Zap, Star, Gamepad2 } from 'lucide-react';
+import { Lock, Sparkles, X, Zap, Star } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
-import Footer from '@/components/footer';
-import GameCard, { type GameCardData } from '@/components/game-card';
+import GameCard from '@/components/game-card';
+import type { GameCardData } from '@/components/game-card';
 import LandingHeader from '@/components/landing-header';
 
 interface GamesProps {
@@ -20,7 +20,13 @@ function currency(price: number): string {
     }).format(price);
 }
 
-export default function Games({ games, hasActiveAccount, freeGamesLimit, recommendedCategory, demoPrice }: GamesProps) {
+export default function Games({
+    games,
+    hasActiveAccount,
+    freeGamesLimit,
+    recommendedCategory,
+    demoPrice,
+}: GamesProps) {
     const { flash } = usePage().props as {
         flash?: { status?: string };
     };
@@ -31,7 +37,9 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
     const [activeCategory, setActiveCategory] = useState(recommendedCategory);
     const [selectedGame, setSelectedGame] = useState<GameCardData | null>(null);
 
-    const visibleGames = games.filter((game) => (game.category ?? 'Other') === activeCategory);
+    const visibleGames = games.filter(
+        (game) => (game.category ?? 'Other') === activeCategory,
+    );
 
     useEffect(() => {
         console.log('[Games] page loaded', {
@@ -42,7 +50,14 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
             flash,
             gameCount: games.length,
         });
-    }, [demoPrice, flash, freeGamesLimit, games.length, hasActiveAccount, recommendedCategory]);
+    }, [
+        demoPrice,
+        flash,
+        freeGamesLimit,
+        games.length,
+        hasActiveAccount,
+        recommendedCategory,
+    ]);
 
     useEffect(() => {
         console.log('[Games] flash changed', flash);
@@ -56,7 +71,6 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
 
                 <main>
                     {/* Duolingo-style hero banner */}
-                   
 
                     <section className="py-10">
                         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 lg:px-8">
@@ -66,7 +80,8 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                                         Choose a category
                                     </h2>
                                     <p className="mt-1 text-sm font-semibold text-[#777777]">
-                                        The recommended category is highlighted first.
+                                        The recommended category is highlighted
+                                        first.
                                     </p>
                                 </div>
                             </div>
@@ -74,34 +89,43 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                             {/* Duolingo-style category pills */}
                             <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
                                 {categories.map((category) => {
-                                    const isActive = activeCategory === category;
+                                    const isActive =
+                                        activeCategory === category;
                                     const colorMap: Record<string, string> = {
                                         [recommendedCategory]: 'bg-duo-red',
                                     };
                                     const bgColor = isActive
-                                        ? (colorMap[category] || 'bg-duo-red')
+                                        ? colorMap[category] || 'bg-duo-red'
                                         : 'bg-duo-red';
-                                    const textColor = isActive ? '#FFFFFF' : '#777777';
+                                    const textColor = isActive
+                                        ? '#FFFFFF'
+                                        : '#777777';
 
                                     return (
                                         <button
                                             key={category}
-                                            onClick={() => setActiveCategory(category)}
-                                            className={`inline-flex items-center gap-2 whitespace-nowrap rounded-xl border-2 px-5 py-2.5 text-sm font-black uppercase tracking-wider transition-all active:translate-y-0.5 ${
-                                activeCategory === category
-                                    ? 'border-[#D62B2B] bg-[#FF4B4B] text-white shadow-[0_3px_0_#B30000] hover:shadow-[0_2px_0_#B30000] hover:translate-y-px'
-                                    : 'border-[#E5E5E5] bg-white text-[#777777] shadow-[0_2px_0_#C4C4C4] hover:bg-neutral-50 hover:shadow-[0_1px_0_#C4C4C4] hover:translate-y-px'
-                            }`}
+                                            onClick={() =>
+                                                setActiveCategory(category)
+                                            }
+                                            className={`inline-flex items-center gap-2 rounded-xl border-2 px-5 py-2.5 text-sm font-black tracking-wider whitespace-nowrap uppercase transition-all active:translate-y-0.5 ${
+                                                activeCategory === category
+                                                    ? 'border-[#D62B2B] bg-[#FF4B4B] text-white shadow-[0_3px_0_#B30000] hover:translate-y-px hover:shadow-[0_2px_0_#B30000]'
+                                                    : 'border-[#E5E5E5] bg-white text-[#777777] shadow-[0_2px_0_#C4C4C4] hover:translate-y-px hover:bg-neutral-50 hover:shadow-[0_1px_0_#C4C4C4]'
+                                            }`}
                                             style={{
                                                 backgroundColor: bgColor,
                                                 color: textColor,
-                                                border: isActive ? '2px solid transparent' : '2px solid #E5E5E5',
+                                                border: isActive
+                                                    ? '2px solid transparent'
+                                                    : '2px solid #E5E5E5',
                                             }}
                                         >
                                             {category}
-                                            {category === recommendedCategory && (
-                                                <span className="ml-2 inline-flex items-center gap-0.5 bg-white/20 rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest">
-                                                    <Sparkles className="h-3 w-3" /> Best
+                                            {category ===
+                                                recommendedCategory && (
+                                                <span className="ml-2 inline-flex items-center gap-0.5 rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-extrabold tracking-widest uppercase">
+                                                    <Sparkles className="h-3 w-3" />{' '}
+                                                    Best
                                                 </span>
                                             )}
                                         </button>
@@ -116,20 +140,23 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                                             key={game.id}
                                             game={game}
                                             href={`/games/${game.routePath}`}
-                                            onLockedClick={() => setSelectedGame(game)}
+                                            onLockedClick={() =>
+                                                setSelectedGame(game)
+                                            }
                                         />
                                     ))}
                                 </div>
                             ) : (
                                 <div className="card-duo p-16 text-center">
-                                    <div className="text-6xl mb-4">🎮</div>
-                                    <p className="text-lg font-bold text-[#777777]">No games found in this category yet.</p>
+                                    <div className="mb-4 text-6xl">🎮</div>
+                                    <p className="text-lg font-bold text-[#777777]">
+                                        No games found in this category yet.
+                                    </p>
                                 </div>
                             )}
                         </div>
                     </section>
                 </main>
-
             </div>
 
             {/* Duolingo-style unlock modal */}
@@ -139,18 +166,18 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                         <button
                             type="button"
                             onClick={() => setSelectedGame(null)}
-                            className="absolute right-4 top-4 rounded-full p-2 text-[#777777] transition hover:bg-[#F7F7F7] hover:text-[#3C3C3C] dark:hover:bg-zinc-900"
+                            className="absolute top-4 right-4 rounded-full p-2 text-[#777777] transition hover:bg-[#F7F7F7] hover:text-[#3C3C3C] dark:hover:bg-zinc-900"
                         >
                             <X className="h-5 w-5" />
                         </button>
 
                         <div className="space-y-6 text-center">
                             {/* Mascot */}
-                            <div className="mx-auto h-20 w-20 rounded-full bg-[#FFC800] flex items-center justify-center text-5xl shadow-md float-duo">
+                            <div className="mx-auto flex h-20 w-20 float-duo items-center justify-center rounded-full bg-[#FFC800] text-5xl shadow-md">
                                 🦁
                             </div>
 
-                            <div className="inline-flex items-center gap-2 bg-[#FF4B4B]/10 text-[#FF4B4B] font-extrabold text-xs px-4 py-2 rounded-full uppercase tracking-wider">
+                            <div className="inline-flex items-center gap-2 rounded-full bg-[#FF4B4B]/10 px-4 py-2 text-xs font-extrabold tracking-wider text-[#FF4B4B] uppercase">
                                 <Lock className="h-4 w-4" />
                                 Premium Game
                             </div>
@@ -160,20 +187,29 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                                     Unlock {selectedGame.name}
                                 </h3>
                                 <p className="mt-2 text-sm leading-relaxed text-[#777777]">
-                                    This is a demo payment flow. Pay {currency(demoPrice)} to unlock premium access and open all locked games.
+                                    This is a demo payment flow. Pay{' '}
+                                    {currency(demoPrice)} to unlock premium
+                                    access and open all locked games.
                                 </p>
                             </div>
 
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-[#F7F7F7] rounded-2xl p-4 border-2 border-[#E5E5E5]">
-                                    <div className="text-[11px] font-extrabold uppercase tracking-widest text-[#777777]">Plan</div>
-                                    <div className="mt-1 text-lg font-extrabold text-[#3C3C3C] dark:text-white flex items-center justify-center gap-1">
-                                        <Star className="h-4 w-4 text-[#FFC800]" /> Premium
+                                <div className="rounded-2xl border-2 border-[#E5E5E5] bg-[#F7F7F7] p-4">
+                                    <div className="text-[11px] font-extrabold tracking-widest text-[#777777] uppercase">
+                                        Plan
+                                    </div>
+                                    <div className="mt-1 flex items-center justify-center gap-1 text-lg font-extrabold text-[#3C3C3C] dark:text-white">
+                                        <Star className="h-4 w-4 text-[#FFC800]" />{' '}
+                                        Premium
                                     </div>
                                 </div>
-                                <div className="bg-[#F7F7F7] rounded-2xl p-4 border-2 border-[#E5E5E5]">
-                                    <div className="text-[11px] font-extrabold uppercase tracking-widest text-[#777777]">Price</div>
-                                    <div className="mt-1 text-lg font-extrabold text-[#58CC02]">{currency(demoPrice)}</div>
+                                <div className="rounded-2xl border-2 border-[#E5E5E5] bg-[#F7F7F7] p-4">
+                                    <div className="text-[11px] font-extrabold tracking-widest text-[#777777] uppercase">
+                                        Price
+                                    </div>
+                                    <div className="mt-1 text-lg font-extrabold text-[#58CC02]">
+                                        {currency(demoPrice)}
+                                    </div>
                                 </div>
                             </div>
 
@@ -181,20 +217,23 @@ export default function Games({ games, hasActiveAccount, freeGamesLimit, recomme
                                 <button
                                     type="button"
                                     onClick={() => setSelectedGame(null)}
-                                    className="flex-1 btn-duo-outline inline-flex items-center justify-center px-5 py-3 text-sm"
+                                    className="btn-duo-outline inline-flex flex-1 items-center justify-center px-5 py-3 text-sm"
                                 >
                                     Not now
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        console.log('[Games] navigating to demo payment page', {
-                                            route: '/pay',
-                                            selectedGame,
-                                        });
+                                        console.log(
+                                            '[Games] navigating to demo payment page',
+                                            {
+                                                route: '/pay',
+                                                selectedGame,
+                                            },
+                                        );
                                         router.visit('/pay');
                                     }}
-                                    className="flex-1 btn-duo-green inline-flex items-center justify-center px-5 py-3 text-sm shadow-md glow-duo"
+                                    className="btn-duo-green inline-flex flex-1 items-center justify-center px-5 py-3 text-sm shadow-md glow-duo"
                                 >
                                     <Zap className="h-4 w-4" /> Unlock Now
                                 </button>

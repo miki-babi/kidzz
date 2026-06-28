@@ -1,77 +1,81 @@
-import { router } from "@inertiajs/react";
-import { useState, useEffect, useRef } from "react";
-import { GameShell, type CheckResult } from "@/components/game/GameShell";
-import { RewardOverlay } from "@/components/game/RewardOverlay";
-import { playPop, speak } from "@/lib/feedback";
-import { completeGame } from "@/lib/store";
+import { router } from '@inertiajs/react';
+import { useState, useEffect, useRef } from 'react';
+import { GameShell } from '@/components/game/GameShell';
+import type { CheckResult } from '@/components/game/GameShell';
+import { RewardOverlay } from '@/components/game/RewardOverlay';
+import { playPop, speak } from '@/lib/feedback';
+import { elapsedGameSeconds, useGameStartTime } from '@/lib/game-timing';
+import { completeGame } from '@/lib/store';
 
 const TARGET = 5;
 
 export function TapStar() {
-  const [count, setCount] = useState(0);
-  const [pos, setPos] = useState({ x: 50, y: 50 });
-  const [checkResult] = useState<CheckResult>("idle");
-  const [won, setWon] = useState(false);
-  const startTime = useRef(Date.now());
-  const sparkRef = useRef<HTMLDivElement>(null);
+    const [count, setCount] = useState(0);
+    const [pos, setPos] = useState({ x: 50, y: 50 });
+    const [checkResult] = useState<CheckResult>('idle');
+    const [won, setWon] = useState(false);
+    const startTime = useGameStartTime();
+    const sparkRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    speak("Tap the star");
-  }, []);
+    useEffect(() => {
+        speak('Tap the star');
+    }, []);
 
-  useEffect(() => {
-    if (won) {
-return;
-}
+    useEffect(() => {
+        if (won) {
+            return;
+        }
 
-    const t = setInterval(() => {
-      setPos({ x: 15 + Math.random() * 70, y: 15 + Math.random() * 70 });
-    }, 1600);
+        const t = setInterval(() => {
+            setPos({ x: 15 + Math.random() * 70, y: 15 + Math.random() * 70 });
+        }, 1600);
 
-    return () => clearInterval(t);
-  }, [won]);
+        return () => clearInterval(t);
+    }, [won]);
 
-  function tap() {
-    playPop();
-    const next = count + 1;
-    setCount(next);
-    setPos({ x: 15 + Math.random() * 70, y: 15 + Math.random() * 70 });
+    function tap() {
+        playPop();
+        const next = count + 1;
+        setCount(next);
+        setPos({ x: 15 + Math.random() * 70, y: 15 + Math.random() * 70 });
 
-    if (next >= TARGET) {
-      const duration = Math.round((Date.now() - startTime.current) / 1000);
-      completeGame("tap-star", "attention", 100);
-      router.post("/games/tap-star/result", { score: 100, duration });
-      setWon(true);
+        if (next >= TARGET) {
+            const duration = elapsedGameSeconds(startTime.current);
+            completeGame('tap-star', 'attention', 100);
+            router.post('/games/tap-star/result', { score: 100, duration });
+            setWon(true);
+        }
     }
-  }
 
-  return (
-    <GameShell
-      instruction="Tap the star! ⭐"
-      mascot="🦉"
-      totalRounds={TARGET}
-      currentRound={count}
-      checkEnabled={true}
-      onCheck={() => {}}
-      checkResult={checkResult}
-      onNext={() => {}}
-    >
-      <div className="mb-6 text-3xl font-extrabold text-star">
-        {"⭐".repeat(count)}
-        <span className="opacity-20">{"⭐".repeat(Math.max(0, TARGET - count))}</span>
-      </div>
-      <div className="relative h-[60vh] w-full max-w-xl rounded-4xl bg-gradient-to-b from-primary/10 to-accent/10">
-        <button
-          onClick={tap}
-          aria-label="Star"
-          style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-          className="absolute -translate-x-1/2 -translate-y-1/2 text-7xl transition-all duration-700 ease-out active:scale-125"
+    return (
+        <GameShell
+            instruction="Tap the star! ⭐"
+            mascot="🦉"
+            totalRounds={TARGET}
+            currentRound={count}
+            checkEnabled={true}
+            onCheck={() => {}}
+            checkResult={checkResult}
+            onNext={() => {}}
         >
-          ⭐
-        </button>
-        <div ref={sparkRef} />
-      </div>
-      {won && <RewardOverlay stars={3} gameRoute="tap-star" />}
-    </GameShell>
-  );
+            <div className="text-star mb-6 text-3xl font-extrabold">
+                {'⭐'.repeat(count)}
+                <span className="opacity-20">
+                    {'⭐'.repeat(Math.max(0, TARGET - count))}
+                </span>
+            </div>
+            <div className="relative h-[60vh] w-full max-w-xl rounded-4xl bg-gradient-to-b from-primary/10 to-accent/10">
+                <button
+                    onClick={tap}
+                    aria-label="Star"
+                    style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+                    className="absolute -translate-x-1/2 -translate-y-1/2 text-7xl transition-all duration-700 ease-out active:scale-125"
+                >
+                    ⭐
+                </button>
+                <div ref={sparkRef} />
+            </div>
+            {won && <RewardOverlay stars={3} gameRoute="tap-star" />}
+        </GameShell>
+    );
 }

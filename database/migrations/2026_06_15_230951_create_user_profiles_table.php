@@ -23,9 +23,8 @@ return new class extends Migration
             // Communication
             $table->string('speech_level')->nullable();
 
-            //developmental milestones
+            // developmental milestones
             $table->json('diagnosed_conditions')->nullable();
-
 
             // JSON columns for grouped data
             $table->json('speaking_skills')->nullable();

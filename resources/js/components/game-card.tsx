@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Lock, PlayCircle, Star, Zap } from 'lucide-react';
+import { Lock, PlayCircle, Zap } from 'lucide-react';
 
 export interface GameCardData {
     id: number;
@@ -24,29 +24,38 @@ function getGameEmoji(name: string): string {
     const emojiMap: Record<string, string> = {
         'Brush Teeth': '🪥',
         'Hand Washing': '🧼',
-        'Dressing': '👕',
-        'Emotions': '😊',
+        Dressing: '👕',
+        Emotions: '😊',
         'Match Colors': '🎨',
-        'Memory': '🧠',
-        'Patterns': '🔷',
-        'Sorting': '📦',
-        'Sequencing': '🧩',
+        Memory: '🧠',
+        Patterns: '🔷',
+        Sorting: '📦',
+        Sequencing: '🧩',
         'Cause & Effect': '⚡',
-        'CauseEffect': '⚡',
+        CauseEffect: '⚡',
     };
+
     for (const [key, emoji] of Object.entries(emojiMap)) {
-        if (name.toLowerCase().includes(key.toLowerCase())) return emoji;
+        if (name.toLowerCase().includes(key.toLowerCase())) {
+            return emoji;
+        }
     }
+
     return '🎮';
 }
 
-export default function GameCard({ game, href, showPlayButton = true, onLockedClick }: Props) {
+export default function GameCard({
+    game,
+    href,
+    showPlayButton = true,
+    onLockedClick,
+}: Props) {
     const content = (
         <div
             className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-200 ${
                 game.is_locked
                     ? 'border-neutral-200 bg-neutral-100/80'
-                    : 'border-[#E5E5E5] bg-white hover:border-[#cccccc] hover:-translate-y-0.5'
+                    : 'border-[#E5E5E5] bg-white hover:-translate-y-0.5 hover:border-[#cccccc]'
             }`}
         >
             {/* Visual / Illustration Area */}
@@ -65,7 +74,9 @@ export default function GameCard({ game, href, showPlayButton = true, onLockedCl
                     />
                 ) : (
                     <div className="flex h-full items-center justify-center">
-                        <span className="text-7xl">{getGameEmoji(game.name)}</span>
+                        <span className="text-7xl">
+                            {getGameEmoji(game.name)}
+                        </span>
                     </div>
                 )}
 
@@ -73,7 +84,11 @@ export default function GameCard({ game, href, showPlayButton = true, onLockedCl
                 {game.is_locked && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/70 backdrop-blur-[2px]">
                         <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-[#E5E5E5] bg-white shadow-[0_4px_0_#C4C4C4]">
-                            <Lock className="h-8 w-8 text-neutral-400" fill="#999" stroke="#999" />
+                            <Lock
+                                className="h-8 w-8 text-neutral-400"
+                                fill="#999"
+                                stroke="#999"
+                            />
                         </div>
                     </div>
                 )}
@@ -103,10 +118,10 @@ export default function GameCard({ game, href, showPlayButton = true, onLockedCl
                                 onLockedClick();
                             }
                         }}
-                        className={`relative w-full overflow-hidden rounded-xl py-3 text-center text-sm font-black uppercase tracking-wider transition-all active:translate-y-0.5 ${
+                        className={`relative w-full overflow-hidden rounded-xl py-3 text-center text-sm font-black tracking-wider uppercase transition-all active:translate-y-0.5 ${
                             game.is_locked
-                                ? 'bg-[#FF9600] text-white shadow-[0_4px_0_#CC7800] hover:shadow-[0_3px_0_#CC7800] hover:translate-y-px active:shadow-[0_1px_0_#CC7800]'
-                                : 'btn-duo-red text-white   hover:translate-y-px active:shadow-[0_1px_0_#3FA002]'
+                                ? 'bg-[#FF9600] text-white shadow-[0_4px_0_#CC7800] hover:translate-y-px hover:shadow-[0_3px_0_#CC7800] active:shadow-[0_1px_0_#CC7800]'
+                                : 'btn-duo-red text-white hover:translate-y-px active:shadow-[0_1px_0_#3FA002]'
                         }`}
                     >
                         {game.is_locked ? (
@@ -125,17 +140,17 @@ export default function GameCard({ game, href, showPlayButton = true, onLockedCl
 
                 {/* Category & free/locked badge row */}
                 <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
+                    <span className="text-[11px] font-bold tracking-widest text-neutral-400 uppercase">
                         {game.category ?? 'Other'}
                     </span>
                     {game.is_free && !game.is_locked && (
-                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#58CC02] bg-[#DDF4D4] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#3FA002]">
+                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#58CC02] bg-[#DDF4D4] px-2.5 py-0.5 text-[10px] font-black tracking-wider text-[#3FA002] uppercase">
                             <Zap className="h-3 w-3" />
                             Free
                         </span>
                     )}
                     {game.is_locked && (
-                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#FF9600] bg-[#FFF0D4] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#CC7800]">
+                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#FF9600] bg-[#FFF0D4] px-2.5 py-0.5 text-[10px] font-black tracking-wider text-[#CC7800] uppercase">
                             <Lock className="h-3 w-3" />
                             Locked
                         </span>
@@ -147,7 +162,11 @@ export default function GameCard({ game, href, showPlayButton = true, onLockedCl
 
     if (game.is_locked && onLockedClick) {
         return (
-            <button type="button" onClick={onLockedClick} className="w-full text-left">
+            <button
+                type="button"
+                onClick={onLockedClick}
+                className="w-full text-left"
+            >
                 {content}
             </button>
         );

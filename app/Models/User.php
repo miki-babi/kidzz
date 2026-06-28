@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,9 +30,9 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'password', 'onboarded'])]
+#[Fillable(['name', 'email', 'password', 'onboarded', 'is_admin'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
-class User extends Authenticatable implements PasskeyUser
+class User extends Authenticatable implements FilamentUser, PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
@@ -46,7 +48,14 @@ class User extends Authenticatable implements PasskeyUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'onboarded' => 'boolean',
+            'is_admin' => 'boolean',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_admin;
     }
 
     public function userProfile(): HasMany
@@ -59,18 +68,23 @@ class User extends Authenticatable implements PasskeyUser
         return $this->hasMany(Diagnosis::class);
     }
 
-    public function gameScores(): HasMany
-    {
-        return $this->hasMany(GameScore::class);
-    }
-
-    public function gameHistories(): HasMany
-    {
-        return $this->hasMany(GameHistory::class);
-    }
-
     public function paymentTrackings(): HasMany
     {
         return $this->hasMany(PaymentTracking::class);
+    }
+
+    public function scores(): HasMany
+    {
+        return $this->hasMany(Score::class);
+    }
+
+    public function onboardingAnswers(): HasMany
+    {
+        return $this->hasMany(OnboardingAnswer::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
     }
 }

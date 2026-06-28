@@ -1,101 +1,108 @@
-import { router } from "@inertiajs/react";
-import { useState, useEffect, useRef } from "react";
-import { GameShell, type CheckResult } from "@/components/game/GameShell";
-import { RewardOverlay } from "@/components/game/RewardOverlay";
-import { playPop, playSuccess, playWrong, speak } from "@/lib/feedback";
-import { completeGame } from "@/lib/store";
+import { router } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
+import { GameShell } from '@/components/game/GameShell';
+import type { CheckResult } from '@/components/game/GameShell';
+import { RewardOverlay } from '@/components/game/RewardOverlay';
+import { playPop, playSuccess, playWrong, speak } from '@/lib/feedback';
+import { elapsedGameSeconds, useGameStartTime } from '@/lib/game-timing';
+import { completeGame } from '@/lib/store';
 
-const FACES = ["🐶", "🐱", "🐵"];
+const FACES = ['🐶', '🐱', '🐵'];
 
 interface Card {
-  id: number;
-  face: string;
+    id: number;
+    face: string;
 }
 
 function build(): Card[] {
-  return [...FACES, ...FACES]
-    .map((face, id) => ({ id, face }))
-    .sort(() => Math.random() - 0.5);
+    return [...FACES, ...FACES]
+        .map((face, id) => ({ id, face }))
+        .sort(() => Math.random() - 0.5);
 }
 
 export function Memory() {
-  const [cards] = useState(build);
-  const [flipped, setFlipped] = useState<number[]>([]);
-  const [done, setDone] = useState<string[]>([]);
-  const [busy, setBusy] = useState(false);
-  const [checkResult] = useState<CheckResult>("idle");
-  const [won, setWon] = useState(false);
-  const startTime = useRef(Date.now());
+    const [cards] = useState(build);
+    const [flipped, setFlipped] = useState<number[]>([]);
+    const [done, setDone] = useState<string[]>([]);
+    const [busy, setBusy] = useState(false);
+    const [checkResult] = useState<CheckResult>('idle');
+    const [won, setWon] = useState(false);
+    const startTime = useGameStartTime();
 
-  useEffect(() => {
-    speak("Find the matching pairs");
-  }, []);
+    useEffect(() => {
+        speak('Find the matching pairs');
+    }, []);
 
-  function flip(card: Card) {
-    if (busy || flipped.includes(card.id) || done.includes(card.face)) {
-return;
-}
-
-    playPop();
-    const next = [...flipped, card.id];
-    setFlipped(next);
-
-    if (next.length === 2) {
-      const [a, b] = next.map((id) => cards.find((c) => c.id === id)!);
-
-      if (a.face === b.face) {
-        playSuccess();
-        const nd = [...done, a.face];
-        setDone(nd);
-        setFlipped([]);
-
-        if (nd.length >= FACES.length) {
-          const duration = Math.round((Date.now() - startTime.current) / 1000);
-          completeGame("memory", "memory", 100);
-          router.post("/games/memory/result", { score: 100, duration });
-          setTimeout(() => setWon(true), 500);
+    function flip(card: Card) {
+        if (busy || flipped.includes(card.id) || done.includes(card.face)) {
+            return;
         }
-      } else {
-        playWrong();
-        setBusy(true);
-        setTimeout(() => {
-          setFlipped([]);
-          setBusy(false);
-        }, 900);
-      }
+
+        playPop();
+        const next = [...flipped, card.id];
+        setFlipped(next);
+
+        if (next.length === 2) {
+            const [a, b] = next.map((id) => cards.find((c) => c.id === id)!);
+
+            if (a.face === b.face) {
+                playSuccess();
+                const nd = [...done, a.face];
+                setDone(nd);
+                setFlipped([]);
+
+                if (nd.length >= FACES.length) {
+                    const duration = elapsedGameSeconds(startTime.current);
+                    completeGame('memory', 'memory', 100);
+                    router.post('/games/memory/result', {
+                        score: 100,
+                        duration,
+                    });
+                    setTimeout(() => setWon(true), 500);
+                }
+            } else {
+                playWrong();
+                setBusy(true);
+                setTimeout(() => {
+                    setFlipped([]);
+                    setBusy(false);
+                }, 900);
+            }
+        }
     }
-  }
 
-  return (
-    <GameShell
-      instruction="Find the pairs"
-      mascot="🦉"
-      totalRounds={FACES.length}
-      currentRound={done.length}
-      checkEnabled={true}
-      onCheck={() => {}}
-      checkResult={checkResult}
-      onNext={() => {}}
-    >
-      <div className="grid grid-cols-3 gap-4">
-        {cards.map((card) => {
-          const show = flipped.includes(card.id) || done.includes(card.face);
+    return (
+        <GameShell
+            instruction="Find the pairs"
+            mascot="🦉"
+            totalRounds={FACES.length}
+            currentRound={done.length}
+            checkEnabled={true}
+            onCheck={() => {}}
+            checkResult={checkResult}
+            onNext={() => {}}
+        >
+            <div className="grid grid-cols-3 gap-4">
+                {cards.map((card) => {
+                    const show =
+                        flipped.includes(card.id) || done.includes(card.face);
 
-          return (
-            <button
-              key={card.id}
-              onClick={() => flip(card)}
-              className={`flex size-28 items-center justify-center rounded-4xl text-6xl transition-all duration-200 ${show
-                  ? "animate-pop bg-[#E8EDF2] shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)]"
-                  : "bg-[#4B5563] shadow-[-4px_-4px_8px_rgba(255,255,255,0.3),4px_4px_8px_rgba(0,0,0,0.15)]"
-                } hover:-translate-y-0.5 active:translate-y-0.5 active:scale-[0.97] ${done.includes(card.face) ? "opacity-40" : ""}`}
-            >
-              {show ? card.face : "❓"}
-            </button>
-          );
-        })}
-      </div>
-      {won && <RewardOverlay stars={3} gameRoute="memory" />}
-    </GameShell>
-  );
+                    return (
+                        <button
+                            key={card.id}
+                            onClick={() => flip(card)}
+                            className={`flex size-28 items-center justify-center rounded-4xl text-6xl transition-all duration-200 ${
+                                show
+                                    ? 'animate-pop bg-[#E8EDF2] shadow-[-6px_-6px_12px_rgba(255,255,255,0.9),6px_6px_12px_rgba(0,0,0,0.06)]'
+                                    : 'bg-[#4B5563] shadow-[-4px_-4px_8px_rgba(255,255,255,0.3),4px_4px_8px_rgba(0,0,0,0.15)]'
+                            } hover:-translate-y-0.5 active:translate-y-0.5 active:scale-[0.97] ${done.includes(card.face) ? 'opacity-40' : ''}`}
+                        >
+                            {show ? card.face : '❓'}
+                        </button>
+                    );
+                })}
+            </div>
+            {won && <RewardOverlay stars={3} gameRoute="memory" />}
+        </GameShell>
+    );
 }

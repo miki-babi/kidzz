@@ -1,4 +1,5 @@
 import { Form, Head } from '@inertiajs/react';
+import { LogIn } from 'lucide-react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
@@ -10,7 +11,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { LogIn } from 'lucide-react';
 
 type Props = {
     status?: string;
@@ -30,19 +30,23 @@ export default function Login({ status, canResetPassword }: Props) {
                 {({ processing, errors }) => (
                     <>
                         {/* Mascot speech bubble */}
-                         {/* Mascot speech bubble */}
-                        <div className="relative flex items-start gap-4 mb-2">
-                            <img src="/asset/maskot/maskot_head.png" className="h-24 w-24 rounded-full flex items-center justify-center text-2xl shrink-0 float-duo" />
-                            <div className="relative bg-white border-2 border-[#E5E5E5] rounded-[20px_20px_20px_4px] px-5 py-3 flex-1">
+                        {/* Mascot speech bubble */}
+                        <div className="relative mb-2 flex items-start gap-4">
+                            <img
+                                src="/asset/maskot/maskot_head.png"
+                                className="flex h-24 w-24 shrink-0 float-duo items-center justify-center rounded-full text-2xl"
+                            />
+                            <div className="relative flex-1 rounded-[20px_20px_20px_4px] border-2 border-[#E5E5E5] bg-white px-5 py-3">
                                 <p className="text-sm font-extrabold text-[#3C3C3C]">
-                                    Welcome back!  🎉
+                                    Welcome back! 🎉
                                 </p>
                                 {/* Speech bubble arrow */}
                                 <div
-                                    className="absolute -left-[9px] top-4 w-[14px] h-[14px] bg-white border-l-2 border-b-2 border-[#E5E5E5]"
+                                    className="absolute top-4 -left-[9px] h-[14px] w-[14px] border-b-2 border-l-2 border-[#E5E5E5] bg-white"
                                     style={{
                                         transform: 'rotate(45deg)',
-                                        clipPath: 'polygon(0 0, 100% 0, 0 100%)',
+                                        clipPath:
+                                            'polygon(0 0, 100% 0, 0 100%)',
                                     }}
                                 />
                             </div>
@@ -52,7 +56,7 @@ export default function Login({ status, canResetPassword }: Props) {
                             <div className="grid gap-2">
                                 <Label
                                     htmlFor="email"
-                                    className="font-extrabold text-sm text-[#AFB8C1] dark:text-zinc-400"
+                                    className="text-sm font-extrabold text-[#AFB8C1] dark:text-zinc-400"
                                 >
                                     EMAIL ADDRESS
                                 </Label>
@@ -65,7 +69,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                     tabIndex={1}
                                     autoComplete="email"
                                     placeholder="email@example.com"
-                                    className="rounded-[12px] border-2 border-[#E5E5E5] px-4 py-4 text-sm font-semibold text-[#3C3C3C] bg-[#F7F7F7] dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 focus:border-[#1CB0F6] focus:bg-white transition-colors"
+                                    className="rounded-[12px] border-2 border-[#E5E5E5] bg-[#F7F7F7] px-4 py-4 text-sm font-semibold text-[#3C3C3C] transition-colors focus:border-[#1CB0F6] focus:bg-white dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
                                 />
                                 <InputError
                                     message={errors.email}
@@ -76,7 +80,7 @@ export default function Login({ status, canResetPassword }: Props) {
                             <div className="grid gap-2">
                                 <Label
                                     htmlFor="password"
-                                    className="font-extrabold text-sm text-[#AFB8C1] dark:text-zinc-400"
+                                    className="text-sm font-extrabold text-[#AFB8C1] dark:text-zinc-400"
                                 >
                                     PASSWORD
                                 </Label>
@@ -87,7 +91,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                     tabIndex={2}
                                     autoComplete="current-password"
                                     placeholder="Your password"
-                                    className="rounded-[12px] border-2 border-[#E5E5E5] px-4 py-4 text-sm font-semibold text-[#3C3C3C] bg-[#F7F7F7] dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 focus:border-[#1CB0F6] focus:bg-white transition-colors"
+                                    className="rounded-[12px] border-2 border-[#E5E5E5] bg-[#F7F7F7] px-4 py-4 text-sm font-semibold text-[#3C3C3C] transition-colors focus:border-[#1CB0F6] focus:bg-white dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
                                 />
                                 <InputError
                                     message={errors.password}
@@ -109,11 +113,11 @@ export default function Login({ status, canResetPassword }: Props) {
                                     id="remember"
                                     name="remember"
                                     tabIndex={3}
-                                    className="border-2 border-[#E5E5E5] data-[state=checked]:bg-[#58CC02] data-[state=checked]:border-[#58CC02] rounded-[4px]"
+                                    className="rounded-[4px] border-2 border-[#E5E5E5] data-[state=checked]:border-[#58CC02] data-[state=checked]:bg-[#58CC02]"
                                 />
                                 <Label
                                     htmlFor="remember"
-                                    className="font-extrabold text-sm text-[#3C3C3C] dark:text-zinc-300"
+                                    className="text-sm font-extrabold text-[#3C3C3C] dark:text-zinc-300"
                                 >
                                     Remember me
                                 </Label>
@@ -121,7 +125,7 @@ export default function Login({ status, canResetPassword }: Props) {
 
                             <Button
                                 type="submit"
-                                className="btn-duo-green inline-flex items-center justify-center gap-2 w-full mt-2 px-8 py-4 text-base uppercase tracking-wide"
+                                className="btn-duo-green mt-2 inline-flex w-full items-center justify-center gap-2 px-8 py-4 text-base tracking-wide uppercase"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
@@ -133,7 +137,7 @@ export default function Login({ status, canResetPassword }: Props) {
                         </div>
 
                         {/* Divider + Toggle link inside card */}
-                        <div className="border-t-2 border-[#E5E5E5] dark:border-zinc-700 pt-6 mt-2">
+                        <div className="mt-2 border-t-2 border-[#E5E5E5] pt-6 dark:border-zinc-700">
                             <p className="text-center text-sm font-bold text-[#777777] dark:text-zinc-400">
                                 Don't have an account?{' '}
                                 <TextLink

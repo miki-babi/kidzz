@@ -20,39 +20,37 @@ export default function AuthCardLayout({
                     href={home()}
                     className="flex flex-col items-center gap-3 self-center font-medium"
                 >
-                    <div className="h-16 w-16 rounded-full bg-[#FFC800] flex items-center justify-center text-4xl shadow-md float-duo">
+                    <div className="flex h-16 w-16 float-duo items-center justify-center rounded-full bg-[#FFC800] text-4xl shadow-md">
                         🦁
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="flex h-8 w-8 items-center justify-center">
                             <AppLogoIcon className="size-8 fill-current text-[#58CC02] dark:text-white" />
                         </div>
-                        <span className="text-lg font-extrabold text-[#3C3C3C] dark:text-white tracking-tight">
+                        <span className="text-lg font-extrabold tracking-tight text-[#3C3C3C] dark:text-white">
                             Lifeline Addis
                         </span>
                     </div>
                 </Link>
 
                 <div className="flex flex-col gap-6">
-                    <div className="bg-white border-2 border-[#E5E5E5] rounded-[20px] dark:bg-zinc-900 dark:border-zinc-800">
+                    <div className="rounded-[20px] border-2 border-[#E5E5E5] bg-white dark:border-zinc-800 dark:bg-zinc-900">
                         {/* Header */}
                         <div className="px-8 pt-8 pb-2 text-center">
                             {title && (
-                                <h2 className="text-xl font-extrabold text-[#3C3C3C] dark:text-white tracking-tight">
+                                <h2 className="text-xl font-extrabold tracking-tight text-[#3C3C3C] dark:text-white">
                                     {title}
                                 </h2>
                             )}
                             {description && (
-                                <p className="text-sm font-semibold text-[#777777] dark:text-zinc-400 mt-1">
+                                <p className="mt-1 text-sm font-semibold text-[#777777] dark:text-zinc-400">
                                     {description}
                                 </p>
                             )}
                         </div>
 
                         {/* Content */}
-                        <div className="px-8 py-6">
-                            {children}
-                        </div>
+                        <div className="px-8 py-6">{children}</div>
 
                         {/* Bottom divider + toggle links — rendered inside card by page */}
                     </div>
