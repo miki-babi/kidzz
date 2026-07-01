@@ -7,9 +7,31 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PaymentTrackingController;
 use App\Http\Middleware\EnsureOnboarded;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'landing')->name('home');
+
+Route::get('/clear', function () {
+    $commands = [
+        'optimize:clear',
+        'config:clear',
+        'route:clear',
+        'cache:clear',
+    ];
+
+    $results = [];
+
+    foreach ($commands as $command) {
+        Artisan::call($command);
+        $results[$command] = trim(Artisan::output());
+    }
+
+    return response()->json([
+        'message' => 'Cache cleared successfully.',
+        'results' => $results,
+    ]);
+});
 
 Route::middleware('guest')->prefix('auth/google')->name('auth.google.')->group(function () {
     Route::get('redirect', [GoogleAuthController::class, 'redirect'])->name('redirect');
