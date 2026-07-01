@@ -113,7 +113,7 @@ class GameController extends Controller
                         'id' => $game->id,
                         'name' => $game->name,
                         'routePath' => $game->routePath,
-                        'imagePath' => $game->imagePath,
+                        'imagePath' => $game->thumbnail,
                         'best_score' => $score ? $score->score : null,
                         'times_played' => $histories->count(),
                         'last_played' => $histories->first()?->played_at,
