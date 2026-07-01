@@ -1,5 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
+import { LogIn } from 'lucide-react';
 import InputError from '@/components/input-error';
+import GoogleAuthButton from '@/components/google-auth-button';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -21,8 +23,6 @@ export default function Login({ status, canResetPassword }: Props) {
         <>
             <Head title="Log in" />
 
-            {/* <PasskeyVerify /> */}
-
             <Form
                 {...store.form()}
                 resetOnSuccess={['password']}
@@ -30,13 +30,38 @@ export default function Login({ status, canResetPassword }: Props) {
             >
                 {({ processing, errors }) => (
                     <>
+                        {/* Mascot speech bubble */}
+                        {/* Mascot speech bubble */}
+                        <div className="relative mb-2 flex items-start gap-4">
+                            <img
+                                src="/asset/maskot/maskot_head.png"
+                                className="flex h-24 w-24 shrink-0 float-duo items-center justify-center rounded-full text-2xl"
+                            />
+                            <div className="relative flex-1 rounded-[20px_20px_20px_4px] border-2 border-[#E5E5E5] bg-white px-5 py-3">
+                                <p className="text-sm font-extrabold text-[#3C3C3C]">
+                                    Welcome back! 🎉
+                                </p>
+                                {/* Speech bubble arrow */}
+                                <div
+                                    className="absolute top-4 -left-[9px] h-[14px] w-[14px] border-b-2 border-l-2 border-[#E5E5E5] bg-white"
+                                    style={{
+                                        transform: 'rotate(45deg)',
+                                        clipPath:
+                                            'polygon(0 0, 100% 0, 0 100%)',
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        <GoogleAuthButton />
+
                         <div className="grid gap-6">
                             <div className="grid gap-2">
                                 <Label
                                     htmlFor="email"
-                                    className="font-bold text-neutral-700 dark:text-zinc-300"
+                                    className="text-sm font-extrabold text-[#AFB8C1] dark:text-zinc-400"
                                 >
-                                    Email address
+                                    EMAIL ADDRESS
                                 </Label>
                                 <Input
                                     id="email"
@@ -47,45 +72,43 @@ export default function Login({ status, canResetPassword }: Props) {
                                     tabIndex={1}
                                     autoComplete="email"
                                     placeholder="email@example.com"
-                                    className="rounded-xl border-neutral-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+                                    className="rounded-[12px] border-2 border-[#E5E5E5] bg-[#F7F7F7] px-4 py-4 text-sm font-semibold text-[#3C3C3C] transition-colors focus:border-[#1CB0F6] focus:bg-white dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
                                 />
                                 <InputError
                                     message={errors.email}
-                                    className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400"
+                                    className="mt-1 text-xs font-bold text-[#FF4B4B] dark:text-red-400"
                                 />
                             </div>
 
                             <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label
-                                        htmlFor="password"
-                                        className="font-bold text-neutral-700 dark:text-zinc-300"
-                                    >
-                                        Password
-                                    </Label>
-                                    {canResetPassword && (
-                                        <TextLink
-                                            href={request()}
-                                            className="ml-auto text-sm font-bold text-neutral-500 hover:text-[#D2232A] dark:text-zinc-400 dark:hover:text-[#B01E24]"
-                                            tabIndex={5}
-                                        >
-                                            Forgot your password?
-                                        </TextLink>
-                                    )}
-                                </div>
+                                <Label
+                                    htmlFor="password"
+                                    className="text-sm font-extrabold text-[#AFB8C1] dark:text-zinc-400"
+                                >
+                                    PASSWORD
+                                </Label>
                                 <PasswordInput
                                     id="password"
                                     name="password"
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder="Password"
-                                    className="rounded-xl border-neutral-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+                                    placeholder="Your password"
+                                    className="rounded-[12px] border-2 border-[#E5E5E5] bg-[#F7F7F7] px-4 py-4 text-sm font-semibold text-[#3C3C3C] transition-colors focus:border-[#1CB0F6] focus:bg-white dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
                                 />
                                 <InputError
                                     message={errors.password}
-                                    className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400"
+                                    className="mt-1 text-xs font-bold text-[#FF4B4B] dark:text-red-400"
                                 />
+                                {canResetPassword && (
+                                    <TextLink
+                                        href={request()}
+                                        className="text-sm font-extrabold text-[#1CB0F6] hover:underline hover:underline-offset-2 dark:text-[#1CB0F6]"
+                                        tabIndex={5}
+                                    >
+                                        Forgot your password?
+                                    </TextLink>
+                                )}
                             </div>
 
                             <div className="flex items-center space-x-3">
@@ -93,10 +116,11 @@ export default function Login({ status, canResetPassword }: Props) {
                                     id="remember"
                                     name="remember"
                                     tabIndex={3}
+                                    className="rounded-[4px] border-2 border-[#E5E5E5] data-[state=checked]:border-[#58CC02] data-[state=checked]:bg-[#58CC02]"
                                 />
                                 <Label
                                     htmlFor="remember"
-                                    className="font-bold text-neutral-700 dark:text-zinc-300"
+                                    className="text-sm font-extrabold text-[#3C3C3C] dark:text-zinc-300"
                                 >
                                     Remember me
                                 </Label>
@@ -104,32 +128,36 @@ export default function Login({ status, canResetPassword }: Props) {
 
                             <Button
                                 type="submit"
-                                className="mt-4 w-full rounded-full bg-[#D2232A] font-extrabold tracking-tight text-white shadow-lg shadow-red-500/10 transition-all hover:scale-[1.02] hover:bg-red-700 active:scale-[0.98] dark:bg-[#B01E24] dark:hover:bg-red-700"
+                                className="btn-duo-green mt-2 inline-flex w-full items-center justify-center gap-2 px-8 py-4 text-base tracking-wide uppercase"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
+                                <LogIn className="h-5 w-5" />
                                 Log in
                             </Button>
                         </div>
 
-                        <div className="text-center text-sm font-medium text-neutral-500 dark:text-zinc-400">
-                            Don't have an account?{' '}
-                            <TextLink
-                                href={register()}
-                                tabIndex={5}
-                                className="font-extrabold text-[#D2232A] hover:text-red-700 dark:text-[#B01E24] dark:hover:text-red-500"
-                            >
-                                Sign up
-                            </TextLink>
+                        {/* Divider + Toggle link inside card */}
+                        <div className="mt-2 border-t-2 border-[#E5E5E5] pt-6 dark:border-zinc-700">
+                            <p className="text-center text-sm font-bold text-[#777777] dark:text-zinc-400">
+                                Don't have an account?{' '}
+                                <TextLink
+                                    href={register()}
+                                    tabIndex={5}
+                                    className="font-extrabold text-[#1CB0F6] hover:underline hover:underline-offset-2 dark:text-[#1CB0F6]"
+                                >
+                                    Sign up
+                                </TextLink>
+                            </p>
                         </div>
                     </>
                 )}
             </Form>
 
             {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
+                <div className="mb-4 text-center text-sm font-extrabold text-[#58CC02]">
                     {status}
                 </div>
             )}
@@ -138,6 +166,6 @@ export default function Login({ status, canResetPassword }: Props) {
 }
 
 Login.layout = {
-    title: 'Log in to your account',
-    description: 'Enter your email and password below to log in',
+    title: ' ',
+    description: '',
 };

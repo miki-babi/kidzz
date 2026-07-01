@@ -1,7 +1,18 @@
 import { Head, router, usePage } from '@inertiajs/react';
-import { Lock, Sparkles, X } from 'lucide-react';
+import {
+    Lock,
+    Sparkles,
+    X,
+    Flame,
+    Gem,
+    Trophy,
+    Zap,
+    Star,
+    ArrowRight,
+} from 'lucide-react';
 import { useMemo, useState, useEffect } from 'react';
-import GameCard, { type GameCardData } from '@/components/game-card';
+import GameCard from '@/components/game-card';
+import type { GameCardData } from '@/components/game-card';
 import { useCurrentProfile } from '@/lib/store';
 
 interface DashboardProps {
@@ -19,7 +30,28 @@ function currency(price: number): string {
     }).format(price);
 }
 
-export default function Dashboard({ games, hasActiveAccount, freeGamesLimit, recommendedCategory, demoPrice }: DashboardProps) {
+// Duolingo-style category icons
+function getCategoryIcon(category: string): string {
+    const iconMap: Record<string, string> = {
+        'Communication Skill': '💬',
+        'Daily Routine': '⏰',
+        'Sensory Space': '🖐️',
+        'Social Skills': '🤝',
+        Emotions: '😊',
+        Learning: '📚',
+        Games: '🎮',
+    };
+
+    return iconMap[category] ?? '📖';
+}
+
+export default function Dashboard({
+    games,
+    hasActiveAccount,
+    freeGamesLimit,
+    recommendedCategory,
+    demoPrice,
+}: DashboardProps) {
     const profile = useCurrentProfile();
     const [activeCategory, setActiveCategory] = useState(recommendedCategory);
     const [selectedGame, setSelectedGame] = useState<GameCardData | null>(null);
@@ -32,85 +64,140 @@ export default function Dashboard({ games, hasActiveAccount, freeGamesLimit, rec
         [games],
     );
 
-    const visibleGames = games.filter((game) => (game.category ?? 'Other') === activeCategory);
+    const visibleGames = games.filter(
+        (game) => (game.category ?? 'Other') === activeCategory,
+    );
     useEffect(() => {
         console.log('[Games] flash changed', flash);
     }, [flash]);
+
+    // Mock stats for Duolingo-style header
+    const streakCount = 5;
+    const gemCount = 120;
 
     return (
         <>
             <Head title="Dashboard" />
 
-            {/* Configured constraints to cap screen real estate cleanly */}
-            <div className="mx-auto flex w-full max-w-5xl h-full flex-1 flex-col gap-6 rounded-xl p-4">
+            {/* ===== DUOLINGO-STYLE DASHBOARD ===== */}
+            <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-5 px-4 pt-2 pb-8">
+                {/* ─── 1. TOP NAV / PROFILE + STATS ─── */}
                 {profile && (
-                    <div className="flex items-center gap-4 rounded-[2rem] border border-neutral-100 bg-white p-4 shadow-xl dark:border-zinc-800 dark:bg-zinc-950">
-                        <span className="text-5xl">{profile.avatar}</span>
-                        <div className="flex-1">
-                            <h2 className="text-xl font-bold text-neutral-900">{profile.name}</h2>
-                            <p className="text-sm font-medium text-neutral-500">
-                                Level {profile.level} · ⭐ {profile.stars} · 🪙 {profile.coins} · {profile.xp} XP
-                            </p>
+                    <div className="flex items-center justify-between border-b-2 border-[#E5E5E5] pb-4">
+                        <div className="flex items-center gap-3">
+                            {/* Cartoon-style avatar emoji */}
+                            <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#E5E5E5] bg-[#FFF3C7] text-2xl shadow-[0_2px_0_#C4C4C4]">
+                                {profile.avatar}
+                            </span>
+                            <div>
+                                <h2 className="text-lg font-black text-[#3C3C3C]">
+                                    {profile.name}
+                                </h2>
+                                <div className="flex items-center gap-3 text-sm font-bold text-[#777777]">
+                                    <span className="flex items-center gap-1">
+                                        <Trophy className="h-4 w-4 text-[#FF9600]" />
+                                        Lv.{profile.level}
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        <Star
+                                            className="h-4 w-4 text-[#FF9600]"
+                                            fill="#FF9600"
+                                        />
+                                        {profile.xp} XP
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <span className="text-3xl font-black text-red-600">Lv.{profile.level}</span>
+
+                        {/* Duolingo-style stats row: Streak + Gems */}
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-1.5 rounded-xl border-2 border-[#E5E5E5] bg-white px-3 py-1.5 shadow-[0_2px_0_#C4C4C4]">
+                                <Flame
+                                    className="h-5 w-5 text-[#FF4B4B]"
+                                    fill="#FF4B4B"
+                                />
+                                <span className="text-base font-black text-[#3C3C3C]">
+                                    {streakCount}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-1.5 rounded-xl border-2 border-[#E5E5E5] bg-white px-3 py-1.5 shadow-[0_2px_0_#C4C4C4]">
+                                <Gem
+                                    className="h-5 w-5 text-[#1CB0F6]"
+                                    fill="#1CB0F6"
+                                />
+                                <span className="text-base font-black text-[#3C3C3C]">
+                                    {gemCount}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 )}
-                
-                {/* Fixed container constraints and stripped heavy background section layout padding leaks */}
-                <div className="w-full rounded-[2rem] bg-gradient-to-br from-red-600 via-red-600 to-orange-500 p-6 text-white shadow-2xl shadow-red-500/20 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                    <div className="max-w-2xl space-y-3">
-                        <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em]">
-                            <Sparkles className="h-4 w-4" />
-                            Recommended category
+
+                {/* ─── 2. MEGA BANNER ("Recommended") ─── */}
+                <div className="border-shadowred relative overflow-hidden rounded-2xl border-b-4 bg-duo-darkred px-6 py-5 text-white">
+                    {/* Character illustration */}
+                    <img
+                        src="/asset/maskot/maskot_waving.png"
+                        alt="Maskot waving"
+                        className="absolute right-4 bottom-0 h-28 w-28 object-contain select-none sm:h-36 sm:w-36"
+                    />
+
+                    <div className="relative z-10 max-w-lg space-y-3">
+                        <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[11px] font-black tracking-[0.15em] uppercase">
+                            <Sparkles className="h-3.5 w-3.5" />
+                            Recommended
                         </div>
-                        <h1 className="text-3xl font-black tracking-tight sm:text-5xl">
+                        <h1 className="text-2xl font-black tracking-tight sm:text-3xl">
                             {recommendedCategory}
                         </h1>
-                        <p className="max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
-                            Start with the first {freeGamesLimit} games for free. {hasActiveAccount ? 'Your premium account unlocks every game.' : 'Upgrade to premium to unlock the full library with a demo payment.'}
+                        <p className="text-sm leading-relaxed text-white/80">
+                            Start with the first {freeGamesLimit} games for
+                            free.{' '}
+                            {hasActiveAccount
+                                ? 'Your premium account unlocks every game!'
+                                : 'Upgrade to premium to unlock the full library.'}
                         </p>
+
+                        {/* Duolingo-style pill badge */}
+                        <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/30 bg-white/15 px-4 py-1.5 text-xs font-black tracking-wider uppercase">
+                            <Zap className="h-3.5 w-3.5" />
+                            {freeGamesLimit} FREE GAMES
+                        </div>
+
                         {flash?.status && (
-                            <div className="inline-flex rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
+                            <div className="inline-flex rounded-full bg-white/20 px-4 py-2 text-sm font-bold">
                                 {flash.status}
                             </div>
                         )}
                     </div>
-
-                    <div className="grid grid-cols-2 gap-3 text-sm min-w-[240px]">
-                        <div className="rounded-2xl bg-white/10 px-4 py-3 backdrop-blur">
-                            <div className="text-[11px] font-bold uppercase tracking-widest text-white/70">Plan</div>
-                            <div className="mt-1 text-lg font-black">{hasActiveAccount ? 'Premium' : 'Free'}</div>
-                        </div>
-                        <div className="rounded-2xl bg-white/10 px-4 py-3 backdrop-blur">
-                            <div className="text-[11px] font-bold uppercase tracking-widest text-white/70">Demo price</div>
-                            <div className="mt-1 text-lg font-black">{currency(demoPrice)}</div>
-                        </div>
-                    </div>
                 </div>
 
-                <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                    <div className="no-scrollbar flex items-center gap-2 overflow-x-auto pb-2">
-    {categories.map((category) => (
-        <button
-            key={category}
-            onClick={() => setActiveCategory(category)}
-            className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full px-6 py-3 text-sm font-black transition-all ${
-                activeCategory === category
-                    ? 'bg-red-600 text-white shadow-lg'
-                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800'
-            }`}
-        >
-            <span>{category}</span>
-            {category === recommendedCategory && (
-                <Sparkles className="h-4 w-4 shrink-0" />
-            )}
-        </button>
-    ))}
-</div>
+                {/* ─── 3. CATEGORY FILTER PILLS ─── */}
+                <div className="no-scrollbar flex items-center gap-2 overflow-x-auto pb-1">
+                    {categories.map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => setActiveCategory(category)}
+                            className={`inline-flex items-center gap-2 rounded-xl border-2 px-5 py-2.5 text-sm font-black tracking-wider whitespace-nowrap uppercase transition-all active:translate-y-0.5 ${
+                                activeCategory === category
+                                    ? 'border-[#D62B2B] bg-[#FF4B4B] text-white shadow-[0_3px_0_#B30000] hover:translate-y-px hover:shadow-[0_2px_0_#B30000]'
+                                    : 'border-[#E5E5E5] bg-white text-[#777777] shadow-[0_2px_0_#C4C4C4] hover:translate-y-px hover:bg-neutral-50 hover:shadow-[0_1px_0_#C4C4C4]'
+                            }`}
+                        >
+                            <span className="text-lg">
+                                {getCategoryIcon(category)}
+                            </span>
+                            <span>{category}</span>
+                            {category === recommendedCategory && (
+                                <Sparkles className="h-3.5 w-3.5 shrink-0" />
+                            )}
+                        </button>
+                    ))}
                 </div>
 
+                {/* ─── 4. GAME CARDS GRID ─── */}
                 {visibleGames.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                         {visibleGames.map((game) => (
                             <GameCard
                                 key={game.id}
@@ -121,54 +208,81 @@ export default function Dashboard({ games, hasActiveAccount, freeGamesLimit, rec
                         ))}
                     </div>
                 ) : (
-                    <p className="py-12 text-center text-lg font-medium text-neutral-400">
-                        No games in this category yet.
-                    </p>
+                    <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-[#E5E5E5] py-16 text-center">
+                        <span className="text-5xl">🔍</span>
+                        <p className="text-lg font-bold text-[#777777]">
+                            No games in this category yet.
+                        </p>
+                        <button
+                            onClick={() =>
+                                setActiveCategory(recommendedCategory)
+                            }
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#FF4B4B] px-5 py-2.5 text-sm font-black tracking-wider text-white uppercase shadow-[0_3px_0_#B30000] transition-all active:translate-y-0.5"
+                        >
+                            <ArrowRight className="h-4 w-4" />
+                            Try recommended
+                        </button>
+                    </div>
                 )}
             </div>
 
-            {/* Interactive Overlay Payment Pop-Up Wrapper */}
+            {/* ─── DUOLINGO-STYLE UNLOCK OVERLAY ─── */}
             {selectedGame && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/70 px-4 backdrop-blur-sm">
-                    <div className="relative w-full max-w-lg rounded-[2rem] bg-white p-6 shadow-2xl dark:bg-zinc-950">
+                    <div className="relative w-full max-w-md overflow-hidden rounded-2xl border-2 border-[#E5E5E5] bg-white shadow-xl">
+                        {/* Decorative top bar */}
+
                         <button
                             type="button"
                             onClick={() => setSelectedGame(null)}
-                            className="absolute right-4 top-4 rounded-full p-2 text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-700 dark:hover:bg-zinc-900"
+                            className="absolute top-3 right-3 rounded-full p-1.5 text-white/80 transition hover:bg-white/20 hover:text-white"
                         >
                             <X className="h-5 w-5" />
                         </button>
 
-                        <div className="space-y-4">
-                            <div className="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-red-700 dark:bg-red-500/10 dark:text-red-300">
-                                <Lock className="h-4 w-4" />
-                                Demo payment required
-                            </div>
-                            <div>
-                                <h3 className="text-2xl font-black tracking-tight text-neutral-900 dark:text-white">
-                                    Unlock {selectedGame.name}
-                                </h3>
-                                <p className="mt-2 text-sm leading-relaxed text-neutral-500">
-                                    This is a demo payment flow. Pay {currency(demoPrice)} to unlock premium access and open all locked games.
-                                </p>
+                        <div className="space-y-5 p-6">
+                            <div className="flex items-center gap-4">
+                                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-[#E5E5E5] bg-[#FFF3C7] shadow-[0_3px_0_#C4C4C4]">
+                                    <Lock className="h-7 w-7 text-[#FF9600]" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-black text-[#3C3C3C]">
+                                        Unlock {selectedGame.name}
+                                    </h3>
+                                    <p className="mt-1 text-sm font-medium text-[#777777]">
+                                        This is a demo payment flow. Pay{' '}
+                                        {currency(demoPrice)} to unlock premium
+                                        access.
+                                    </p>
+                                </div>
                             </div>
 
+                            {/* Pricing boxes */}
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="rounded-2xl bg-neutral-50 p-4 dark:bg-zinc-900">
-                                    <div className="text-[11px] font-black uppercase tracking-widest text-neutral-400">Plan</div>
-                                    <div className="mt-1 text-lg font-black text-neutral-900 dark:text-white">Premium</div>
+                                <div className="rounded-xl border-2 border-[#E5E5E5] bg-[#F7F7F8] p-3">
+                                    <div className="text-[10px] font-black tracking-widest text-[#777777] uppercase">
+                                        Plan
+                                    </div>
+                                    <div className="mt-1 text-base font-black text-[#3C3C3C]">
+                                        Premium
+                                    </div>
                                 </div>
-                                <div className="rounded-2xl bg-neutral-50 p-4 dark:bg-zinc-900">
-                                    <div className="text-[11px] font-black uppercase tracking-widest text-neutral-400">Price</div>
-                                    <div className="mt-1 text-lg font-black text-neutral-900 dark:text-white">{currency(demoPrice)}</div>
+                                <div className="rounded-xl border-2 border-[#E5E5E5] bg-[#F7F7F8] p-3">
+                                    <div className="text-[10px] font-black tracking-widest text-[#777777] uppercase">
+                                        Price
+                                    </div>
+                                    <div className="mt-1 text-base font-black text-[#3C3C3C]">
+                                        {currency(demoPrice)}
+                                    </div>
                                 </div>
                             </div>
 
+                            {/* Duolingo-style buttons */}
                             <div className="flex gap-3">
                                 <button
                                     type="button"
                                     onClick={() => setSelectedGame(null)}
-                                    className="flex-1 rounded-full border border-neutral-200 px-5 py-3 text-sm font-black text-neutral-700 transition hover:bg-neutral-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900"
+                                    className="flex-1 rounded-xl border-2 border-[#E5E5E5] bg-white px-5 py-3 text-sm font-black tracking-wider text-[#777777] uppercase shadow-[0_3px_0_#C4C4C4] transition-all hover:bg-neutral-50 active:translate-y-0.5"
                                 >
                                     Not now
                                 </button>
@@ -177,9 +291,12 @@ export default function Dashboard({ games, hasActiveAccount, freeGamesLimit, rec
                                     onClick={() => {
                                         router.visit('/pay');
                                     }}
-                                    className="flex-1 rounded-full bg-red-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-red-500/20 transition hover:bg-red-700"
+                                    className="flex-1 rounded-xl bg-[#FF4B4B] px-5 py-3 text-sm font-black tracking-wider text-white uppercase shadow-[0_3px_0_#B30000] transition-all hover:bg-[#F03B3B] active:translate-y-0.5"
                                 >
-                                    Pay now
+                                    <span className="flex items-center justify-center gap-1.5">
+                                        <Gem className="h-4 w-4" />
+                                        Pay now
+                                    </span>
                                 </button>
                             </div>
                         </div>

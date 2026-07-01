@@ -88,7 +88,7 @@ class GameController extends Controller
             'duration' => $validated['duration'],
         ]);
 
-        return response()->json(['message' => 'Game result saved successfully']);
+        return Inertia::back();
     }
 
     public function results(Request $request)

@@ -1,5 +1,12 @@
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, BarChart3, Clock, Gamepad2, Star, Trophy } from 'lucide-react';
+import {
+    ArrowLeft,
+    BarChart3,
+    Clock,
+    Gamepad2,
+    Star,
+    Trophy,
+} from 'lucide-react';
 import { useState } from 'react';
 
 interface GameResult {
@@ -24,8 +31,8 @@ interface ResultsProps {
 
 function formatDuration(seconds: number): string {
     if (seconds < 60) {
-return `${seconds}s`;
-}
+        return `${seconds}s`;
+    }
 
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -35,8 +42,8 @@ return `${seconds}s`;
 
 function formatDate(dateStr: string | null): string {
     if (!dateStr) {
-return 'Never';
-}
+        return 'Never';
+    }
 
     const date = new Date(dateStr);
 
@@ -50,7 +57,9 @@ return 'Never';
 }
 
 export default function Results({ results }: ResultsProps) {
-    const [activeCategory, setActiveCategory] = useState(results[0]?.category ?? '');
+    const [activeCategory, setActiveCategory] = useState(
+        results[0]?.category ?? '',
+    );
 
     const categoryResults = results.find((r) => r.category === activeCategory);
 
@@ -61,9 +70,10 @@ export default function Results({ results }: ResultsProps) {
             <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto rounded-xl p-4">
                 {/* Header */}
                 <div className="flex items-center gap-4">
-                    
                     <div>
-                        <h1 className="text-3xl font-black tracking-tight">Game Results</h1>
+                        <h1 className="text-3xl font-black tracking-tight">
+                            Game Results
+                        </h1>
                         <p className="mt-1 text-sm font-medium text-neutral-500">
                             View your scores and progress across all games
                         </p>
@@ -76,10 +86,10 @@ export default function Results({ results }: ResultsProps) {
                         <button
                             key={r.category}
                             onClick={() => setActiveCategory(r.category)}
-                            className={`whitespace-nowrap rounded-full px-6 py-3 text-sm font-black transition-all ${
+                            className={`rounded-full px-6 py-3 text-sm font-black whitespace-nowrap transition-all ${
                                 activeCategory === r.category
-                                    ? 'bg-red-600 text-white shadow-lg'
-                                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                                    ? 'bg-[#FF4B4B] text-white shadow-lg'
+                                    : 'bg-neutral-100 text-neutral-600 hover:bg-[#FFDFDF] hover:text-[#FF4B4B]'
                             }`}
                         >
                             {r.category}
@@ -96,7 +106,7 @@ export default function Results({ results }: ResultsProps) {
                                 className="overflow-hidden rounded-3xl border border-neutral-100 bg-white shadow-md"
                             >
                                 {/* Game header */}
-                                <div className="flex items-center gap-4 bg-gradient-to-br from-red-50 to-orange-50 p-5">
+                                <div className="flex items-center gap-4 bg-gradient-to-br from-[#FFDFDF] to-orange-50 p-5">
                                     {game.imagePath ? (
                                         <img
                                             src={game.imagePath}
@@ -109,12 +119,15 @@ export default function Results({ results }: ResultsProps) {
                                         </div>
                                     )}
                                     <div className="flex-1">
-                                        <h3 className="text-lg font-bold text-neutral-900">{game.name}</h3>
+                                        <h3 className="text-lg font-bold text-neutral-900">
+                                            {game.name}
+                                        </h3>
                                         <Link
                                             href={`/games/${game.routePath}`}
-                                            className="inline-flex items-center gap-1 text-sm font-semibold text-red-600 hover:text-red-700"
+                                            className="inline-flex items-center gap-1 text-sm font-semibold text-[#FF4B4B] hover:text-[#D62B2B]"
                                         >
-                                            Play again <ArrowLeft className="size-3 rotate-180" />
+                                            Play again{' '}
+                                            <ArrowLeft className="size-3 rotate-180" />
                                         </Link>
                                     </div>
                                 </div>
@@ -126,28 +139,36 @@ export default function Results({ results }: ResultsProps) {
                                         <span className="text-2xl font-black text-neutral-900">
                                             {game.best_score ?? '-'}
                                         </span>
-                                        <span className="text-xs font-medium text-neutral-400">Best Score</span>
+                                        <span className="text-xs font-medium text-neutral-400">
+                                            Best Score
+                                        </span>
                                     </div>
                                     <div className="flex flex-col items-center gap-1 bg-white p-4">
                                         <Gamepad2 className="size-5 text-blue-500" />
                                         <span className="text-2xl font-black text-neutral-900">
                                             {game.times_played}
                                         </span>
-                                        <span className="text-xs font-medium text-neutral-400">Times Played</span>
+                                        <span className="text-xs font-medium text-neutral-400">
+                                            Times Played
+                                        </span>
                                     </div>
                                     <div className="flex flex-col items-center gap-1 bg-white p-4">
                                         <Clock className="size-5 text-purple-500" />
                                         <span className="text-2xl font-black text-neutral-900">
-                                            {formatDuration(game.total_duration)}
+                                            {formatDuration(
+                                                game.total_duration,
+                                            )}
                                         </span>
-                                        <span className="text-xs font-medium text-neutral-400">Total Time</span>
+                                        <span className="text-xs font-medium text-neutral-400">
+                                            Total Time
+                                        </span>
                                     </div>
                                     <div className="flex flex-col items-center gap-1 bg-white p-4">
                                         <BarChart3 className="size-5 text-green-500" />
-                                        <span className="text-xs font-medium text-neutral-400 leading-tight text-center">
+                                        <span className="text-center text-xs leading-tight font-medium text-neutral-400">
                                             Last played
                                         </span>
-                                        <span className="text-sm font-bold text-neutral-700 text-center">
+                                        <span className="text-center text-sm font-bold text-neutral-700">
                                             {formatDate(game.last_played)}
                                         </span>
                                     </div>
@@ -158,10 +179,12 @@ export default function Results({ results }: ResultsProps) {
                 ) : (
                     <div className="flex flex-col items-center justify-center gap-4 py-20 text-neutral-400">
                         <Star className="size-16" />
-                        <p className="text-lg font-medium">No games played yet in this category.</p>
+                        <p className="text-lg font-medium">
+                            No games played yet in this category.
+                        </p>
                         <Link
                             href="/dashboard"
-                            className="rounded-full bg-red-600 px-6 py-3 text-sm font-black text-white shadow-lg transition-colors hover:bg-red-700"
+                            className="rounded-full bg-[#FF4B4B] px-6 py-3 text-sm font-black text-white shadow-lg transition-colors hover:bg-[#D62B2B]"
                         >
                             Start Playing
                         </Link>

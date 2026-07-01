@@ -31,16 +31,16 @@ export default function PaymentTrackingIndex({ trackings }: Props) {
                     <table className="min-w-full divide-y divide-neutral-100 dark:divide-zinc-800">
                         <thead className="bg-neutral-50 dark:bg-zinc-900">
                             <tr>
-                                <th className="px-4 py-3 text-left text-xs font-black uppercase tracking-widest text-neutral-500">
+                                <th className="px-4 py-3 text-left text-xs font-black tracking-widest text-neutral-500 uppercase">
                                     User
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-black uppercase tracking-widest text-neutral-500">
+                                <th className="px-4 py-3 text-left text-xs font-black tracking-widest text-neutral-500 uppercase">
                                     Plan
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-black uppercase tracking-widest text-neutral-500">
+                                <th className="px-4 py-3 text-left text-xs font-black tracking-widest text-neutral-500 uppercase">
                                     Status
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-black uppercase tracking-widest text-neutral-500">
+                                <th className="px-4 py-3 text-left text-xs font-black tracking-widest text-neutral-500 uppercase">
                                     Reference
                                 </th>
                             </tr>
@@ -51,11 +51,13 @@ export default function PaymentTrackingIndex({ trackings }: Props) {
                                     <td className="px-4 py-3 text-sm font-semibold text-neutral-800 dark:text-zinc-200">
                                         #{tracking.user_id}
                                     </td>
-                                    <td className="px-4 py-3 text-sm font-semibold capitalize text-neutral-800 dark:text-zinc-200">
+                                    <td className="px-4 py-3 text-sm font-semibold text-neutral-800 capitalize dark:text-zinc-200">
                                         {tracking.plan_type}
                                     </td>
                                     <td className="px-4 py-3 text-sm font-semibold text-neutral-800 dark:text-zinc-200">
-                                        {tracking.is_active ? 'Active' : 'Inactive'}
+                                        {tracking.is_active
+                                            ? 'Active'
+                                            : 'Inactive'}
                                     </td>
                                     <td className="px-4 py-3 text-sm text-neutral-500">
                                         {tracking.payment_reference ?? '—'}

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemoPaymentController;
 use App\Http\Controllers\GameController;
@@ -10,22 +11,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'landing')->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/onboarding', function () {
-        if (request()->user()?->onboarded) {
-            return redirect()->route('dashboard');
-        }
+Route::middleware('guest')->prefix('auth/google')->name('auth.google.')->group(function () {
+    Route::get('redirect', [GoogleAuthController::class, 'redirect'])->name('redirect');
+    Route::get('callback', [GoogleAuthController::class, 'callback'])->name('callback');
+});
 
-        return inertia('onboarding');
-    })->name('onboarding');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/onboarding', [OnboardingController::class, 'show'])->name('onboarding');
 
     Route::post('/onboarding', [OnboardingController::class, 'store'])->name('onboarding.store');
 
     Route::middleware([EnsureOnboarded::class])->group(function () {
+        Route::get('/parents', function () {
+            return inertia('parents/index');
+        })->name('parents.index');
+
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/games', [GameController::class, 'index'])->name('games');
         Route::get('/games/results', [GameController::class, 'results'])->name('games.results');
-        
+
         Route::get('/games/{game}', [GameController::class, 'show'])->name('games.show');
         Route::post('/games/{game}/result', [GameController::class, 'storeResult'])->name('games.result.store');
         Route::get('/pay', [DemoPaymentController::class, 'create'])->name('pay.create');

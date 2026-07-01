@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Lock, PlayCircle } from 'lucide-react';
+import { Lock, PlayCircle, Zap } from 'lucide-react';
 
 export interface GameCardData {
     id: number;
@@ -19,61 +19,140 @@ type Props = {
     onLockedClick?: () => void;
 };
 
-export default function GameCard({ game, href, showPlayButton = true, onLockedClick }: Props) {
+// Duolingo-style vector illustration placeholder based on game name
+function getGameEmoji(name: string): string {
+    const emojiMap: Record<string, string> = {
+        'Brush Teeth': '🪥',
+        'Hand Washing': '🧼',
+        Dressing: '👕',
+        Emotions: '😊',
+        'Match Colors': '🎨',
+        Memory: '🧠',
+        Patterns: '🔷',
+        Sorting: '📦',
+        Sequencing: '🧩',
+        'Cause & Effect': '⚡',
+        CauseEffect: '⚡',
+    };
+
+    for (const [key, emoji] of Object.entries(emojiMap)) {
+        if (name.toLowerCase().includes(key.toLowerCase())) {
+            return emoji;
+        }
+    }
+
+    return '🎮';
+}
+
+export default function GameCard({
+    game,
+    href,
+    showPlayButton = true,
+    onLockedClick,
+}: Props) {
     const content = (
-        <div className="group relative overflow-hidden rounded-[2rem] border border-neutral-100 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-950">
-            <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20">
-                {game.imagePath ? (
+        <div
+            className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-200 ${
+                game.is_locked
+                    ? 'border-neutral-200 bg-neutral-100/80'
+                    : 'border-[#E5E5E5] bg-white hover:-translate-y-0.5 hover:border-[#cccccc]'
+            }`}
+        >
+            {/* Visual / Illustration Area */}
+            <div
+                className={`relative aspect-[16/10] overflow-hidden ${
+                    game.is_locked
+                        ? 'grayscale'
+                        : 'bg-gradient-to-br from-[#F7F7F8] to-[#E8E8EC]'
+                }`}
+            >
+                {game.imagePath && !game.is_locked ? (
                     <img
                         src={game.imagePath}
                         alt={game.name}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                 ) : (
-                    <div className="flex h-full items-center justify-center text-6xl font-black text-red-500/30">
-                        {game.name.slice(0, 1)}
+                    <div className="flex h-full items-center justify-center">
+                        <span className="text-7xl">
+                            {getGameEmoji(game.name)}
+                        </span>
                     </div>
                 )}
 
+                {/* Duolingo-style locked overlay */}
                 {game.is_locked && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-neutral-950/60 backdrop-blur-sm">
-                        <div className="rounded-full bg-white/10 p-4 text-white">
-                            <Lock className="h-8 w-8" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/70 backdrop-blur-[2px]">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-[#E5E5E5] bg-white shadow-[0_4px_0_#C4C4C4]">
+                            <Lock
+                                className="h-8 w-8 text-neutral-400"
+                                fill="#999"
+                                stroke="#999"
+                            />
                         </div>
                     </div>
                 )}
             </div>
 
-            <div className="space-y-3 p-5">
+            {/* Content Area */}
+            <div className="space-y-3 p-4">
                 <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                        <h3 className="truncate text-lg font-black text-neutral-900 dark:text-white">
+                    <div className="min-w-0 flex-1">
+                        <h3 className="truncate text-lg font-black text-[#3C3C3C]">
                             {game.name}
                         </h3>
-                        <p className="mt-1 line-clamp-2 text-sm font-medium text-neutral-500">
+                        <p className="mt-0.5 line-clamp-1 text-sm font-medium text-[#777777]">
                             {game.description ?? 'A playful learning activity.'}
                         </p>
                     </div>
-                    <span
-                        className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-widest ${
-                            game.is_free
-                                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300'
-                                : 'bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300'
-                        }`}
-                    >
-                        {game.is_free ? 'Free' : 'Locked'}
-                    </span>
                 </div>
 
-                <div className="flex items-center justify-between pt-2">
-                    <span className="text-xs font-bold uppercase tracking-widest text-neutral-400">
+                {/* Full-width Duolingo-style action button */}
+                {showPlayButton && (
+                    <button
+                        type="button"
+                        onClick={(e) => {
+                            if (game.is_locked && onLockedClick) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onLockedClick();
+                            }
+                        }}
+                        className={`relative w-full overflow-hidden rounded-xl py-3 text-center text-sm font-black tracking-wider uppercase transition-all active:translate-y-0.5 ${
+                            game.is_locked
+                                ? 'bg-[#FF9600] text-white shadow-[0_4px_0_#CC7800] hover:translate-y-px hover:shadow-[0_3px_0_#CC7800] active:shadow-[0_1px_0_#CC7800]'
+                                : 'btn-duo-red text-white hover:translate-y-px active:shadow-[0_1px_0_#3FA002]'
+                        }`}
+                    >
+                        {game.is_locked ? (
+                            <span className="flex items-center justify-center gap-2">
+                                <Lock className="h-4 w-4" />
+                                Unlock
+                            </span>
+                        ) : (
+                            <span className="flex items-center justify-center gap-2">
+                                <PlayCircle className="h-4 w-4" fill="white" />
+                                Play
+                            </span>
+                        )}
+                    </button>
+                )}
+
+                {/* Category & free/locked badge row */}
+                <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold tracking-widest text-neutral-400 uppercase">
                         {game.category ?? 'Other'}
                     </span>
-
-                    {showPlayButton && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-4 py-2 text-sm font-black text-white transition-colors group-hover:bg-red-700">
-                            <PlayCircle className="h-4 w-4" />
-                            {game.is_locked ? 'Unlock' : 'Play'}
+                    {game.is_free && !game.is_locked && (
+                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#58CC02] bg-[#DDF4D4] px-2.5 py-0.5 text-[10px] font-black tracking-wider text-[#3FA002] uppercase">
+                            <Zap className="h-3 w-3" />
+                            Free
+                        </span>
+                    )}
+                    {game.is_locked && (
+                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#FF9600] bg-[#FFF0D4] px-2.5 py-0.5 text-[10px] font-black tracking-wider text-[#CC7800] uppercase">
+                            <Lock className="h-3 w-3" />
+                            Locked
                         </span>
                     )}
                 </div>
@@ -83,14 +162,18 @@ export default function GameCard({ game, href, showPlayButton = true, onLockedCl
 
     if (game.is_locked && onLockedClick) {
         return (
-            <button type="button" onClick={onLockedClick} className="text-left">
+            <button
+                type="button"
+                onClick={onLockedClick}
+                className="w-full text-left"
+            >
                 {content}
             </button>
         );
     }
 
     return (
-        <Link href={href}>
+        <Link href={href} className="block">
             {content}
         </Link>
     );

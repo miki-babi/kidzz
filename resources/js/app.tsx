@@ -5,7 +5,7 @@ import { initializeTheme } from '@/hooks/use-appearance';
 import AppDashboardLayout from '@/layouts/app/app-dashboard-layout';
 import AuthLayout from '@/layouts/auth-layout';
 import LandingLayout from '@/layouts/landing-layout';
-import "./i18n";
+import './i18n';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
