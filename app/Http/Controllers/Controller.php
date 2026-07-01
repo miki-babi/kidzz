@@ -55,7 +55,7 @@ abstract class Controller
             'description' => $game->description,
             'category' => $category,
             'routePath' => $game->routePath,
-            'imagePath' => $game->imagePath,
+            'imagePath' => $game->thumbnail,
         ];
     }
 }

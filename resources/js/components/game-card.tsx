@@ -62,11 +62,11 @@ export default function GameCard({
             <div
                 className={`relative aspect-[16/10] overflow-hidden ${
                     game.is_locked
-                        ? 'grayscale'
+                        ? ' '
                         : 'bg-gradient-to-br from-[#F7F7F8] to-[#E8E8EC]'
                 }`}
             >
-                {game.imagePath && !game.is_locked ? (
+                {game.imagePath ? (
                     <img
                         src={game.imagePath}
                         alt={game.name}
@@ -80,18 +80,6 @@ export default function GameCard({
                     </div>
                 )}
 
-                {/* Duolingo-style locked overlay */}
-                {game.is_locked && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/70 backdrop-blur-[2px]">
-                        <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-[#E5E5E5] bg-white shadow-[0_4px_0_#C4C4C4]">
-                            <Lock
-                                className="h-8 w-8 text-neutral-400"
-                                fill="#999"
-                                stroke="#999"
-                            />
-                        </div>
-                    </div>
-                )}
             </div>
 
             {/* Content Area */}

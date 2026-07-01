@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\GameStatus;
 use App\Models\Game;
+use App\Models\Skill;
 use Illuminate\Database\Seeder;
 
 class GameSeeder extends Seeder
@@ -61,10 +63,11 @@ class GameSeeder extends Seeder
             ],
             [
                 'name' => 'Find The Feeling',
-                'description' => 'Tap the matching emotion face.',
+                'description' => 'Match facial expressions with emotions.',
                 'category' => 'Daily Routine',
                 'routePath' => 'emotions',
                 'imagePath' => 'https://images.unsplash.com/photo-1520206159579-53d3d29bb442?w=600',
+                'metadata' => $this->emotionMatchMetadata(),
             ],
             [
                 'name' => 'Wash Hands',
@@ -83,10 +86,109 @@ class GameSeeder extends Seeder
         ];
 
         foreach ($games as $game) {
-            Game::firstOrCreate(
+            $metadata = $game['metadata'] ?? [];
+            unset($game['metadata']);
+
+            Game::query()->updateOrCreate(
                 ['routePath' => $game['routePath']],
-                $game
+                [
+                    ...$game,
+                    'status' => GameStatus::Active,
+                    ...$metadata,
+                ],
             );
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function emotionMatchMetadata(): array
+    {
+        return [
+            'level' => 2,
+            'min_age' => 4,
+            'max_age' => 10,
+            'target_skills' => $this->targetSkills([
+                'attention' => '10-20',
+                'communication' => '20-30',
+                'social' => '40-60',
+                'language' => '20-30',
+            ]),
+            'skill_awards' => $this->skillAwards([
+                'attention' => 3,
+                'memory' => 0,
+                'matching' => 4,
+                'communication' => 8,
+                'language' => 2,
+                'social' => 8,
+                'social-interaction' => 5,
+            ]),
+            'learning_objectives' => [
+                'Emotion Recognition',
+                'Social Understanding',
+                'Communication Skills',
+            ],
+            'sensory_characteristics' => [
+                ['key' => 'sound_intensity', 'value' => 'low'],
+                ['key' => 'visual_stimulation', 'value' => 'low'],
+                ['key' => 'animation_speed', 'value' => 'low'],
+            ],
+            'gameplay' => [
+                ['key' => 'average_session_duration_minutes', 'value' => '5'],
+                ['key' => 'number_of_rounds', 'value' => '10'],
+                ['key' => 'hint_available', 'value' => 'true'],
+                ['key' => 'time_limit', 'value' => 'false'],
+                ['key' => 'play_style', 'value' => 'relaxed'],
+            ],
+        ];
+    }
+
+    /**
+     * @param  array<string, string>  $ranges
+     * @return list<array{skill_id: int, score_range: string}>
+     */
+    private function targetSkills(array $ranges): array
+    {
+        $items = [];
+
+        foreach ($ranges as $slug => $range) {
+            $skillId = Skill::query()->where('slug', $slug)->value('id');
+
+            if ($skillId === null) {
+                continue;
+            }
+
+            $items[] = [
+                'skill_id' => (int) $skillId,
+                'score_range' => $range,
+            ];
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param  array<string, int>  $awards
+     * @return list<array{skill_id: int, award: int}>
+     */
+    private function skillAwards(array $awards): array
+    {
+        $items = [];
+
+        foreach ($awards as $slug => $award) {
+            $skillId = Skill::query()->where('slug', $slug)->value('id');
+
+            if ($skillId === null) {
+                continue;
+            }
+
+            $items[] = [
+                'skill_id' => (int) $skillId,
+                'award' => $award,
+            ];
+        }
+
+        return $items;
     }
 }
