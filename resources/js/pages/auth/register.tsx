@@ -1,6 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
 import { Sparkles } from 'lucide-react';
 import InputError from '@/components/input-error';
+import GoogleAuthButton from '@/components/google-auth-button';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -48,6 +49,8 @@ export default function Register({ passwordRules }: Props) {
                                 />
                             </div>
                         </div>
+
+                        <GoogleAuthButton />
 
                         <div className="grid gap-6">
                             <div className="grid gap-2">
